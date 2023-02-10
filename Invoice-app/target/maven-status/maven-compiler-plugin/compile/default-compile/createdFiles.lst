@@ -1,0 +1,8 @@
+com\increff\fop\spring\SpringConfig.class
+com\increff\fop\spring\WebInitializer.class
+com\increff\fop\model\InvoiceData.class
+com\increff\fop\controller\pdfController.class
+com\increff\fop\dto\JavaToXml.class
+com\increff\fop\spring\ControllerConfig.class
+com\increff\fop\model\InvoiceLineItem.class
+com\increff\fop\dto\PdfGenerator.class
