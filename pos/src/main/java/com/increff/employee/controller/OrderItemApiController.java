@@ -48,11 +48,21 @@ public class OrderItemApiController {
         return dto.getAllOrders();
     }
 
-    @ApiOperation(value = "get Invoice of an order by Id")
-    @RequestMapping(path = "/get-invoice/{orderId}", method = RequestMethod.GET)
-    public void update(@PathVariable Integer orderId) throws ApiException, IOException {
-        dto.getInvoice(orderId);
+    @ApiOperation(value = "Generate invoice by orderId")
+    @RequestMapping(path = "/api/order/{orderId}/generate", method = RequestMethod.GET)
+    public void generateInvoice(@PathVariable Integer orderId) throws ApiException{
+        dto.generateInvoice(orderId);
     }
+
+    @ApiOperation(value = "Download invoice by orderId")
+    @RequestMapping(path = "/api/order/{orderId}/download", method = RequestMethod.GET)
+    public String downloadInvoice(@PathVariable Integer orderId) throws IOException, ApiException {
+        return dto.downloadInvoice(orderId);
+    }
+
+
+
+
 
 
 

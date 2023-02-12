@@ -19,11 +19,6 @@ public class UserService {
 
 	@Transactional
 	public void add(UserPojo userPojo) throws ApiException {
-		Normalize.normalizeEmail(userPojo);
-		UserPojo existing = dao.select(userPojo.getEmail());
-		if (existing != null) {
-			throw new ApiException("User with given email already exists!");
-		}
 		dao.insert(userPojo);
 	}
 
@@ -41,5 +36,6 @@ public class UserService {
 	public void delete(Integer id) {
 		dao.delete(id);
 	}
+
 
 }

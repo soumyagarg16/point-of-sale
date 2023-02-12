@@ -4,6 +4,15 @@ function getUserUrl(){
 	return baseUrl + "/api/admin/user";
 }
 
+let roleDataTable = $('#role-table').DataTable({
+        scrollY: '45vh',
+        scrollCollapse: false,
+        ordering: false,
+        paging: false,
+        searching: false,
+        info: false
+    });
+
 //BUTTON ACTIONS
 function addRole(){
 	var $form = $("#role-form");
@@ -30,7 +39,6 @@ function addRole(){
 }
 
 function getUserList(){
-console.log("here..")
 	var url = getUserUrl();
 	$.ajax({
 	   url: url,
@@ -62,12 +70,19 @@ function deleteUser(id){
 //UI DISPLAY METHODS
 
 function displayUserList(data){
+    roleDataTable.destroy();
 	var $tbody = $('#role-table').find('tbody');
 	$tbody.empty();
 	var count =1;
+	var curlogin = $('#curlogin').text();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml ='<button class="btn btn-outline-danger" onclick="deleteUser(' + e.id + ')">Remove</button>'
+		if(e.email==curlogin){
+		    var buttonHtml ='<button class="btn btn-outline-danger" onclick="deleteUser(' + e.id + ')" disabled>Remove</button>'
+		}
+		else{
+		    var buttonHtml ='<button class="btn btn-outline-danger" onclick="deleteUser(' + e.id + ')">Remove</button>'
+		}
 		var row = '<tr>'
 		+ '<td>' + count + '</td>'
 		+ '<td>' + e.email + '</td>'
@@ -77,6 +92,14 @@ function displayUserList(data){
         $tbody.append(row);
         count = count +1;
 	}
+	roleDataTable = ('#role-table').DataTable({
+            scrollY: '45vh',
+            scrollCollapse: false,
+            ordering: false,
+            paging: false,
+            searching: false,
+            info: false
+        });
 }
 function createRole(){
     $('#add-role-modal').modal('toggle');

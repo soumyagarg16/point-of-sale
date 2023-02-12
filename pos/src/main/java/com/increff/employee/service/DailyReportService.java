@@ -23,7 +23,7 @@ public class DailyReportService {
     @Autowired
     OrderItemService orderItemService;
 
-    @Scheduled(cron = "01 00 00 * * *")
+    @Scheduled(cron = "30 25 17 * * *")
     @Transactional(rollbackOn = ApiException.class)
     public void add() throws ApiException {
         //TODO add minusdays(1) before delivering final code.

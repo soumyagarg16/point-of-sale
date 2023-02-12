@@ -10,4 +10,5 @@ public class OrderData {
 
     private Integer id;
     private String time;
+    private Integer isInvoiceGenerated;
 }

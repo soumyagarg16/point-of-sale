@@ -27,12 +27,8 @@ public class JavaToXml {
             Element invoice = doc.createElement("invoice");
             doc.appendChild(invoice);
 
-            Element orderNumber = doc.createElement("orderNumber");
-            orderNumber.appendChild(doc.createTextNode("order_" + invoiceData.getInvoiceNumber()));
-            invoice.appendChild(orderNumber);
-
             Element invoiceNumber = doc.createElement("invoiceNumber");
-            invoiceNumber.appendChild(doc.createTextNode("" + invoiceData.getInvoiceNumber()));
+            invoiceNumber.appendChild(doc.createTextNode("#" + invoiceData.getInvoiceNumber()));
             invoice.appendChild(invoiceNumber);
 
             Element invoiceDate = doc.createElement("invoiceDate");
@@ -75,7 +71,7 @@ public class JavaToXml {
                 lineitem.appendChild(sno);
 
                 Element productName = doc.createElement("productName");
-                productName.appendChild(doc.createTextNode("" + invoiceLineItem.getProductName()));
+                productName.appendChild(doc.createTextNode("" + invoiceLineItem.getName()));
                 lineitem.appendChild(productName);
 
                 Element barcode = doc.createElement("barcode");
@@ -87,7 +83,7 @@ public class JavaToXml {
                 lineitem.appendChild(quantity);
 
                 Element unitPrice = doc.createElement("unitPrice");
-                unitPrice.appendChild(doc.createTextNode("Rs. " + invoiceLineItem.getUnitPrice()));
+                unitPrice.appendChild(doc.createTextNode("Rs. " + invoiceLineItem.getSellingPrice()));
                 lineitem.appendChild(unitPrice);
 
                 Element totalAmount = doc.createElement("total");
@@ -99,7 +95,7 @@ public class JavaToXml {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("src/main/resources/hello.xml"));
+            StreamResult result = new StreamResult(new File("src/main/resources/invoice.xml"));
             transformer.transform(source, result);
 
             // Output to console for testing

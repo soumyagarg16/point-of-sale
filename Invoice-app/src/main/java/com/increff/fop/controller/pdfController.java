@@ -12,7 +12,6 @@ import java.util.List;
 
 @Api
 @RestController
-@RequestMapping("/api")
 public class pdfController {
     @Autowired
     private JavaToXml javaToXml;
@@ -20,11 +19,12 @@ public class pdfController {
     @Autowired
     private PdfGenerator pdfGenerator;
 
-    @ApiOperation(value = "Add list of brand")
-    @RequestMapping(path = "/fop", method = RequestMethod.POST)
-    public void classToPDF(@RequestBody InvoiceData invoiceData) {
+    @ApiOperation(value = "JavaToPdf")
+    @RequestMapping(path = "/api/pdf", method = RequestMethod.POST)
+    public String classToPDF(@RequestBody InvoiceData invoiceData) {
         javaToXml.javaToXmlConverter(invoiceData);
-        pdfGenerator.xmlToPdfConverter(invoiceData);
+        return pdfGenerator.xmlToPdfConverter(invoiceData);
+
     }
 
 

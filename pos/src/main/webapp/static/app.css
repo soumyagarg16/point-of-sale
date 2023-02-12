@@ -26,3 +26,8 @@ body {
 content: "*";
 color: red;
 }
+
+.sub{
+    font-size: 1.3em;
+    color: #00308F;
+}

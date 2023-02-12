@@ -18,7 +18,7 @@ public class OrderItemPojo {
     private Integer orderId;
     private Integer productId;
     private Integer quantity;
-    private double sellingPrice;
+    private Double sellingPrice;
 
 
 }

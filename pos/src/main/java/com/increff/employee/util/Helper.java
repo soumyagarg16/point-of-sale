@@ -81,6 +81,7 @@ public class Helper {
         String time = dtf.format(LocalDateTime.now());
         OrderPojo orderPojo = new OrderPojo();
         orderPojo.setTime(time);
+        orderPojo.setIsInvoiceGenerated(0);
         return orderPojo;
     }
 

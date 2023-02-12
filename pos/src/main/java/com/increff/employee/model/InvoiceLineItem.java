@@ -6,16 +6,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class InvoiceLineItem {
-
-    private Integer Sno;
-    private String Barcode;
-    private String ProductName;
-    private Integer Quantity;
-    private Double UnitPrice;
-    private Double Total;
+    private Integer sno;
+    private String barcode;
+    private String name;
+    private Integer quantity;
+    private Double sellingPrice;
+    private Double total;
 
     public Double getTotal(){
-        return Quantity*UnitPrice;
+        return quantity*sellingPrice;
     }
 
 }

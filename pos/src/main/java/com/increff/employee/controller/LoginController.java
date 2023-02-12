@@ -12,8 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.protobuf.Api;
 import com.increff.employee.model.SignupForm;
-import com.increff.employee.util.Helper;
-import com.increff.employee.util.Validate;
+import com.increff.employee.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,8 +28,6 @@ import com.increff.employee.model.LoginForm;
 import com.increff.employee.pojo.UserPojo;
 import com.increff.employee.service.ApiException;
 import com.increff.employee.service.UserService;
-import com.increff.employee.util.SecurityUtil;
-import com.increff.employee.util.UserPrincipal;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -72,6 +69,9 @@ public class LoginController {
 	@RequestMapping(path = "/session/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView signup(HttpServletRequest req, SignupForm signupForm) throws ApiException {
 		info.setMessage(Validate.validateSignupForm(signupForm));
+		if(info.getMessage()!=""){
+			return new ModelAndView("redirect:/site/signup");
+		}
 		UserPojo userPojo = Helper.convertSignupFormToPojo(signupForm);
 		//if exists in properties file give supervisor role else operator.
 		Properties property = new Properties();
@@ -86,6 +86,12 @@ public class LoginController {
 		}
 		else userPojo.setRole("operator");
 
+		Normalize.normalizeEmail(userPojo);
+		UserPojo existing = service.get(userPojo.getEmail());
+		if (existing != null) {
+			info.setMessage("User with given email already exists!");
+			return new ModelAndView("redirect:/site/signup");
+		}
 		service.add(userPojo);
 		return new ModelAndView("redirect:/site/login");
 	}

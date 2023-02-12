@@ -16,5 +16,6 @@ public class OrderPojo {
     @GeneratedValue(generator = "sequ")
     private Integer id;
     private String time;
+    private Integer isInvoiceGenerated=0;
 
 }

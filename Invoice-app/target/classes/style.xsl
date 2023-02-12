@@ -20,10 +20,10 @@
                             <fo:table-column column-width="8.5cm"/>
                             <fo:table-column column-width="8.5cm"/>
                             <fo:table-body>
-                                <fo:table-row font-size="18pt" line-height="30px" background-color="#0e7a77" color="white">
+                                <fo:table-row font-size="18pt" line-height="30px" background-color="#002D62" color="white">
                                     <fo:table-cell padding-left="5pt">
                                     <fo:block>
-                                        <fo:external-graphic  src="url(file:///D:/WorkSpace/IncreffProjects/pdf_generator/src/main/resources/logo.png)" content-height="scale-to-fit" height="50px"  content-width="2.00in" scaling="non-uniform"/>
+                                        <fo:external-graphic  src="url(file:///D:/WorkSpace/PointOfSales/Invoice-app/src/main/resources/logo.jpg)" content-height="scale-to-fit" height="50px"  content-width="2.00in" scaling="non-uniform"/>
 <!--                                        D:\WorkSpace\IncreffProjects\pdf_generator\src\main\resources\name.xml-->
                                     </fo:block>
                                     </fo:table-cell>
@@ -78,7 +78,7 @@
                     <fo:table-row>
                         <fo:table-cell>
                             <fo:block>
-                                <fo:inline font-weight="bold">From</fo:inline>&#x2028;
+                                <fo:inline font-weight="bold">Shipment Address</fo:inline>&#x2028;
                                 <xsl:value-of select="./companyName"></xsl:value-of>&#x2028;
                                 <xsl:value-of select="./building"></xsl:value-of>&#x2028;
                                 <xsl:value-of select="./street"></xsl:value-of>&#x2028;
@@ -95,7 +95,6 @@
 <!--                        </fo:table-cell>-->
                         <fo:table-cell>
                             <fo:block text-align="left">
-                                <fo:inline font-weight="bold">Order No.</fo:inline>&#x2028;
                                 <fo:inline font-weight="bold">Invoice No.</fo:inline>&#x2028;
                                 <fo:inline font-weight="bold">Invoice Date</fo:inline>&#x2028;
                                 <fo:inline font-weight="bold">Invoice Time</fo:inline>&#x2028;
@@ -103,7 +102,6 @@
                         </fo:table-cell>
                         <fo:table-cell>
                             <fo:block text-align="left">
-                                <xsl:value-of select="./orderNumber"></xsl:value-of>&#x2028;
                                 <xsl:value-of select="./invoiceNumber"></xsl:value-of>&#x2028;
                                 <xsl:value-of select="./invoiceDate"></xsl:value-of>&#x2028;
                                 <xsl:value-of select="./invoiceTime"></xsl:value-of>&#x2028;
