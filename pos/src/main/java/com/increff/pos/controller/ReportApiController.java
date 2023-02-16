@@ -19,17 +19,14 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 public class ReportApiController {
 
-
     @Autowired
     private ReportDto dto;
-
 
     @ApiOperation(value = "Fetch Brand Report")
     @RequestMapping(path = "/api/brandReport", method = RequestMethod.POST)
     public List<BrandData> getBrandReport(@RequestBody BrandForm brandForm) throws ApiException {
         return dto.getBrandReport(brandForm);
     }
-
 
     @ApiOperation(value = "Fetch Inventory Report")
     @RequestMapping(path = "/api/inventoryReport", method = RequestMethod.POST)
