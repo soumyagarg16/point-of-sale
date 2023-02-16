@@ -88,11 +88,10 @@ public class OrderItemDto {
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    public void generateInvoice(Integer orderId) throws ApiException {
+    public String generateInvoice(Integer orderId) throws ApiException, IOException {
         OrderPojo orderPojo = orderService.get(orderId);
-        //TODO if invoice already generated download it.
         if(orderPojo.getIsInvoiceGenerated()==1){
-            throw new ApiException("Invoice can only be created once!");
+            return downloadInvoice(orderId);
         }
         InvoiceData invoiceData = createInvoiceData(orderPojo);
         String invoice;
@@ -103,32 +102,18 @@ public class OrderItemDto {
             throw new ApiException("Unable to create invoice at this moment!");
         }
 
-        //TODO move to a different function
-        File pdfDir = new File("src/main/resources./pdf");
-        pdfDir.mkdirs();
         String pdfFileName = "invoice_" + invoiceData.getInvoiceNumber() + ".pdf";
-        File file = new File(pdfDir, pdfFileName);
-
-        try (FileOutputStream fos = new FileOutputStream(file) ) {
-            byte[] decoder = Base64.getDecoder().decode(invoice);
-            fos.write(decoder);
-            //TODO remove sout
-            System.out.println("PDF File Saved");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //TODO first time generate then download as well
+        storeFile(invoice,pdfFileName);
         orderPojo.setIsInvoiceGenerated(1);
+        return downloadInvoice(orderId);
     }
 
     @Transactional(rollbackOn = ApiException.class)
     public String downloadInvoice(Integer orderId) throws IOException, ApiException {
         OrderPojo orderPojo = orderService.get(orderId);
         if(orderPojo.getIsInvoiceGenerated()==0){
-            //TODO change error msg
-            throw new ApiException("Error downloading Invoice!");
+            throw new ApiException("Invoice needs to be generated before downloading!");
         }
-
         String filePath = "src/main/resources/pdf/invoice_order_"+orderId + ".pdf";
         File file = new File(filePath);
         byte[] bytesArray = new byte[(int) file.length()];
@@ -145,12 +130,14 @@ public class OrderItemDto {
         if(productPojo==null){
             errors.add("No Product exists with the given barcode: " + orderItemForm.getBarcode());
         }
-        //TODO Add selling price and mrp comparison
         else{
             orderItemPojo.setProductId(productPojo.getId());
             InventoryPojo inventoryPojo = inventoryService.getInventoryPojoById(productPojo.getId());
-            if(inventoryPojo==null || inventoryPojo.getQuantity()<orderItemForm.getQuantity()){
+            if(inventoryPojo==null || inventoryPojo.getQuantity()<orderItemPojo.getQuantity()){
                 errors.add("Product with the barcode " + productPojo.getBarcode() + " has insufficient inventory!");
+            }
+            else if(orderItemPojo.getSellingPrice()> productPojo.getMrp()){
+                errors.add("Selling price cannot exceed mrp!");
             }
             else{
                 orderItemPojo.setQuantity(orderItemForm.getQuantity());
@@ -160,8 +147,6 @@ public class OrderItemDto {
         }
         return orderItemPojo;
     }
-
-
 
     private InvoiceData createInvoiceData(OrderPojo orderPojo) throws ApiException {
         InvoiceData invoiceData = new InvoiceData();
@@ -193,5 +178,15 @@ public class OrderItemDto {
         return invoiceLineItems;
     }
 
-
+    private void storeFile(String invoice, String pdfFileName){
+        File pdfDir = new File("src/main/resources./pdf");
+        pdfDir.mkdirs();
+        File file = new File(pdfDir, pdfFileName);
+        try (FileOutputStream fos = new FileOutputStream(file) ) {
+            byte[] decoder = Base64.getDecoder().decode(invoice);
+            fos.write(decoder);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

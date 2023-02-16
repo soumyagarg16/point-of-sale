@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderItemDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pos-application</a> &gt; <a href="index.source.html" class="el_package">com.increff.pos.dto</a> &gt; <span class="el_source">OrderItemDto.java</span></div><h1>OrderItemDto.java</h1><pre class="source lang-java linenums">package com.increff.pos.dto;
+
+import com.increff.pos.model.*;
+import com.increff.pos.pojo.InventoryPojo;
+import com.increff.pos.pojo.OrderItemPojo;
+import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.pojo.ProductPojo;
+import com.increff.pos.service.*;
+import com.increff.pos.util.Helper;
+import com.increff.pos.util.Validate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import javax.transaction.Transactional;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+@Service
+<span class="fc" id="L25">public class OrderItemDto {</span>
+    @Autowired
+    private BrandService brandService;
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private InventoryService inventoryService;
+    @Autowired
+    private OrderItemService orderItemService;
+    @Autowired
+    private OrderService orderService;
+
+    @Transactional(rollbackOn = ApiException.class)
+    public void addAll(List&lt;OrderItemForm&gt; orderItemForms) throws ApiException {
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if(orderItemForms.isEmpty()){</span>
+<span class="nc" id="L40">            throw new ApiException(&quot;Cannot place an empty order!&quot;);</span>
+        }
+<span class="nc" id="L42">        List&lt;String&gt; errors = Validate.validateOrderItemForms(orderItemForms);</span>
+        //Creating an order id
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if(!errors.isEmpty()){</span>
+<span class="nc" id="L45">            throw new ApiException(errors.toString());</span>
+        }
+<span class="nc" id="L47">        OrderPojo orderPojo = Helper.createOrderPojo();</span>
+<span class="nc" id="L48">        orderService.add(orderPojo);</span>
+        //Converting OrderItemForms to pojos
+<span class="nc" id="L50">        List&lt;OrderItemPojo&gt; orderItemPojos = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        for(OrderItemForm orderItemForm : orderItemForms){</span>
+<span class="nc" id="L52">            OrderItemPojo orderItemPojo = addOrderItem(orderItemForm,errors);</span>
+<span class="nc" id="L53">            orderItemPojo.setOrderId(orderPojo.getId());</span>
+<span class="nc" id="L54">            orderItemPojos.add(orderItemPojo);</span>
+<span class="nc" id="L55">        }</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if(errors.isEmpty()){</span>
+<span class="nc" id="L57">            orderItemService.addAll(orderItemPojos);</span>
+        }
+        else{
+<span class="nc" id="L60">            throw new ApiException(errors.toString());</span>
+        }
+<span class="nc" id="L62">    }</span>
+
+    @Transactional(rollbackOn = ApiException.class)
+    public List&lt;OrderItemData&gt; getAllByOrderId(Integer id) throws ApiException{
+<span class="nc" id="L66">        orderService.get(id);</span>
+<span class="nc" id="L67">        List&lt;OrderItemPojo&gt; orderItemPojos = orderItemService.getAll(id);</span>
+<span class="nc" id="L68">        List&lt;OrderItemData&gt; orderItemDatas = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        for(OrderItemPojo orderItemPojo: orderItemPojos){</span>
+<span class="nc" id="L70">            OrderItemData orderItemData = Helper.convertOrderItemPojoToData(orderItemPojo);</span>
+<span class="nc" id="L71">            orderItemData.setBarcode(productService.get(orderItemPojo.getProductId()).getBarcode());</span>
+<span class="nc" id="L72">            orderItemDatas.add(orderItemData);</span>
+<span class="nc" id="L73">        }</span>
+<span class="nc" id="L74">        return orderItemDatas;</span>
+    }
+
+    public List&lt;OrderData&gt; getAllOrders(){
+<span class="nc" id="L78">        List&lt;OrderPojo&gt; orderPojos = orderService.getAll();</span>
+<span class="nc" id="L79">        List&lt;OrderData&gt; orderDatas = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        for(OrderPojo orderPojo: orderPojos){</span>
+<span class="nc" id="L81">            OrderData orderData = new OrderData();</span>
+<span class="nc" id="L82">            orderData.setId(orderPojo.getId());</span>
+<span class="nc" id="L83">            orderData.setTime(orderPojo.getTime());</span>
+<span class="nc" id="L84">            orderData.setIsInvoiceGenerated(orderPojo.getIsInvoiceGenerated());</span>
+<span class="nc" id="L85">            orderDatas.add(orderData);</span>
+<span class="nc" id="L86">        }</span>
+<span class="nc" id="L87">        return orderDatas;</span>
+    }
+
+    @Transactional(rollbackOn = ApiException.class)
+    public void generateInvoice(Integer orderId) throws ApiException {
+<span class="nc" id="L92">        OrderPojo orderPojo = orderService.get(orderId);</span>
+        //TODO if invoice already generated download it.
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if(orderPojo.getIsInvoiceGenerated()==1){</span>
+<span class="nc" id="L95">            throw new ApiException(&quot;Invoice can only be created once!&quot;);</span>
+        }
+<span class="nc" id="L97">        InvoiceData invoiceData = createInvoiceData(orderPojo);</span>
+        String invoice;
+        try{
+<span class="nc" id="L100">            RestTemplate restTemplate = new RestTemplate();</span>
+<span class="nc" id="L101">            invoice = restTemplate.postForEntity(&quot;http://localhost:8000/fop/api/pdf&quot;, invoiceData, String.class).getBody();</span>
+<span class="nc" id="L102">        } catch (Exception e){</span>
+<span class="nc" id="L103">            throw new ApiException(&quot;Unable to create invoice at this moment!&quot;);</span>
+<span class="nc" id="L104">        }</span>
+
+        //TODO move to a different function
+<span class="nc" id="L107">        File pdfDir = new File(&quot;src/main/resources./pdf&quot;);</span>
+<span class="nc" id="L108">        pdfDir.mkdirs();</span>
+<span class="nc" id="L109">        String pdfFileName = &quot;invoice_&quot; + invoiceData.getInvoiceNumber() + &quot;.pdf&quot;;</span>
+<span class="nc" id="L110">        File file = new File(pdfDir, pdfFileName);</span>
+
+<span class="nc" id="L112">        try (FileOutputStream fos = new FileOutputStream(file) ) {</span>
+<span class="nc" id="L113">            byte[] decoder = Base64.getDecoder().decode(invoice);</span>
+<span class="nc" id="L114">            fos.write(decoder);</span>
+            //TODO remove sout
+<span class="nc" id="L116">            System.out.println(&quot;PDF File Saved&quot;);</span>
+<span class="nc" id="L117">        } catch (Exception e) {</span>
+<span class="nc" id="L118">            e.printStackTrace();</span>
+<span class="nc" id="L119">        }</span>
+        //TODO first time generate then download as well
+<span class="nc" id="L121">        orderPojo.setIsInvoiceGenerated(1);</span>
+<span class="nc" id="L122">    }</span>
+
+    @Transactional(rollbackOn = ApiException.class)
+    public String downloadInvoice(Integer orderId) throws IOException, ApiException {
+<span class="nc" id="L126">        OrderPojo orderPojo = orderService.get(orderId);</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        if(orderPojo.getIsInvoiceGenerated()==0){</span>
+            //TODO change error msg
+<span class="nc" id="L129">            throw new ApiException(&quot;Error downloading Invoice!&quot;);</span>
+        }
+
+<span class="nc" id="L132">        String filePath = &quot;src/main/resources/pdf/invoice_order_&quot;+orderId + &quot;.pdf&quot;;</span>
+<span class="nc" id="L133">        File file = new File(filePath);</span>
+<span class="nc" id="L134">        byte[] bytesArray = new byte[(int) file.length()];</span>
+<span class="nc" id="L135">        FileInputStream fis = new FileInputStream(file);</span>
+<span class="nc" id="L136">        fis.read(bytesArray);</span>
+<span class="nc" id="L137">        fis.close();</span>
+<span class="nc" id="L138">        return Base64.getEncoder().encodeToString(bytesArray);</span>
+    }
+
+    //Existing product and inventory check
+    private OrderItemPojo addOrderItem(OrderItemForm orderItemForm, List&lt;String&gt; errors) throws ApiException{
+<span class="nc" id="L143">        OrderItemPojo orderItemPojo = Helper.convertOrderItemFormToPojo(orderItemForm);</span>
+<span class="nc" id="L144">        ProductPojo productPojo = productService.getProductPojoByBarcode(orderItemForm.getBarcode());</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        if(productPojo==null){</span>
+<span class="nc" id="L146">            errors.add(&quot;No Product exists with the given barcode: &quot; + orderItemForm.getBarcode());</span>
+        }
+        //TODO Add selling price and mrp comparison
+        else{
+<span class="nc" id="L150">            orderItemPojo.setProductId(productPojo.getId());</span>
+<span class="nc" id="L151">            InventoryPojo inventoryPojo = inventoryService.getInventoryPojoById(productPojo.getId());</span>
+<span class="nc bnc" id="L152" title="All 4 branches missed.">            if(inventoryPojo==null || inventoryPojo.getQuantity()&lt;orderItemForm.getQuantity()){</span>
+<span class="nc" id="L153">                errors.add(&quot;Product with the barcode &quot; + productPojo.getBarcode() + &quot; has insufficient inventory!&quot;);</span>
+            }
+            else{
+<span class="nc" id="L156">                orderItemPojo.setQuantity(orderItemForm.getQuantity());</span>
+<span class="nc" id="L157">                inventoryPojo.setQuantity(inventoryPojo.getQuantity()-orderItemForm.getQuantity());</span>
+            }
+
+        }
+<span class="nc" id="L161">        return orderItemPojo;</span>
+    }
+
+
+
+    private InvoiceData createInvoiceData(OrderPojo orderPojo) throws ApiException {
+<span class="nc" id="L167">        InvoiceData invoiceData = new InvoiceData();</span>
+<span class="nc" id="L168">        List&lt;OrderItemPojo&gt; orderItemPojos = orderItemService.getAll(orderPojo.getId());</span>
+<span class="nc" id="L169">        List&lt;InvoiceLineItem&gt; invoiceLineItems = createInvoiceItemList(orderItemPojos);</span>
+<span class="nc" id="L170">        String[] time = orderPojo.getTime().split(&quot; &quot;);</span>
+<span class="nc" id="L171">        invoiceData.setInvoiceNumber(&quot;order_&quot;+orderPojo.getId());</span>
+<span class="nc" id="L172">        invoiceData.setInvoiceDate(time[0]);</span>
+<span class="nc" id="L173">        invoiceData.setInvoiceTime(time[1]);</span>
+<span class="nc" id="L174">        invoiceData.setLineItems(invoiceLineItems);</span>
+<span class="nc" id="L175">        invoiceData.setTotal(invoiceData.getTotal());</span>
+<span class="nc" id="L176">        return invoiceData;</span>
+    }
+
+    private List&lt;InvoiceLineItem&gt; createInvoiceItemList(List&lt;OrderItemPojo&gt; orderItemPojos) throws ApiException {
+<span class="nc" id="L180">        List&lt;InvoiceLineItem&gt; invoiceLineItems = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L181">        Integer sno = 1;</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">        for(OrderItemPojo orderItemPojo: orderItemPojos){</span>
+<span class="nc" id="L183">            InvoiceLineItem invoiceLineItem = new InvoiceLineItem();</span>
+<span class="nc" id="L184">            ProductPojo productPojo = productService.get(orderItemPojo.getProductId());</span>
+<span class="nc" id="L185">            invoiceLineItem.setSno(sno++);</span>
+<span class="nc" id="L186">            invoiceLineItem.setBarcode(productPojo.getBarcode());</span>
+<span class="nc" id="L187">            invoiceLineItem.setName(productPojo.getName());</span>
+<span class="nc" id="L188">            invoiceLineItem.setQuantity(orderItemPojo.getQuantity());</span>
+<span class="nc" id="L189">            invoiceLineItem.setSellingPrice(orderItemPojo.getSellingPrice());</span>
+<span class="nc" id="L190">            invoiceLineItem.setTotal(invoiceLineItem.getTotal());</span>
+<span class="nc" id="L191">            invoiceLineItems.add(invoiceLineItem);</span>
+<span class="nc" id="L192">        }</span>
+<span class="nc" id="L193">        return invoiceLineItems;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -40,15 +40,6 @@ public class OrderService {
         return getCheck(id);
     }
 
-    //TODO check its usage
-    public Integer get(String time) throws ApiException {
-        OrderPojo p = dao.select(time);
-        if(p==null){
-            throw new ApiException("No order exists in the given time.");
-        }
-        return p.getId();
-    }
-
     public List<OrderPojo> getAllByDate(String startDate, String endDate){
         return dao.selectAllByDate(startDate,endDate);
     }

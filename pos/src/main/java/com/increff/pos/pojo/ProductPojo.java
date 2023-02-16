@@ -17,7 +17,7 @@ public class ProductPojo {
     private String barcode;
     private Integer brand_category;
     private String name;
-    private double mrp;
+    private Double mrp;
 
 
 

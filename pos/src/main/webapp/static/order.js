@@ -255,37 +255,20 @@ function generateInvoice(id){
     $.ajax({
        url: url,
        type: 'GET',
-       success: function() {
-            toastr.success("Invoice generated successfully!")
+       success: function(response) {
+            toastr.success("Invoice download successfully!");
+            const link = document.createElement("a");
+            link.href = "data:application/pdf;base64," + response;
+            link.download = "invoice_" + id + ".pdf";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
             getOrderList();
        },
        error: function(response){
             handleAjaxError(response);
        }
     });
-}
-
-function downloadInvoice(id){
-    var url = getOrderUrl() + "/" + id+"/download";
-        $.ajax({
-           url: url,
-           type: 'GET',
-           success: function(response) {
-                console.log("near download!");
-                console.log(response);
-                toastr.success("Invoice downloaded successfully!");
-                const link = document.createElement("a");
-                link.href = "data:application/pdf;base64," + response;
-                link.download = "invoice_" + id + ".pdf";
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-           },
-           error: function(response){
-                handleAjaxError(response);
-           }
-        });
-
 }
 
 function displayOrderList(data){
@@ -298,11 +281,11 @@ function displayOrderList(data){
 		var buttonHtml = '<button class="btn btn-primary" onclick="getOrderItemList(' + singleEntry.id + ')" style = "margin-right:8px"><i class="fa-solid fa-eye"></i></button>';
 		if(singleEntry.isInvoiceGenerated==1){
 		    buttonHtml += '<button class="btn btn-success" onclick="generateInvoice(' + singleEntry.id + ')" disabled style = "margin-right:8px">Generate Invoice<i class="fa-solid fa-file" style = "margin-left:5px"></i></button>';
-        	buttonHtml += '<button class="btn btn-warning" onclick="downloadInvoice(' + singleEntry.id + ')">Download Invoice<i class="fa-solid fa-download" style = "margin-left:5px"></i></button>';
+        	buttonHtml += '<button class="btn btn-warning" onclick="generateInvoice(' + singleEntry.id + ')">Download Invoice<i class="fa-solid fa-download" style = "margin-left:5px"></i></button>';
 		}
 		else{
 		    buttonHtml += '<button class="btn btn-success" onclick="generateInvoice(' + singleEntry.id + ')" style = "margin-right:8px">Generate Invoice<i class="fa-solid fa-file" style = "margin-left:5px"></i></button>';
-        	buttonHtml += '<button class="btn btn-warning" onclick="downloadInvoice(' + singleEntry.id + ')" disabled>Download Invoice<i class="fa-solid fa-download" style = "margin-left:5px"></i></button>';
+        	buttonHtml += '<button class="btn btn-warning" onclick="generateInvoice(' + singleEntry.id + ')" disabled>Download Invoice<i class="fa-solid fa-download" style = "margin-left:5px"></i></button>';
 		}
 		var row = '<tr>'
 		+ '<td>' + count + '</td>'

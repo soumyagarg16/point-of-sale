@@ -12,7 +12,6 @@ import com.increff.pos.pojo.InventoryPojo;
 
 
 @Service
-
 public class InventoryService {
 
     @Autowired
@@ -36,12 +35,6 @@ public class InventoryService {
         }
     }
 
-    @Transactional(rollbackOn = ApiException.class)
-    public void delete(Integer id) throws ApiException {
-        getCheck(id);
-        dao.delete(id);
-    }
-
     public InventoryPojo getInventoryPojoById(Integer id){
         return dao.select(id);
     }
@@ -50,6 +43,7 @@ public class InventoryService {
         return dao.selectAll();
     }
 
+    @Transactional(rollbackOn = ApiException.class)
     public void update(Integer id, InventoryPojo inventoryPojo) throws ApiException {
         InventoryPojo existingPojo = getCheck(id);
         existingPojo.setQuantity(inventoryPojo.getQuantity());

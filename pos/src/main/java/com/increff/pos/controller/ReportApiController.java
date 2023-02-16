@@ -49,11 +49,4 @@ public class ReportApiController {
         return dto.getDailyReport(dailyReportForm);
     }
 
-
-    //TODO Remove this method
-    @ApiOperation(value = "Fetch complete daily report")
-    @RequestMapping(path = "/api/dailyReport", method = RequestMethod.GET)
-    public List<DailyReportData> getAllDailyReport() throws ApiException {
-        return dto.getAllDailyReport();
-    }
 }

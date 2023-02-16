@@ -22,10 +22,9 @@ public class DailyReportService {
     @Autowired
     OrderItemService orderItemService;
 
-    @Scheduled(cron = "01 00 00 * * *")
+    @Scheduled(cron = "00 04 11 * * *")
     @Transactional(rollbackOn = ApiException.class)
     public void add() throws ApiException {
-        //TODO add minusdays(1) before delivering final code.
         ZonedDateTime date = ZonedDateTime.now().minusDays(1);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String currentDate = date.format(formatter);
@@ -39,7 +38,6 @@ public class DailyReportService {
         for(OrderPojo orderPojo: orderPojos){
             List<OrderItemPojo> orderItemPojos = orderItemService.getAll(orderPojo.getId());
             itemCount += orderItemPojos.size();
-            //TODO read about this
             revenue += orderItemPojos.stream().mapToDouble(orderItemPojo -> orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice()).sum();
         }
         dailyReportPojo.setInvoiced_items_count(itemCount);

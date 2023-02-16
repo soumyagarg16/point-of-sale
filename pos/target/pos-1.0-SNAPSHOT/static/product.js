@@ -160,7 +160,7 @@ function displayProductList(data){
     let count = 1;
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button class="btn btn-primary" onclick="displayEditProduct(' + e.id + ')">edit</button>'
+		var buttonHtml = '<button class="btn btn-sm btn-primary" onclick="displayEditProduct(' + e.id + ')">Edit</button>'
 		var row = '<tr>'
         + '<td>' + count + '</td>'
 		+ '<td>' + e.brand + '</td>'

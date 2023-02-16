@@ -105,13 +105,14 @@ public class Validate {
     }
 
     public static void validateBrandForm(BrandForm brandForm) throws ApiException{
+        Normalize.normalize(brandForm);
         if(StringUtil.isEmpty(brandForm.getBrand())) {
             throw new ApiException("Brand cannot be empty");
         }
         if(StringUtil.isEmpty(brandForm.getCategory())) {
             throw new ApiException("Category cannot be empty");
         }
-        Normalize.normalize(brandForm);
+
     }
 
     public static List<String> validateBrandForms(List<BrandForm> brandForms) throws ApiException{

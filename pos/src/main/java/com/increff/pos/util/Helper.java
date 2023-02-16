@@ -44,6 +44,7 @@ public class Helper {
     public static ProductData convertProductPojoToData(ProductPojo productPojo){
         ProductData productData = new ProductData();
         productData.setId(productPojo.getId());
+        productData.setBrand_category(productPojo.getBrand_category());
         productData.setName(productPojo.getName());
         productData.setBarcode(productPojo.getBarcode());
         productData.setMrp(productPojo.getMrp());
@@ -119,6 +120,14 @@ public class Helper {
         userData.setRole(userPojo.getRole());
         userData.setId(userPojo.getId());
         return userData;
+    }
+
+    public static InventoryReportData createInventoryReportData(BrandData brandData, Integer qty){
+        InventoryReportData inventoryReportData = new InventoryReportData();
+        inventoryReportData.setBrand(brandData.getBrand());
+        inventoryReportData.setCategory(brandData.getCategory());
+        inventoryReportData.setQuantity(qty);
+        return inventoryReportData;
     }
 
 

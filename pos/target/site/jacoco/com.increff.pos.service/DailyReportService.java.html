@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DailyReportService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">pos-application</a> &gt; <a href="index.source.html" class="el_package">com.increff.pos.service</a> &gt; <span class="el_source">DailyReportService.java</span></div><h1>DailyReportService.java</h1><pre class="source lang-java linenums">package com.increff.pos.service;
+
+import com.increff.pos.dao.DailyReportDao;
+import com.increff.pos.pojo.DailyReportPojo;
+import com.increff.pos.pojo.OrderItemPojo;
+import com.increff.pos.pojo.OrderPojo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+@Service
+<span class="fc" id="L17">public class DailyReportService {</span>
+    @Autowired
+    DailyReportDao dao;
+    @Autowired
+    OrderService orderService;
+    @Autowired
+    OrderItemService orderItemService;
+
+    @Scheduled(cron = &quot;01 00 00 * * *&quot;)
+    @Transactional(rollbackOn = ApiException.class)
+    public void add() throws ApiException {
+        //TODO add minusdays(1) before delivering final code.
+<span class="nc" id="L29">        ZonedDateTime date = ZonedDateTime.now().minusDays(1);</span>
+<span class="nc" id="L30">        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&quot;);</span>
+<span class="nc" id="L31">        String currentDate = date.format(formatter);</span>
+<span class="nc" id="L32">        List&lt;OrderPojo&gt; orderPojos = orderService.getAllByDate(currentDate+&quot; 00:00:00&quot;,currentDate+&quot; 23:59:59&quot;);</span>
+<span class="nc" id="L33">        DailyReportPojo dailyReportPojo = new DailyReportPojo();</span>
+<span class="nc" id="L34">        dailyReportPojo.setDate(date); // Setting Date</span>
+<span class="nc" id="L35">        dailyReportPojo.setInvoiced_orders_count(orderPojos.size()); // Setting order count</span>
+<span class="nc" id="L36">        double revenue = 0.0;</span>
+<span class="nc" id="L37">        int itemCount = 0;</span>
+
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        for(OrderPojo orderPojo: orderPojos){</span>
+<span class="nc" id="L40">            List&lt;OrderItemPojo&gt; orderItemPojos = orderItemService.getAll(orderPojo.getId());</span>
+<span class="nc" id="L41">            itemCount += orderItemPojos.size();</span>
+            //TODO read about this
+<span class="nc" id="L43">            revenue += orderItemPojos.stream().mapToDouble(orderItemPojo -&gt; orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice()).sum();</span>
+<span class="nc" id="L44">        }</span>
+<span class="nc" id="L45">        dailyReportPojo.setInvoiced_items_count(itemCount);</span>
+<span class="nc" id="L46">        dailyReportPojo.setTotal_revenue(revenue);</span>
+
+<span class="nc" id="L48">        dao.insert(dailyReportPojo);</span>
+<span class="nc" id="L49">    }</span>
+
+    public List&lt;DailyReportPojo&gt; getAll(){
+<span class="nc" id="L52">        return dao.selectAll();</span>
+    }
+
+    public List&lt;DailyReportPojo&gt; getAllByDate(ZonedDateTime startDate, ZonedDateTime endDate){
+<span class="nc" id="L56">        return dao.selectAllByDate(startDate, endDate);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

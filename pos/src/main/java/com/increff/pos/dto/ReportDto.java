@@ -56,11 +56,7 @@ public class ReportDto {
                 }
             }
             if(flag){
-                //TODO code shorten
-                InventoryReportData inventoryReportData = new InventoryReportData();
-                inventoryReportData.setBrand(brandData.getBrand());
-                inventoryReportData.setCategory(brandData.getCategory());
-                inventoryReportData.setQuantity(qty);
+                InventoryReportData inventoryReportData = Helper.createInventoryReportData(brandData,qty);
                 inventoryReportDatas.add(inventoryReportData);
             }
         }
@@ -124,7 +120,7 @@ public class ReportDto {
     private Map<Integer, SalesReportData> createSalesReportData(List<OrderPojo> orderPojos, List<BrandData> brandDatas) throws ApiException {
         Map<Integer,SalesReportData> map = new HashMap<>();//map {brandCatId : {brand,category,quantity,revenue}}
         Set<Integer> brandCategorySet = setOfBrandCategoryId(brandDatas);
-        //TODO look for stream in java
+
         for(OrderPojo orderPojo: orderPojos){
             List<OrderItemPojo> orderItemPojos = orderItemService.getAll(orderPojo.getId()); // Items with same orderID
             for(OrderItemPojo orderItemPojo: orderItemPojos){
@@ -138,19 +134,23 @@ public class ReportDto {
                         salesReportData.setRevenue(salesReportData.getRevenue()+(orderItemPojo.getQuantity()*orderItemPojo.getSellingPrice()));
                     }
                     else{
-                        //TODO try making a new function for this
-                        salesReportData = new SalesReportData();
-                        BrandPojo brandPojo = brandService.getById(key);
-                        salesReportData.setBrand(brandPojo.getBrand());
-                        salesReportData.setCategory(brandPojo.getCategory());
-                        salesReportData.setQuantity(orderItemPojo.getQuantity());
-                        salesReportData.setRevenue(orderItemPojo.getSellingPrice()*orderItemPojo.getQuantity());
+                        salesReportData = newSalesReportData(orderItemPojo,key);
                     }
                     map.put(key,salesReportData);
                 }
             }
         }
         return map;
+    }
+
+    private SalesReportData newSalesReportData(OrderItemPojo orderItemPojo, Integer key) throws ApiException {
+        SalesReportData salesReportData = new SalesReportData();
+        BrandPojo brandPojo = brandService.getById(key);
+        salesReportData.setBrand(brandPojo.getBrand());
+        salesReportData.setCategory(brandPojo.getCategory());
+        salesReportData.setQuantity(orderItemPojo.getQuantity());
+        salesReportData.setRevenue(orderItemPojo.getSellingPrice()*orderItemPojo.getQuantity());
+        return salesReportData;
     }
 
 }
