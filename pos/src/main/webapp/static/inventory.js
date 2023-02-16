@@ -231,8 +231,7 @@ function init(){
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#inventoryFile').on('change', updateFileName)
-    $('.active').removeClass('active');
-    $('#inventory-link').addClass('active');
+    setActive();
 }
 
 $(document).ready(init);

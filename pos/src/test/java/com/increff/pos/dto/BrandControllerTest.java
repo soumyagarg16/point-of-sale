@@ -1,6 +1,7 @@
 package com.increff.pos.dto;
 
 import com.increff.pos.AbstractUnitTest;
+import com.increff.pos.controller.BrandApiController;
 import com.increff.pos.dao.BrandDao;
 import com.increff.pos.model.BrandData;
 import com.increff.pos.model.BrandForm;
@@ -16,17 +17,18 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 
-public class BrandDtoTest extends AbstractUnitTest {
+public class BrandControllerTest extends AbstractUnitTest {
 
     @Autowired
-    BrandDto brandDto;
+    BrandApiController brandApiController;
+
     @Autowired
     BrandDao brandDao;
 
     @Test
     public void NormalizeAddTest() throws ApiException {
         BrandForm brandForm = TestHelper.createBrandForm(" brAnd 1", "   caTegOry 5  ");
-        brandDto.add(brandForm);
+        brandApiController.add(brandForm);
         BrandPojo brandPojo = brandDao.selectAll().get(0);
         assertEquals("brand 1", brandPojo.getBrand());
         assertEquals("category 5", brandPojo.getCategory());
@@ -35,20 +37,20 @@ public class BrandDtoTest extends AbstractUnitTest {
     @Test(expected = ApiException.class)
     public void EmptyBrandAddTest() throws ApiException {
         BrandForm brandForm = TestHelper.createBrandForm("","cat1");
-        brandDto.add(brandForm);
+        brandApiController.add(brandForm);
     }
 
     @Test(expected = ApiException.class)
     public void EmptyCategoryAddTest() throws ApiException {
         BrandForm brandForm = TestHelper.createBrandForm("br1","");
-        brandDto.add(brandForm);
+        brandApiController.add(brandForm);
     }
 
     @Test(expected = ApiException.class)
     public void DuplicateAddTest() throws ApiException {
         BrandForm brandForm = TestHelper.createBrandForm("b1","c1");
-        brandDto.add(brandForm);
-        brandDto.add(brandForm);
+        brandApiController.add(brandForm);
+        brandApiController.add(brandForm);
     }
 
     @Test
@@ -58,7 +60,7 @@ public class BrandDtoTest extends AbstractUnitTest {
             BrandForm brandForm = TestHelper.createBrandForm("b"+i,"c"+i);
             brandForms.add(brandForm);
         }
-        brandDto.addAll(brandForms);
+        brandApiController.addAll(brandForms);
         List<BrandPojo> brandPojos = brandDao.selectAll();
         int i = 1;
         for(BrandPojo brandPojo: brandPojos){
@@ -72,7 +74,7 @@ public class BrandDtoTest extends AbstractUnitTest {
     public void getTest() throws ApiException {
         BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
         brandDao.insert(brandPojo);
-        BrandData existing = brandDto.get(brandPojo.getId());
+        BrandData existing = brandApiController.get(brandPojo.getId());
         assertEquals("b1",existing.getBrand());
         assertEquals("c1",existing.getCategory());
     }
@@ -84,7 +86,7 @@ public class BrandDtoTest extends AbstractUnitTest {
             BrandPojo brandPojo = TestHelper.createBrandPojo("b"+i,"c"+i);
             brandDao.insert(brandPojo);
         }
-        List<BrandData> brandDataList = brandDto.getAll();
+        List<BrandData> brandDataList = brandApiController.getAll();
         int i = 1;
         for(BrandData brandData: brandDataList){
             assertEquals("b"+i,brandData.getBrand());
@@ -98,7 +100,7 @@ public class BrandDtoTest extends AbstractUnitTest {
         BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
         BrandForm brandForm = TestHelper.createBrandForm("b2","c2");
         brandDao.insert(brandPojo);
-        brandDto.update(brandPojo.getId(),brandForm);
+        brandApiController.update(brandPojo.getId(),brandForm);
         assertEquals("b2",brandPojo.getBrand());
         assertEquals("c2",brandPojo.getCategory());
     }

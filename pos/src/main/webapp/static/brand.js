@@ -241,8 +241,7 @@ function init(){
 	$('#download-errors').click(downloadErrors);
     $('#brandFile').on('change', updateFileName);
     getBrandList();
-    $('.active').removeClass('active');
-    $('#brand-link').addClass('active');
+    setActive();
 }
 
 $(document).ready(init);

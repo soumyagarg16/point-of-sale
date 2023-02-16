@@ -1,8 +1,10 @@
 package com.increff.pos.util;
 
 import com.increff.pos.model.BrandForm;
+import com.increff.pos.model.InventoryForm;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.BrandPojo;
+import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
 
 public class TestHelper {
@@ -34,5 +36,19 @@ public class TestHelper {
         productPojo.setName(name);
         productPojo.setMrp(mrp);
         return productPojo;
+    }
+
+    public static InventoryForm createInventoryForm(String barcode, Integer quantity){
+        InventoryForm inventoryForm = new InventoryForm();
+        inventoryForm.setBarcode(barcode);
+        inventoryForm.setQuantity(quantity);
+        return inventoryForm;
+    }
+
+    public static InventoryPojo createInventoryPojo(Integer id, Integer quantity){
+        InventoryPojo inventoryPojo = new InventoryPojo();
+        inventoryPojo.setId(id);
+        inventoryPojo.setQuantity(quantity);
+        return inventoryPojo;
     }
 }

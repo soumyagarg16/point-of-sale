@@ -1,9 +1,9 @@
 package com.increff.pos.dto;
 
 import com.increff.pos.AbstractUnitTest;
+import com.increff.pos.controller.ProductApiController;
 import com.increff.pos.dao.BrandDao;
 import com.increff.pos.dao.ProductDao;
-import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.BrandPojo;
@@ -18,8 +18,10 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class ProductDtoTest extends AbstractUnitTest {
+public class ProductControllerTest extends AbstractUnitTest {
 
+    @Autowired
+    ProductApiController productApiController;
     @Autowired
     ProductDto productDto;
     @Autowired
@@ -32,7 +34,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         BrandPojo brandPojo = TestHelper.createBrandPojo("brand10","category10");
         brandDao.insert(brandPojo);
         ProductForm productForm = TestHelper.createProductForm(" BraNd10 ", "CatEgory10  ","xD12","p1",50.512);
-        productDto.add(productForm);
+        productApiController.add(productForm);
         ProductPojo productPojo = productDao.selectAll().get(0);
         assertEquals(brandPojo.getId(), productPojo.getBrand_category());
         assertEquals("xD12",productPojo.getBarcode());
@@ -53,7 +55,7 @@ public class ProductDtoTest extends AbstractUnitTest {
             ProductForm productForm = TestHelper.createProductForm("b"+i,"c"+i,"x"+i,"p"+i,10.50+i);
             productForms.add(productForm);
         }
-        productDto.addAll(productForms);
+        productApiController.addAll(productForms);
         List<ProductPojo> productPojos = productDao.selectAll();
         int i = 1;
         for(ProductPojo productPojo: productPojos){
@@ -71,7 +73,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         brandDao.insert(brandPojo);
         ProductPojo productPojo = TestHelper.createProductPojo("x1", brandPojo.getId(), "p1",50.50);
         productDao.insert(productPojo);
-        ProductData existing = productDto.get(productPojo.getId());
+        ProductData existing = productApiController.get(productPojo.getId());
         assertEquals("b1",existing.getBrand());
         assertEquals("c1",existing.getCategory());
         assertEquals("x1",existing.getBarcode());
@@ -96,7 +98,7 @@ public class ProductDtoTest extends AbstractUnitTest {
             productPojos.add(productPojo);
             productDao.insert(productPojo);
         }
-        List<ProductData> productDatas = productDto.getAll();
+        List<ProductData> productDatas = productApiController.getAll();
         Integer i =1;
         for(ProductData productData: productDatas){
             assertEquals("b"+i,productData.getBrand());
@@ -114,8 +116,9 @@ public class ProductDtoTest extends AbstractUnitTest {
         BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
         brandDao.insert(brandPojo);
         ProductPojo productPojo = TestHelper.createProductPojo("x1", brandPojo.getId(), "p1",15.40);
+        productDao.insert(productPojo);
         ProductForm productForm = TestHelper.createProductForm(brandPojo.getBrand(), brandPojo.getCategory(), "x2","p3",14.5);
-        productDto.update(brandPojo.getId(),productForm);
+        productApiController.update(productPojo.getId(),productForm);
         assertEquals("x2",productPojo.getBarcode());
         assertEquals("p3",productPojo.getName());
         assertEquals(new Double(14.5),productPojo.getMrp(),0.01);

@@ -314,8 +314,7 @@ function init(){
 	$('#add-order').click(addOrder);
 	$('#cancel-order').click(cancelOrder);
 	getOrderList();
-    $('.active').removeClass('active');
-    $('#order-link').addClass('active');
+    setActive();
 }
 
 $(document).ready(init);

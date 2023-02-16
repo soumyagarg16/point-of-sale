@@ -33,12 +33,10 @@ public class InventoryApiController {
         dto.addAll(inventoryForms);
     }
 
-
     @ApiOperation(value = "Gets the inventory by id")
     @RequestMapping(path = "/api/inventory/{id}", method = RequestMethod.GET)
     public InventoryData get(@PathVariable Integer id) throws ApiException {
         return dto.get(id);
-
     }
 
     @ApiOperation(value = "Gets list of whole inventory")

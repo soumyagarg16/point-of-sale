@@ -46,7 +46,6 @@ public class BrandApiController {
     @ApiOperation(value = "Gets list of all brands")
     @RequestMapping(path = "/api/brand", method = RequestMethod.GET)
     public List<BrandData> getAll() {
-
         return dto.getAll();
 
     }

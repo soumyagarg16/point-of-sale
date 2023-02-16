@@ -116,8 +116,7 @@ function displayReport(data){
 function init(){
     $('#generate-brand-report').click(getReport);
     getAll();
-    $('.active').removeClass('active');
-    $('#navbarDropdown').addClass('active');
+    setActive();
 }
 
 $(document).ready(init);

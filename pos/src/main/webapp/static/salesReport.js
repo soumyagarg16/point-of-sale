@@ -142,7 +142,7 @@ function init(){
     $('.active').removeClass('active');
     $('#navbarDropdown').addClass('active');
     formatDate();
-
+    setActive();
 }
 
 $(document).ready(init);

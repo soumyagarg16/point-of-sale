@@ -109,6 +109,7 @@ function createRole(){
 function init(){
 	$('#create-role').click(createRole);
 	$('#add-role').click(addRole);
+	setActive();
 }
 
 $(document).ready(init);
