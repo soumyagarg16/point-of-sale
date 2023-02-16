@@ -13,7 +13,7 @@
     <artifactId>pos</artifactId>
     <packaging>war</packaging>
 
-    <name>employee-spring</name>
+    <name>pos-application</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -38,7 +38,7 @@
         <!-- Jetty configuration -->
         <jetty.version>9.4.21.v20190926</jetty.version>
         <jetty.http.port>9000</jetty.http.port>
-        <jetty.context>/employee</jetty.context>
+        <jetty.context>/pos</jetty.context>
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
 

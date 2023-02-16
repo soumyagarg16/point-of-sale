@@ -103,7 +103,8 @@ var fileData = [];
 var errorData;
 
 function processData(){
-	var file = $('#brandFile')[0].files[0];
+ 	var file = $('#brandFile')[0].files[0];
+	console.log(file);
 	readFileData(file, readFileDataCallback);
 
 }
@@ -158,7 +159,7 @@ function displayBrandList(data){
 	let count = 1;
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = '<button class="btn btn-primary" onclick="displayEditBrand(' + e.id + ')">edit</button>'
+		var buttonHtml = '<button class="btn btn-sm btn-primary" onclick="displayEditBrand(' + e.id + ')">Edit</button>'
 		var row = '<tr>'
 		+ '<td>' + count + '</td>'
 		+ '<td>' + e.brand + '</td>'
