@@ -18,109 +18,126 @@ import java.util.List;
     }
 
     public static List&lt;BrandData&gt; convertBrandPojosToDatas(List&lt;BrandPojo&gt; brandPojos){
-<span class="nc" id="L21">        List&lt;BrandData&gt; brandDatas = new ArrayList&lt;BrandData&gt;();</span>
-<span class="nc bnc" id="L22" title="All 2 branches missed.">        for(BrandPojo brandPojo : brandPojos) {</span>
-<span class="nc" id="L23">            brandDatas.add(convert(brandPojo));</span>
-<span class="nc" id="L24">        }</span>
-<span class="nc" id="L25">        return brandDatas;</span>
+<span class="fc" id="L21">        List&lt;BrandData&gt; brandDatas = new ArrayList&lt;BrandData&gt;();</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        for(BrandPojo brandPojo : brandPojos) {</span>
+<span class="fc" id="L23">            brandDatas.add(convert(brandPojo));</span>
+<span class="fc" id="L24">        }</span>
+<span class="fc" id="L25">        return brandDatas;</span>
     }
 
     public static BrandData convert(BrandPojo brandPojo){
-<span class="nc" id="L29">        BrandData brandData = new BrandData();</span>
-<span class="nc" id="L30">        brandData.setId(brandPojo.getId());</span>
-<span class="nc" id="L31">        brandData.setBrand(brandPojo.getBrand());</span>
-<span class="nc" id="L32">        brandData.setCategory(brandPojo.getCategory());</span>
-<span class="nc" id="L33">        return brandData;</span>
+<span class="fc" id="L29">        BrandData brandData = new BrandData();</span>
+<span class="fc" id="L30">        brandData.setId(brandPojo.getId());</span>
+<span class="fc" id="L31">        brandData.setBrand(brandPojo.getBrand());</span>
+<span class="fc" id="L32">        brandData.setCategory(brandPojo.getCategory());</span>
+<span class="fc" id="L33">        return brandData;</span>
     }
 
     public static ProductPojo convertProductFormToPojo(ProductForm productForm){
-<span class="nc" id="L37">        ProductPojo productPojo = new ProductPojo();</span>
-<span class="nc" id="L38">        productPojo.setName(productForm.getName());</span>
-<span class="nc" id="L39">        productPojo.setBarcode(productForm.getBarcode());</span>
-<span class="nc" id="L40">        productPojo.setMrp(productForm.getMrp());</span>
-<span class="nc" id="L41">        return productPojo;</span>
+<span class="fc" id="L37">        ProductPojo productPojo = new ProductPojo();</span>
+<span class="fc" id="L38">        productPojo.setName(productForm.getName());</span>
+<span class="fc" id="L39">        productPojo.setBarcode(productForm.getBarcode());</span>
+<span class="fc" id="L40">        productPojo.setMrp(productForm.getMrp());</span>
+<span class="fc" id="L41">        return productPojo;</span>
     }
 
     public static ProductData convertProductPojoToData(ProductPojo productPojo){
-<span class="nc" id="L45">        ProductData productData = new ProductData();</span>
-<span class="nc" id="L46">        productData.setId(productPojo.getId());</span>
-<span class="nc" id="L47">        productData.setName(productPojo.getName());</span>
-<span class="nc" id="L48">        productData.setBarcode(productPojo.getBarcode());</span>
-<span class="nc" id="L49">        productData.setMrp(productPojo.getMrp());</span>
-<span class="nc" id="L50">        return productData;</span>
+<span class="fc" id="L45">        ProductData productData = new ProductData();</span>
+<span class="fc" id="L46">        productData.setId(productPojo.getId());</span>
+<span class="fc" id="L47">        productData.setBrand_category(productPojo.getBrand_category());</span>
+<span class="fc" id="L48">        productData.setName(productPojo.getName());</span>
+<span class="fc" id="L49">        productData.setBarcode(productPojo.getBarcode());</span>
+<span class="fc" id="L50">        productData.setMrp(productPojo.getMrp());</span>
+<span class="fc" id="L51">        return productData;</span>
     }
 
     public static InventoryPojo convertInventoryFormToPojo(InventoryForm inventoryForm){
-<span class="nc" id="L54">        InventoryPojo inventoryPojo = new InventoryPojo();</span>
-<span class="nc" id="L55">        inventoryPojo.setQuantity(inventoryForm.getQuantity());</span>
-<span class="nc" id="L56">        return inventoryPojo;</span>
+<span class="fc" id="L55">        InventoryPojo inventoryPojo = new InventoryPojo();</span>
+<span class="fc" id="L56">        inventoryPojo.setQuantity(inventoryForm.getQuantity());</span>
+<span class="fc" id="L57">        return inventoryPojo;</span>
     }
     public static InventoryData convertInventoryPojoToData(InventoryPojo inventoryPojo){
-<span class="nc" id="L59">        InventoryData inventoryData = new InventoryData();</span>
-<span class="nc" id="L60">        inventoryData.setId(inventoryPojo.getId());</span>
-<span class="nc" id="L61">        inventoryData.setQuantity(inventoryPojo.getQuantity());</span>
-<span class="nc" id="L62">        return inventoryData;</span>
+<span class="fc" id="L60">        InventoryData inventoryData = new InventoryData();</span>
+<span class="fc" id="L61">        inventoryData.setId(inventoryPojo.getId());</span>
+<span class="fc" id="L62">        inventoryData.setQuantity(inventoryPojo.getQuantity());</span>
+<span class="fc" id="L63">        return inventoryData;</span>
     }
 
     public static OrderItemPojo convertOrderItemFormToPojo(OrderItemForm orderItemForm){
-<span class="nc" id="L66">        OrderItemPojo orderItemPojo = new OrderItemPojo();</span>
-<span class="nc" id="L67">        orderItemPojo.setQuantity(orderItemForm.getQuantity());</span>
-<span class="nc" id="L68">        orderItemPojo.setSellingPrice(orderItemForm.getSellingPrice());</span>
-<span class="nc" id="L69">        return orderItemPojo;</span>
+<span class="fc" id="L67">        OrderItemPojo orderItemPojo = new OrderItemPojo();</span>
+<span class="fc" id="L68">        orderItemPojo.setQuantity(orderItemForm.getQuantity());</span>
+<span class="fc" id="L69">        orderItemPojo.setSellingPrice(orderItemForm.getSellingPrice());</span>
+<span class="fc" id="L70">        return orderItemPojo;</span>
     }
 
     public static OrderItemData convertOrderItemPojoToData(OrderItemPojo orderItemPojo){
-<span class="nc" id="L73">        OrderItemData orderItemData = new OrderItemData();</span>
-<span class="nc" id="L74">        orderItemData.setQuantity(orderItemPojo.getQuantity());</span>
-<span class="nc" id="L75">        orderItemData.setSellingPrice(orderItemPojo.getSellingPrice());</span>
-<span class="nc" id="L76">        return orderItemData;</span>
+<span class="fc" id="L74">        OrderItemData orderItemData = new OrderItemData();</span>
+<span class="fc" id="L75">        orderItemData.setQuantity(orderItemPojo.getQuantity());</span>
+<span class="fc" id="L76">        orderItemData.setSellingPrice(orderItemPojo.getSellingPrice());</span>
+<span class="fc" id="L77">        return orderItemData;</span>
     }
 
     public static OrderPojo createOrderPojo(){
-<span class="nc" id="L80">        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
-<span class="nc" id="L81">        String time = dtf.format(LocalDateTime.now());</span>
-<span class="nc" id="L82">        OrderPojo orderPojo = new OrderPojo();</span>
-<span class="nc" id="L83">        orderPojo.setTime(time);</span>
-<span class="nc" id="L84">        orderPojo.setIsInvoiceGenerated(0);</span>
-<span class="nc" id="L85">        return orderPojo;</span>
+<span class="fc" id="L81">        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm:ss&quot;);</span>
+<span class="fc" id="L82">        String time = dtf.format(LocalDateTime.now());</span>
+<span class="fc" id="L83">        OrderPojo orderPojo = new OrderPojo();</span>
+<span class="fc" id="L84">        orderPojo.setTime(time);</span>
+<span class="fc" id="L85">        orderPojo.setIsInvoiceGenerated(0);</span>
+<span class="fc" id="L86">        return orderPojo;</span>
     }
 
     public static List&lt;DailyReportData&gt; convertDailyReportPojosToDatas(List&lt;DailyReportPojo&gt; dailyReportPojos){
-<span class="nc" id="L89">        List&lt;DailyReportData&gt; dailyReportDataList = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L90" title="All 2 branches missed.">        for(DailyReportPojo dailyReportPojo: dailyReportPojos){</span>
-<span class="nc" id="L91">            DailyReportData dailyReportData = new DailyReportData();</span>
-<span class="nc" id="L92">            dailyReportData.setDate(dailyReportPojo.getDate().format(DateTimeFormatter.ofPattern(&quot;dd-MM-yyyy&quot;)));</span>
-<span class="nc" id="L93">            dailyReportData.setInvoicedOrderCount(dailyReportPojo.getInvoiced_orders_count());</span>
-<span class="nc" id="L94">            dailyReportData.setInvoicedItemCount(dailyReportPojo.getInvoiced_items_count());</span>
-<span class="nc" id="L95">            dailyReportData.setTotalRevenue(dailyReportPojo.getTotal_revenue());</span>
-<span class="nc" id="L96">            dailyReportDataList.add(dailyReportData);</span>
-<span class="nc" id="L97">        }</span>
-<span class="nc" id="L98">        return dailyReportDataList;</span>
+<span class="nc" id="L90">        List&lt;DailyReportData&gt; dailyReportDataList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        for(DailyReportPojo dailyReportPojo: dailyReportPojos){</span>
+<span class="nc" id="L92">            DailyReportData dailyReportData = new DailyReportData();</span>
+<span class="nc" id="L93">            dailyReportData.setDate(dailyReportPojo.getDate().format(DateTimeFormatter.ofPattern(&quot;dd-MM-yyyy&quot;)));</span>
+<span class="nc" id="L94">            dailyReportData.setInvoicedOrderCount(dailyReportPojo.getInvoiced_orders_count());</span>
+<span class="nc" id="L95">            dailyReportData.setInvoicedItemCount(dailyReportPojo.getInvoiced_items_count());</span>
+<span class="nc" id="L96">            dailyReportData.setTotalRevenue(dailyReportPojo.getTotal_revenue());</span>
+<span class="nc" id="L97">            dailyReportDataList.add(dailyReportData);</span>
+<span class="nc" id="L98">        }</span>
+<span class="nc" id="L99">        return dailyReportDataList;</span>
     }
 
     public static UserPojo convertSignupFormToPojo(SignupForm signupForm){
-<span class="nc" id="L102">        UserPojo userPojo = new UserPojo();</span>
-<span class="nc" id="L103">        userPojo.setEmail(signupForm.getEmail());</span>
-<span class="nc" id="L104">        userPojo.setPassword(signupForm.getPassword());</span>
-<span class="nc" id="L105">        return userPojo;</span>
+<span class="nc" id="L103">        UserPojo userPojo = new UserPojo();</span>
+<span class="nc" id="L104">        userPojo.setEmail(signupForm.getEmail());</span>
+<span class="nc" id="L105">        userPojo.setPassword(signupForm.getPassword());</span>
+<span class="nc" id="L106">        return userPojo;</span>
     }
 
     public static UserPojo convertUserFormToPojo(UserForm userForm){
-<span class="nc" id="L109">        UserPojo userPojo = new UserPojo();</span>
-<span class="nc" id="L110">        userPojo.setEmail(userForm.getEmail());</span>
-<span class="nc" id="L111">        userPojo.setRole(userForm.getRole());</span>
-<span class="nc" id="L112">        userPojo.setPassword(userForm.getPassword());</span>
-<span class="nc" id="L113">        return userPojo;</span>
+<span class="nc" id="L110">        UserPojo userPojo = new UserPojo();</span>
+<span class="nc" id="L111">        userPojo.setEmail(userForm.getEmail());</span>
+<span class="nc" id="L112">        userPojo.setRole(userForm.getRole());</span>
+<span class="nc" id="L113">        userPojo.setPassword(userForm.getPassword());</span>
+<span class="nc" id="L114">        return userPojo;</span>
     }
 
     public static UserData convertUserPojoToData(UserPojo userPojo) {
-<span class="nc" id="L117">        UserData userData = new UserData();</span>
-<span class="nc" id="L118">        userData.setEmail(userPojo.getEmail());</span>
-<span class="nc" id="L119">        userData.setRole(userPojo.getRole());</span>
-<span class="nc" id="L120">        userData.setId(userPojo.getId());</span>
-<span class="nc" id="L121">        return userData;</span>
+<span class="nc" id="L118">        UserData userData = new UserData();</span>
+<span class="nc" id="L119">        userData.setEmail(userPojo.getEmail());</span>
+<span class="nc" id="L120">        userData.setRole(userPojo.getRole());</span>
+<span class="nc" id="L121">        userData.setId(userPojo.getId());</span>
+<span class="nc" id="L122">        return userData;</span>
     }
 
+    public static InventoryReportData createInventoryReportData(BrandData brandData, Integer qty){
+<span class="nc" id="L126">        InventoryReportData inventoryReportData = new InventoryReportData();</span>
+<span class="nc" id="L127">        inventoryReportData.setBrand(brandData.getBrand());</span>
+<span class="nc" id="L128">        inventoryReportData.setCategory(brandData.getCategory());</span>
+<span class="nc" id="L129">        inventoryReportData.setQuantity(qty);</span>
+<span class="nc" id="L130">        return inventoryReportData;</span>
+    }
+
+    public static String convertListToString(List&lt;String&gt; errors){
+<span class="nc" id="L134">        String result = &quot;&quot;;</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        for(String error: errors){</span>
+<span class="nc" id="L136">            result+=error;</span>
+<span class="nc" id="L137">            result+='\n';</span>
+<span class="nc" id="L138">        }</span>
+<span class="nc" id="L139">        return result;</span>
+    }
 
 
 }

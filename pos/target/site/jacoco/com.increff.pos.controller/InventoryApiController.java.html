@@ -24,35 +24,33 @@ import io.swagger.annotations.ApiOperation;
     @ApiOperation(value = &quot;Adds Inventory&quot;)
     @RequestMapping(path = &quot;/api/inventory&quot;, method = RequestMethod.POST)
     public void add(@RequestBody InventoryForm inventoryForm) throws ApiException {
-<span class="nc" id="L27">        dto.add(inventoryForm);</span>
-<span class="nc" id="L28">    }</span>
+<span class="fc" id="L27">        dto.add(inventoryForm);</span>
+<span class="fc" id="L28">    }</span>
 
     @ApiOperation(value = &quot;Upload Inventory&quot;)
     @RequestMapping(path = &quot;/api/inventorys&quot;, method = RequestMethod.POST)
     public void addAll(@RequestBody List&lt;InventoryForm&gt; inventoryForms) throws ApiException {
-<span class="nc" id="L33">        dto.addAll(inventoryForms);</span>
-<span class="nc" id="L34">    }</span>
-
+<span class="fc" id="L33">        dto.addAll(inventoryForms);</span>
+<span class="fc" id="L34">    }</span>
 
     @ApiOperation(value = &quot;Gets the inventory by id&quot;)
     @RequestMapping(path = &quot;/api/inventory/{id}&quot;, method = RequestMethod.GET)
     public InventoryData get(@PathVariable Integer id) throws ApiException {
-<span class="nc" id="L40">        return dto.get(id);</span>
-
+<span class="fc" id="L39">        return dto.get(id);</span>
     }
 
     @ApiOperation(value = &quot;Gets list of whole inventory&quot;)
     @RequestMapping(path = &quot;/api/inventory&quot;, method = RequestMethod.GET)
     public List&lt;InventoryData&gt; getAll() throws ApiException {
-<span class="nc" id="L47">        return dto.getAll();</span>
+<span class="fc" id="L45">        return dto.getAll();</span>
 
     }
 
     @ApiOperation(value = &quot;Updates Inventory&quot;)
     @RequestMapping(path = &quot;/api/inventory/{id}&quot;, method = RequestMethod.PUT)
     public void update(@PathVariable Integer id, @RequestBody InventoryForm inventoryForm) throws ApiException {
-<span class="nc" id="L54">        dto.update(id,inventoryForm);</span>
-<span class="nc" id="L55">    }</span>
+<span class="fc" id="L52">        dto.update(id,inventoryForm);</span>
+<span class="fc" id="L53">    }</span>
 
 
 

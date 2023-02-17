@@ -25,8 +25,8 @@ import org.springframework.stereotype.Repository;
 
     @Transactional
     public void insert(OrderItemPojo orderItemPojo) {
-<span class="nc" id="L28">        em.persist(orderItemPojo);</span>
-<span class="nc" id="L29">    }</span>
+<span class="fc" id="L28">        em.persist(orderItemPojo);</span>
+<span class="fc" id="L29">    }</span>
 
     public OrderItemPojo select(Integer id) {
 <span class="nc" id="L32">        TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_ID, OrderItemPojo.class);</span>
@@ -35,9 +35,9 @@ import org.springframework.stereotype.Repository;
     }
 
     public List&lt;OrderItemPojo&gt; selectAll(Integer orderId) {
-<span class="nc" id="L38">        TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_ALL_BY_ORDER_ID, OrderItemPojo.class);</span>
-<span class="nc" id="L39">        query.setParameter(&quot;orderId&quot;, orderId);</span>
-<span class="nc" id="L40">        return query.getResultList();</span>
+<span class="fc" id="L38">        TypedQuery&lt;OrderItemPojo&gt; query = getQuery(SELECT_ALL_BY_ORDER_ID, OrderItemPojo.class);</span>
+<span class="fc" id="L39">        query.setParameter(&quot;orderId&quot;, orderId);</span>
+<span class="fc" id="L40">        return query.getResultList();</span>
     }
 
 

@@ -7,17 +7,17 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-<span class="nc" id="L10">@Setter</span>
+<span class="pc" id="L10">@Setter</span>
 <span class="fc" id="L11">public class ProductPojo {</span>
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-<span class="nc" id="L15">    private Integer id;</span>
+<span class="fc" id="L15">    private Integer id;</span>
     @Column(unique = true)
-<span class="nc" id="L17">    private String barcode;</span>
-<span class="nc" id="L18">    private Integer brand_category;</span>
-<span class="nc" id="L19">    private String name;</span>
-<span class="nc" id="L20">    private double mrp;</span>
+<span class="fc" id="L17">    private String barcode;</span>
+<span class="fc" id="L18">    private Integer brand_category;</span>
+<span class="fc" id="L19">    private String name;</span>
+<span class="fc" id="L20">    private Double mrp;</span>
 
 
 

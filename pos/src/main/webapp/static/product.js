@@ -135,6 +135,7 @@ function readFileDataCallback(results){
                         "extendedTimeOut": "0"
                     });
                 errorData=response.responseJSON.message;
+                $('#download-errors').removeAttr('hidden');
            }
         });
 }
@@ -145,9 +146,9 @@ function downloadErrors(){
     errorData = errorData.slice(0,-1);
     var element = document.createElement('a');
     element.setAttribute('href','data:text/plain;charset=utf-8,' + encodeURIComponent(errorData));
-    element.setAttribute('download',"product_upload_errors.txt");
+    element.setAttribute('download',"product_errors.txt");
     element.click();
-	//writeFileData(errorData);
+    $('#download-errors').attr('hidden',true);
 }
 
 //UI DISPLAY METHODS
@@ -201,12 +202,23 @@ function resetUploadDialog(){
 	var $file = $('#productFile');
 	$file.val('');
 	$('#productFileName').html("Choose File");
+	$('#download-errors').attr('hidden',true);
+    $('#process-data').attr('disabled',true);
 }
 
 function updateFileName(){
 	var $file = $('#productFile');
 	var fileName = $file.val();
-	$('#productFileName').html(fileName);
+	if(fileName.slice(-4)!=".tsv"){
+            toastr.error("File must be in .tsv format!", "Error: ", {
+            	    "closeButton": true,
+            	    "timeOut": "0",
+            	    "extendedTimeOut": "0"
+            	});
+            	return;
+    	}
+    	$('#productFileName').html(fileName); // putting file name on label
+    	$("#process-data").removeAttr('disabled');
 }
 
 function displayUploadData(){
@@ -230,7 +242,6 @@ function displayProduct(data){
 	$("#product-edit-form input[name=id]").val(data.id);
 	$("#product-edit-form input[name=name]").val(data.name);
 	$("#product-edit-form input[name=mrp]").val(data.mrp);
-
 	$('#edit-product-modal').modal('toggle');
 }
 
@@ -247,7 +258,9 @@ function init(){
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
-    $('#productFile').on('change', updateFileName)
+    $('#productFile').on('change', updateFileName);
+    $('#process-data').attr('disabled',true);
+    $('#download-errors').attr('hidden',true);
     setActive();
 }
 

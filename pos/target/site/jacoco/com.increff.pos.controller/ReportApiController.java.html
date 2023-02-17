@@ -19,42 +19,32 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 <span class="fc" id="L20">public class ReportApiController {</span>
 
-
     @Autowired
     private ReportDto dto;
-
 
     @ApiOperation(value = &quot;Fetch Brand Report&quot;)
     @RequestMapping(path = &quot;/api/brandReport&quot;, method = RequestMethod.POST)
     public List&lt;BrandData&gt; getBrandReport(@RequestBody BrandForm brandForm) throws ApiException {
-<span class="nc" id="L30">        return dto.getBrandReport(brandForm);</span>
+<span class="nc" id="L28">        return dto.getBrandReport(brandForm);</span>
     }
-
 
     @ApiOperation(value = &quot;Fetch Inventory Report&quot;)
     @RequestMapping(path = &quot;/api/inventoryReport&quot;, method = RequestMethod.POST)
     public List&lt;InventoryReportData&gt; getInventoryReport(@RequestBody BrandForm brandForm) throws ApiException {
-<span class="nc" id="L37">        return dto.getInventoryReport(brandForm);</span>
+<span class="nc" id="L34">        return dto.getInventoryReport(brandForm);</span>
     }
 
     @ApiOperation(value = &quot;Fetch Sales Report&quot;)
     @RequestMapping(path = &quot;/api/salesReport&quot;, method = RequestMethod.POST)
     public List&lt;SalesReportData&gt; getSalesReport(@RequestBody SalesReportForm salesReportForm) throws ApiException {
-<span class="nc" id="L43">        return dto.getSalesReport(salesReportForm);</span>
+<span class="nc" id="L40">        return dto.getSalesReport(salesReportForm);</span>
     }
 
     @ApiOperation(value = &quot;Fetch Daily Report by date range&quot;)
     @RequestMapping(path = &quot;/api/dailyReport&quot;, method = RequestMethod.POST)
     public List&lt;DailyReportData&gt; getDailyReport(@RequestBody DailyReportForm dailyReportForm) throws ApiException {
-<span class="nc" id="L49">        return dto.getDailyReport(dailyReportForm);</span>
+<span class="nc" id="L46">        return dto.getDailyReport(dailyReportForm);</span>
     }
 
-
-    //TODO Remove this method
-    @ApiOperation(value = &quot;Fetch complete daily report&quot;)
-    @RequestMapping(path = &quot;/api/dailyReport&quot;, method = RequestMethod.GET)
-    public List&lt;DailyReportData&gt; getAllDailyReport() throws ApiException {
-<span class="nc" id="L57">        return dto.getAllDailyReport();</span>
-    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

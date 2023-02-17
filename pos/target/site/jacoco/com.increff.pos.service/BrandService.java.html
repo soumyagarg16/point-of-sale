@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import com.increff.pos.model.BrandForm;
+import com.increff.pos.util.Helper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,77 +15,77 @@ import com.increff.pos.pojo.BrandPojo;
 
 
 @Service
-<span class="fc" id="L17">public class BrandService {</span>
+<span class="fc" id="L18">public class BrandService {</span>
 
     @Autowired
     private BrandDao dao;
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(BrandPojo brandPojo) throws ApiException {
-<span class="fc" id="L24">        BrandPojo existingPojo = dao.select(brandPojo.getBrand(),brandPojo.getCategory());</span>
-<span class="pc bpc" id="L25" title="1 of 2 branches missed.">        if(existingPojo==null)</span>
-<span class="fc" id="L26">            dao.insert(brandPojo);</span>
+<span class="fc" id="L25">        BrandPojo existingPojo = dao.select(brandPojo.getBrand(),brandPojo.getCategory());</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if(existingPojo==null)</span>
+<span class="fc" id="L27">            dao.insert(brandPojo);</span>
         else
-<span class="nc" id="L28">            throw new ApiException(&quot;Brand: &quot; + existingPojo.getBrand() + &quot; and category: &quot; + existingPojo.getCategory() + &quot; pair already exists!&quot;);</span>
+<span class="fc" id="L29">            throw new ApiException(&quot;Brand: &quot; + existingPojo.getBrand() + &quot; and category: &quot; + existingPojo.getCategory() + &quot; pair already exists!&quot;);</span>
 
-<span class="fc" id="L30">    }</span>
+<span class="fc" id="L31">    }</span>
 
     @Transactional(rollbackOn = ApiException.class)
     public void addAll(List&lt;BrandPojo&gt; brandPojos) throws ApiException {
-<span class="nc" id="L34">        Integer count = 1;</span>
-<span class="nc" id="L35">        List&lt;String&gt; errors = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L36" title="All 2 branches missed.">        for(BrandPojo brandPojo: brandPojos){</span>
-<span class="nc" id="L37">            BrandPojo existingPojo = getByBrandCategory(brandPojo.getBrand(), brandPojo.getCategory());</span>
-<span class="nc bnc" id="L38" title="All 2 branches missed.">            if(existingPojo!=null){</span>
-<span class="nc" id="L39">                errors.add(&quot;Brand: &quot; + existingPojo.getBrand() + &quot; and category: &quot; + existingPojo.getCategory() + &quot; pair already exists for row no.&quot;+count);</span>
+<span class="fc" id="L35">        Integer count = 1;</span>
+<span class="fc" id="L36">        List&lt;String&gt; errors = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        for(BrandPojo brandPojo: brandPojos){</span>
+<span class="fc" id="L38">            BrandPojo existingPojo = getByBrandCategory(brandPojo.getBrand(), brandPojo.getCategory());</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">            if(existingPojo!=null){</span>
+<span class="nc" id="L40">                errors.add(&quot;Brand: &quot; + existingPojo.getBrand() + &quot; and category: &quot; + existingPojo.getCategory() + &quot; pair already exists for row no.&quot;+count);</span>
             }
-<span class="nc" id="L41">            count++;</span>
-<span class="nc" id="L42">        }</span>
-<span class="nc bnc" id="L43" title="All 2 branches missed.">        if(!errors.isEmpty()){</span>
-<span class="nc" id="L44">            throw new ApiException(errors.toString());</span>
+<span class="fc" id="L42">            count++;</span>
+<span class="fc" id="L43">        }</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if(!errors.isEmpty()){</span>
+<span class="nc" id="L45">            throw new ApiException(Helper.convertListToString(errors));</span>
         }
-<span class="nc bnc" id="L46" title="All 2 branches missed.">        for(BrandPojo brandPojo: brandPojos){</span>
-<span class="nc" id="L47">            dao.insert(brandPojo);</span>
-<span class="nc" id="L48">        }</span>
-<span class="nc" id="L49">    }</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        for(BrandPojo brandPojo: brandPojos){</span>
+<span class="fc" id="L48">            dao.insert(brandPojo);</span>
+<span class="fc" id="L49">        }</span>
+<span class="fc" id="L50">    }</span>
 
     public BrandPojo getById(Integer id) throws ApiException {
-<span class="nc" id="L52">        return getCheck(id);</span>
+<span class="fc" id="L53">        return getCheck(id);</span>
 
     }
     public BrandPojo getByBrandCategory(String brand, String category){
-<span class="nc" id="L56">        return dao.select(brand,category);</span>
+<span class="fc" id="L57">        return dao.select(brand,category);</span>
     }
 
     public List&lt;BrandPojo&gt; getAllByBrandCategory(String brand, String category){
-<span class="nc" id="L60">        return dao.selectAllByBrandCategory(brand,category);</span>
+<span class="nc" id="L61">        return dao.selectAllByBrandCategory(brand,category);</span>
     }
 
     @Transactional
     public List&lt;BrandPojo&gt; getAll() {
-<span class="nc" id="L65">        return dao.selectAll();</span>
+<span class="fc" id="L66">        return dao.selectAll();</span>
     }
 
     @Transactional(rollbackOn = ApiException.class)
     public void update(Integer id, BrandForm brandForm) throws ApiException {
-<span class="nc" id="L70">        BrandPojo brandPojo = getById(id);</span>
-<span class="nc" id="L71">        BrandPojo existingPojo = getByBrandCategory(brandForm.getBrand(),brandForm.getCategory());</span>
-<span class="nc bnc" id="L72" title="All 4 branches missed.">        if(existingPojo==null || existingPojo.getId()==id){</span>
-<span class="nc" id="L73">            brandPojo.setBrand(brandForm.getBrand());</span>
-<span class="nc" id="L74">            brandPojo.setCategory(brandForm.getCategory());</span>
+<span class="fc" id="L71">        BrandPojo brandPojo = getById(id);</span>
+<span class="fc" id="L72">        BrandPojo existingPojo = getByBrandCategory(brandForm.getBrand(),brandForm.getCategory());</span>
+<span class="pc bpc" id="L73" title="3 of 4 branches missed.">        if(existingPojo==null || existingPojo.getId()==id){</span>
+<span class="fc" id="L74">            brandPojo.setBrand(brandForm.getBrand());</span>
+<span class="fc" id="L75">            brandPojo.setCategory(brandForm.getCategory());</span>
         }
         else{
-<span class="nc" id="L77">            throw new ApiException(&quot;Given Brand Category pair already exists!&quot;);</span>
+<span class="nc" id="L78">            throw new ApiException(&quot;Given Brand Category pair already exists!&quot;);</span>
         }
 
-<span class="nc" id="L80">    }</span>
+<span class="fc" id="L81">    }</span>
 
     private BrandPojo getCheck(Integer id) throws ApiException {
-<span class="nc" id="L83">        BrandPojo brandPojo = dao.select(id);</span>
-<span class="nc bnc" id="L84" title="All 2 branches missed.">        if(brandPojo==null){</span>
-<span class="nc" id="L85">            throw new ApiException(&quot;No brand-category pair exists with the given id &quot;+id);</span>
+<span class="fc" id="L84">        BrandPojo brandPojo = dao.select(id);</span>
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">        if(brandPojo==null){</span>
+<span class="nc" id="L86">            throw new ApiException(&quot;No brand-category pair exists with the given id &quot;+id);</span>
         }
-<span class="nc" id="L87">        return brandPojo;</span>
+<span class="fc" id="L88">        return brandPojo;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

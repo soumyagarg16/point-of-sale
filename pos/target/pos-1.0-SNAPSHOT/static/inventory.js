@@ -81,31 +81,16 @@ function getInventoryList(){
 	});
 }
 
-function deleteInventory(id){
-	var url = getInventoryUrl() + "/" + id;
-
-	$.ajax({
-	   url: url,
-	   type: 'DELETE',
-	   success: function(data) {
-	   		getInventoryList();
-	   },
-	   error: handleAjaxError
-	});
-}
-
 // FILE UPLOAD METHODS
 var fileData = [];
 var errorData = [];
 
 function processData(){
-    console.log("entered process data");
 	var file = $('#inventoryFile')[0].files[0];
 	readFileData(file, readFileDataCallback);
 }
 
 function readFileDataCallback(results){
-    console.log("entered readFileCallback");
 	fileData = results.data;
     var json = JSON.stringify(fileData);
     var url = getInventoryUrl()+'s';
@@ -129,6 +114,7 @@ function readFileDataCallback(results){
                         "extendedTimeOut": "0"
                     });
                 errorData=response.responseJSON.message;
+                $('#download-errors').removeAttr('hidden');
            }
         });
 }
@@ -141,7 +127,7 @@ function downloadErrors(){
     element.setAttribute('href','data:text/plain;charset=utf-8,' + encodeURIComponent(errorData));
     element.setAttribute('download',"inventory_errors.txt");
     element.click();
-	//writeFileData(errorData);
+	$('#download-errors').attr('hidden',true);
 }
 
 //UI DISPLAY METHODS
@@ -177,7 +163,7 @@ function displayEditInventory(id){
 	   success: function(data) {
 	   		displayInventory(data);
 	   },
-	   error: handleAjaxError
+	   error: handleAjaxError(response);
 	});
 }
 
@@ -186,16 +172,24 @@ function resetUploadDialog(){
 	var $file = $('#inventoryFile');
 	$file.val('');
 	$('#inventoryFileName').html("Choose File");
-	//Reset various counts
-	fileData = [];
-	errorData = [];
+	$('#download-errors').attr('hidden',true);
+    $('#process-data').attr('disabled',true);
 }
 
 
 function updateFileName(){
 	var $file = $('#inventoryFile');
 	var fileName = $file.val();
-	$('#inventoryFileName').html(fileName);
+	if(fileName.slice(-4)!=".tsv"){
+                toastr.error("File must be in .tsv format!", "Error: ", {
+                	    "closeButton": true,
+                	    "timeOut": "0",
+                	    "extendedTimeOut": "0"
+                	});
+                	return;
+        	}
+        	$('#inventoryFileName').html(fileName); // putting file name on label
+        	$("#process-data").removeAttr('disabled');
 }
 
 function displayUploadData(){
@@ -230,9 +224,10 @@ function init(){
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
-    $('#inventoryFile').on('change', updateFileName)
-    $('.active').removeClass('active');
-    $('#inventory-link').addClass('active');
+    $('#inventoryFile').on('change', updateFileName);
+    $('#process-data').attr('disabled',true);
+    $('#download-errors').attr('hidden',true);
+    setActive();
 }
 
 $(document).ready(init);

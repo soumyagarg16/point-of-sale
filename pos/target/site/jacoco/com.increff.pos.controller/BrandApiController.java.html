@@ -28,34 +28,33 @@ import io.swagger.annotations.ApiOperation;
     @ApiOperation(value = &quot;Adds a Brand-Category pair&quot;)
     @RequestMapping(path = &quot;/api/brand&quot;, method = RequestMethod.POST)
     public void add(@RequestBody BrandForm brandForm) throws ApiException {
-<span class="nc" id="L31">        dto.add(brandForm);</span>
-<span class="nc" id="L32">    }</span>
+<span class="fc" id="L31">        dto.add(brandForm);</span>
+<span class="fc" id="L32">    }</span>
 
     @ApiOperation(value = &quot;Adds list of brands&quot;)
     @RequestMapping(path = &quot;/api/brands&quot;, method = RequestMethod.POST)
     public void addAll(@RequestBody List&lt;BrandForm&gt; brandForms) throws ApiException {
-<span class="nc" id="L37">        dto.addAll(brandForms);</span>
-<span class="nc" id="L38">    }</span>
+<span class="fc" id="L37">        dto.addAll(brandForms);</span>
+<span class="fc" id="L38">    }</span>
 
     @ApiOperation(value = &quot;Gets the Brand-Category pair by id&quot;)
     @RequestMapping(path = &quot;/api/brand/{id}&quot;, method = RequestMethod.GET)
     public BrandData get(@PathVariable Integer id) throws ApiException {
-<span class="nc" id="L43">        return dto.get(id);</span>
+<span class="fc" id="L43">        return dto.get(id);</span>
     }
 
     @ApiOperation(value = &quot;Gets list of all brands&quot;)
     @RequestMapping(path = &quot;/api/brand&quot;, method = RequestMethod.GET)
     public List&lt;BrandData&gt; getAll() {
-
-<span class="nc" id="L50">        return dto.getAll();</span>
+<span class="fc" id="L49">        return dto.getAll();</span>
 
     }
 
     @ApiOperation(value = &quot;Updates a brand&quot;)
     @RequestMapping(path = &quot;/api/brand/{id}&quot;, method = RequestMethod.PUT)
     public void update(@PathVariable Integer id, @RequestBody BrandForm brandForm) throws ApiException {
-<span class="nc" id="L57">        dto.update(id,brandForm);</span>
-<span class="nc" id="L58">    }</span>
+<span class="fc" id="L56">        dto.update(id,brandForm);</span>
+<span class="fc" id="L57">    }</span>
 
 
 }

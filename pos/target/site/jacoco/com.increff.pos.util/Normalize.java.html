@@ -6,34 +6,39 @@ import com.increff.pos.model.SalesReportForm;
 import com.increff.pos.model.UserForm;
 import com.increff.pos.pojo.UserPojo;
 
-<span class="nc" id="L9">public class Normalize {</span>
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
+<span class="nc" id="L12">public class Normalize {</span>
     public static void normalize(BrandForm brandForm){
-<span class="fc" id="L11">        brandForm.setBrand(StringUtil.toLowerCase(brandForm.getBrand()));</span>
-<span class="fc" id="L12">        brandForm.setCategory(StringUtil.toLowerCase(brandForm.getCategory()));</span>
-<span class="fc" id="L13">    }</span>
+<span class="fc" id="L14">        brandForm.setBrand(StringUtil.toLowerCase(brandForm.getBrand()));</span>
+<span class="fc" id="L15">        brandForm.setCategory(StringUtil.toLowerCase(brandForm.getCategory()));</span>
+<span class="fc" id="L16">    }</span>
     public static void normalize(ProductForm productForm){
-<span class="nc" id="L15">        productForm.setBrand(StringUtil.toLowerCase(productForm.getBrand()));</span>
-<span class="nc" id="L16">        productForm.setCategory(StringUtil.toLowerCase(productForm.getCategory()));</span>
-<span class="nc" id="L17">        productForm.setName(StringUtil.toLowerCase(productForm.getName()));</span>
-<span class="nc" id="L18">    }</span>
+<span class="fc" id="L18">        productForm.setBrand(StringUtil.toLowerCase(productForm.getBrand()));</span>
+<span class="fc" id="L19">        productForm.setCategory(StringUtil.toLowerCase(productForm.getCategory()));</span>
+<span class="fc" id="L20">        productForm.setName(StringUtil.toLowerCase(productForm.getName()));</span>
+<span class="fc" id="L21">    }</span>
     public static void normalizeDouble(ProductForm productForm){
-<span class="nc" id="L20">        productForm.setMrp(Math.floor(productForm.getMrp() * 100) / 100);</span>
-<span class="nc" id="L21">    }</span>
+<span class="fc" id="L23">        DecimalFormat df = new DecimalFormat(&quot;0.00&quot;);</span>
+<span class="fc" id="L24">        df.setRoundingMode(RoundingMode.DOWN);</span>
+<span class="fc" id="L25">        productForm.setMrp(Double.valueOf(df.format(productForm.getMrp())));</span>
+<span class="fc" id="L26">    }</span>
 
     public static void normalizeDateTime(SalesReportForm salesReportForm){
-<span class="nc" id="L24">        salesReportForm.setStartDate(salesReportForm.getStartDate()+ &quot; 00:00:00&quot;);</span>
-<span class="nc" id="L25">        salesReportForm.setEndDate(salesReportForm.getEndDate()+ &quot; 23:59:59&quot;);</span>
-<span class="nc" id="L26">    }</span>
-
-    public static void normalizeEmail(UserPojo userPojo){
-<span class="nc" id="L29">        userPojo.setEmail(userPojo.getEmail().toLowerCase().trim());</span>
-<span class="nc" id="L30">        userPojo.setRole(userPojo.getRole().toLowerCase().trim());</span>
+<span class="nc" id="L29">        salesReportForm.setStartDate(salesReportForm.getStartDate()+ &quot; 00:00:00&quot;);</span>
+<span class="nc" id="L30">        salesReportForm.setEndDate(salesReportForm.getEndDate()+ &quot; 23:59:59&quot;);</span>
 <span class="nc" id="L31">    }</span>
 
-    public static void normalizeUserForm(UserForm userForm){
-<span class="nc" id="L34">        userForm.setEmail(StringUtil.toLowerCase(userForm.getEmail()));</span>
-<span class="nc" id="L35">        userForm.setRole(StringUtil.toLowerCase(userForm.getRole()));</span>
+    public static void normalizeEmail(UserPojo userPojo){
+<span class="nc" id="L34">        userPojo.setEmail(userPojo.getEmail().toLowerCase().trim());</span>
+<span class="nc" id="L35">        userPojo.setRole(userPojo.getRole().toLowerCase().trim());</span>
+<span class="nc" id="L36">    }</span>
 
-<span class="nc" id="L37">    }</span>
+    public static void normalizeUserForm(UserForm userForm){
+<span class="nc" id="L39">        userForm.setEmail(StringUtil.toLowerCase(userForm.getEmail()));</span>
+<span class="nc" id="L40">        userForm.setRole(StringUtil.toLowerCase(userForm.getRole()));</span>
+
+<span class="nc" id="L42">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

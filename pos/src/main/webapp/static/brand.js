@@ -145,7 +145,6 @@ function downloadErrors(){
     element.setAttribute('download',"brand_errors.txt");
     element.click();
     $('#download-errors').attr('hidden',true);
-	//writeFileData(errorData);
 }
 
 //UI DISPLAY METHODS

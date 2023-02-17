@@ -106,7 +106,6 @@ function processData(){
  	var file = $('#brandFile')[0].files[0];
 	console.log(file);
 	readFileData(file, readFileDataCallback);
-
 }
 
 function readFileDataCallback(results){
@@ -125,6 +124,7 @@ function readFileDataCallback(results){
         	   success: function() {
         	        toastr.success("Uploaded Successfully!");
         	        $('#upload-brand-modal').modal('toggle');
+        	        resetUploadDialog();
         	   		getBrandList();
         	   },
         	   error: function(response){
@@ -134,20 +134,17 @@ function readFileDataCallback(results){
                     	    "extendedTimeOut": "0"
                     	});
                     errorData=response.responseJSON.message;
+                    $('#download-errors').removeAttr('hidden');
         	   }
         	});
 }
 
-
 function downloadErrors(){
-    errorData = errorData.replaceAll(",","\n");
-    errorData = errorData.replace("["," ");
-    errorData = errorData.slice(0,-1);
     var element = document.createElement('a');
     element.setAttribute('href','data:text/plain;charset=utf-8,' + encodeURIComponent(errorData));
     element.setAttribute('download',"brand_errors.txt");
     element.click();
-	//writeFileData(errorData);
+    $('#download-errors').attr('hidden',true);
 }
 
 //UI DISPLAY METHODS
@@ -197,12 +194,23 @@ function resetUploadDialog(){
 	var $file = $('#brandFile');
 	$file.val('');
 	$('#brandFileName').html("Choose File");
+	$('#download-errors').attr('hidden',true);
+	$('#process-data').attr('disabled',true);
 }
 
 function updateFileName(){
 	var $file = $('#brandFile');
 	var fileName = $file.val();
-	$('#brandFileName').html(fileName);
+	if(fileName.slice(-4)!=".tsv"){
+        toastr.error("File must be in .tsv format!", "Error: ", {
+        	    "closeButton": true,
+        	    "timeOut": "0",
+        	    "extendedTimeOut": "0"
+        	});
+        	return;
+	}
+	$('#brandFileName').html(fileName); // putting file name on label
+	$("#process-data").removeAttr('disabled');
 
 }
 
@@ -240,9 +248,10 @@ function init(){
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#brandFile').on('change', updateFileName);
+    $('#process-data').attr('disabled',true);
+    $('#download-errors').attr('hidden',true);
     getBrandList();
-    $('.active').removeClass('active');
-    $('#brand-link').addClass('active');
+    setActive();
 }
 
 $(document).ready(init);

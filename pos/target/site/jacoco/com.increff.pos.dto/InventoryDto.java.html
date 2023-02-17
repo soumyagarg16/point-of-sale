@@ -26,79 +26,79 @@ import java.util.List;
     private InventoryService inventoryService;
 
     public void add(InventoryForm inventoryForm) throws ApiException {
-<span class="nc" id="L29">        Validate.validateInventoryForm(inventoryForm);</span>
-<span class="nc" id="L30">        InventoryPojo inventoryPojo = Helper.convertInventoryFormToPojo(inventoryForm);</span>
-<span class="nc" id="L31">        ProductPojo productPojo = productService.getProductPojoByBarcode(inventoryForm.getBarcode());</span>
-<span class="nc bnc" id="L32" title="All 2 branches missed.">        if(productPojo==null){</span>
+<span class="fc" id="L29">        Validate.validateInventoryForm(inventoryForm);</span>
+<span class="fc" id="L30">        InventoryPojo inventoryPojo = Helper.convertInventoryFormToPojo(inventoryForm);</span>
+<span class="fc" id="L31">        ProductPojo productPojo = productService.getProductPojoByBarcode(inventoryForm.getBarcode());</span>
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">        if(productPojo==null){</span>
 <span class="nc" id="L33">            throw new ApiException(&quot;No product exists with the given barcode!&quot;);</span>
         }
-<span class="nc" id="L35">        inventoryPojo.setId(productPojo.getId());</span>
-<span class="nc" id="L36">        inventoryService.add(inventoryPojo);</span>
-<span class="nc" id="L37">    }</span>
+<span class="fc" id="L35">        inventoryPojo.setId(productPojo.getId());</span>
+<span class="fc" id="L36">        inventoryService.add(inventoryPojo);</span>
+<span class="fc" id="L37">    }</span>
 
     public void addAll(List&lt;InventoryForm&gt; inventoryForms) throws ApiException {
-<span class="nc bnc" id="L40" title="All 2 branches missed.">        if(inventoryForms.size()&gt;5000){</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">        if(inventoryForms.size()&gt;5000){</span>
 <span class="nc" id="L41">            throw new ApiException(&quot;File size cannot exceed 5000 rows!&quot;);</span>
         }
-<span class="nc" id="L43">        List&lt;String&gt; errors = Validate.validateInventoryForms(inventoryForms);</span>
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        if(!errors.isEmpty()){</span>
+<span class="fc" id="L43">        List&lt;String&gt; errors = Validate.validateInventoryForms(inventoryForms);</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if(!errors.isEmpty()){</span>
 <span class="nc" id="L45">            throw new ApiException(errors.toString());</span>
         }
-<span class="nc" id="L47">        List&lt;InventoryPojo&gt; inventoryPojos = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L48" title="All 2 branches missed.">        for(InventoryForm inventoryForm: inventoryForms){</span>
-<span class="nc" id="L49">            ProductPojo productPojo = productService.getProductPojoByBarcode(inventoryForm.getBarcode());</span>
-<span class="nc bnc" id="L50" title="All 2 branches missed.">            if(productPojo==null){</span>
+<span class="fc" id="L47">        List&lt;InventoryPojo&gt; inventoryPojos = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        for(InventoryForm inventoryForm: inventoryForms){</span>
+<span class="fc" id="L49">            ProductPojo productPojo = productService.getProductPojoByBarcode(inventoryForm.getBarcode());</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">            if(productPojo==null){</span>
 <span class="nc" id="L51">                errors.add(&quot;No product exists for the barcode &quot; + inventoryForm.getBarcode());</span>
 <span class="nc" id="L52">                continue;</span>
             }
-<span class="nc" id="L54">            InventoryPojo inventoryPojo = Helper.convertInventoryFormToPojo(inventoryForm);</span>
-<span class="nc" id="L55">            inventoryPojo.setId(productPojo.getId());</span>
-<span class="nc" id="L56">            inventoryPojos.add(inventoryPojo);</span>
-<span class="nc" id="L57">        }</span>
-<span class="nc bnc" id="L58" title="All 2 branches missed.">        if(!errors.isEmpty()){</span>
+<span class="fc" id="L54">            InventoryPojo inventoryPojo = Helper.convertInventoryFormToPojo(inventoryForm);</span>
+<span class="fc" id="L55">            inventoryPojo.setId(productPojo.getId());</span>
+<span class="fc" id="L56">            inventoryPojos.add(inventoryPojo);</span>
+<span class="fc" id="L57">        }</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if(!errors.isEmpty()){</span>
 <span class="nc" id="L59">            throw new ApiException(errors.toString());</span>
         }
-<span class="nc" id="L61">        inventoryService.addAll(inventoryPojos);</span>
+<span class="fc" id="L61">        inventoryService.addAll(inventoryPojos);</span>
 
 
-<span class="nc" id="L64">    }</span>
+<span class="fc" id="L64">    }</span>
 
 
     public InventoryData get(Integer id) throws ApiException {
-<span class="nc" id="L68">        InventoryPojo inventoryPojo  = getCheck(id);</span>
-<span class="nc" id="L69">        InventoryData inventoryData = Helper.convertInventoryPojoToData(inventoryPojo);</span>
-<span class="nc" id="L70">        inventoryData.setBarcode(productService.get(id).getBarcode());</span>
-<span class="nc" id="L71">        return inventoryData;</span>
+<span class="fc" id="L68">        InventoryPojo inventoryPojo  = getCheck(id);</span>
+<span class="fc" id="L69">        InventoryData inventoryData = Helper.convertInventoryPojoToData(inventoryPojo);</span>
+<span class="fc" id="L70">        inventoryData.setBarcode(productService.get(id).getBarcode());</span>
+<span class="fc" id="L71">        return inventoryData;</span>
     }
 
     public List&lt;InventoryData&gt; getAll() throws ApiException{
-<span class="nc" id="L75">        List&lt;InventoryPojo&gt; inventoryPojos = inventoryService.getAll();</span>
-<span class="nc" id="L76">        List&lt;InventoryData&gt; inventoryDatas = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L77" title="All 2 branches missed.">        for(InventoryPojo inventoryPojo : inventoryPojos){</span>
-<span class="nc" id="L78">            InventoryData inventoryData = Helper.convertInventoryPojoToData(inventoryPojo);</span>
-<span class="nc" id="L79">            inventoryData.setBarcode(productService.get(inventoryPojo.getId()).getBarcode());</span>
-<span class="nc" id="L80">            inventoryDatas.add(inventoryData);</span>
-<span class="nc" id="L81">        }</span>
-<span class="nc" id="L82">        return inventoryDatas;</span>
+<span class="fc" id="L75">        List&lt;InventoryPojo&gt; inventoryPojos = inventoryService.getAll();</span>
+<span class="fc" id="L76">        List&lt;InventoryData&gt; inventoryDatas = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        for(InventoryPojo inventoryPojo : inventoryPojos){</span>
+<span class="fc" id="L78">            InventoryData inventoryData = Helper.convertInventoryPojoToData(inventoryPojo);</span>
+<span class="fc" id="L79">            inventoryData.setBarcode(productService.get(inventoryPojo.getId()).getBarcode());</span>
+<span class="fc" id="L80">            inventoryDatas.add(inventoryData);</span>
+<span class="fc" id="L81">        }</span>
+<span class="fc" id="L82">        return inventoryDatas;</span>
     }
 
     public void update(Integer id, InventoryForm inventoryForm) throws ApiException {
-<span class="nc" id="L86">        Validate.validateInventoryForm(inventoryForm);</span>
-<span class="nc" id="L87">        InventoryPojo inventoryPojo = Helper.convertInventoryFormToPojo(inventoryForm);</span>
-<span class="nc" id="L88">        ProductPojo productPojo = productService.getProductPojoByBarcode(inventoryForm.getBarcode());</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">        if(productPojo==null){</span>
+<span class="fc" id="L86">        Validate.validateInventoryForm(inventoryForm);</span>
+<span class="fc" id="L87">        InventoryPojo inventoryPojo = Helper.convertInventoryFormToPojo(inventoryForm);</span>
+<span class="fc" id="L88">        ProductPojo productPojo = productService.getProductPojoByBarcode(inventoryForm.getBarcode());</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if(productPojo==null){</span>
 <span class="nc" id="L90">            throw new ApiException(&quot;No product exists with the given barcode!&quot;);</span>
         }
-<span class="nc" id="L92">        inventoryPojo.setId(productPojo.getId());</span>
-<span class="nc" id="L93">        inventoryService.update(id,inventoryPojo);</span>
-<span class="nc" id="L94">    }</span>
+<span class="fc" id="L92">        inventoryPojo.setId(productPojo.getId());</span>
+<span class="fc" id="L93">        inventoryService.update(id,inventoryPojo);</span>
+<span class="fc" id="L94">    }</span>
 
     private InventoryPojo getCheck(Integer id) throws ApiException {
-<span class="nc" id="L97">        InventoryPojo inventoryPojo = inventoryService.getInventoryPojoById(id);</span>
-<span class="nc bnc" id="L98" title="All 2 branches missed.">        if(inventoryPojo==null){</span>
+<span class="fc" id="L97">        InventoryPojo inventoryPojo = inventoryService.getInventoryPojoById(id);</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">        if(inventoryPojo==null){</span>
 <span class="nc" id="L99">            throw new ApiException(&quot;No inventory exists for the given product!&quot;);</span>
         }
-<span class="nc" id="L101">        return inventoryPojo;</span>
+<span class="fc" id="L101">        return inventoryPojo;</span>
     }
 
 

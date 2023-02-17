@@ -22,38 +22,36 @@ import java.util.List;
     @Autowired
     OrderItemService orderItemService;
 
-    @Scheduled(cron = &quot;01 00 00 * * *&quot;)
+    @Scheduled(cron = &quot;00 04 11 * * *&quot;)
     @Transactional(rollbackOn = ApiException.class)
     public void add() throws ApiException {
-        //TODO add minusdays(1) before delivering final code.
-<span class="nc" id="L29">        ZonedDateTime date = ZonedDateTime.now().minusDays(1);</span>
-<span class="nc" id="L30">        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&quot;);</span>
-<span class="nc" id="L31">        String currentDate = date.format(formatter);</span>
-<span class="nc" id="L32">        List&lt;OrderPojo&gt; orderPojos = orderService.getAllByDate(currentDate+&quot; 00:00:00&quot;,currentDate+&quot; 23:59:59&quot;);</span>
-<span class="nc" id="L33">        DailyReportPojo dailyReportPojo = new DailyReportPojo();</span>
-<span class="nc" id="L34">        dailyReportPojo.setDate(date); // Setting Date</span>
-<span class="nc" id="L35">        dailyReportPojo.setInvoiced_orders_count(orderPojos.size()); // Setting order count</span>
-<span class="nc" id="L36">        double revenue = 0.0;</span>
-<span class="nc" id="L37">        int itemCount = 0;</span>
+<span class="nc" id="L28">        ZonedDateTime date = ZonedDateTime.now().minusDays(1);</span>
+<span class="nc" id="L29">        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&quot;);</span>
+<span class="nc" id="L30">        String currentDate = date.format(formatter);</span>
+<span class="nc" id="L31">        List&lt;OrderPojo&gt; orderPojos = orderService.getAllByDate(currentDate+&quot; 00:00:00&quot;,currentDate+&quot; 23:59:59&quot;);</span>
+<span class="nc" id="L32">        DailyReportPojo dailyReportPojo = new DailyReportPojo();</span>
+<span class="nc" id="L33">        dailyReportPojo.setDate(date); // Setting Date</span>
+<span class="nc" id="L34">        dailyReportPojo.setInvoiced_orders_count(orderPojos.size()); // Setting order count</span>
+<span class="nc" id="L35">        double revenue = 0.0;</span>
+<span class="nc" id="L36">        int itemCount = 0;</span>
 
-<span class="nc bnc" id="L39" title="All 2 branches missed.">        for(OrderPojo orderPojo: orderPojos){</span>
-<span class="nc" id="L40">            List&lt;OrderItemPojo&gt; orderItemPojos = orderItemService.getAll(orderPojo.getId());</span>
-<span class="nc" id="L41">            itemCount += orderItemPojos.size();</span>
-            //TODO read about this
-<span class="nc" id="L43">            revenue += orderItemPojos.stream().mapToDouble(orderItemPojo -&gt; orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice()).sum();</span>
-<span class="nc" id="L44">        }</span>
-<span class="nc" id="L45">        dailyReportPojo.setInvoiced_items_count(itemCount);</span>
-<span class="nc" id="L46">        dailyReportPojo.setTotal_revenue(revenue);</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        for(OrderPojo orderPojo: orderPojos){</span>
+<span class="nc" id="L39">            List&lt;OrderItemPojo&gt; orderItemPojos = orderItemService.getAll(orderPojo.getId());</span>
+<span class="nc" id="L40">            itemCount += orderItemPojos.size();</span>
+<span class="nc" id="L41">            revenue += orderItemPojos.stream().mapToDouble(orderItemPojo -&gt; orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice()).sum();</span>
+<span class="nc" id="L42">        }</span>
+<span class="nc" id="L43">        dailyReportPojo.setInvoiced_items_count(itemCount);</span>
+<span class="nc" id="L44">        dailyReportPojo.setTotal_revenue(revenue);</span>
 
-<span class="nc" id="L48">        dao.insert(dailyReportPojo);</span>
-<span class="nc" id="L49">    }</span>
+<span class="nc" id="L46">        dao.insert(dailyReportPojo);</span>
+<span class="nc" id="L47">    }</span>
 
     public List&lt;DailyReportPojo&gt; getAll(){
-<span class="nc" id="L52">        return dao.selectAll();</span>
+<span class="nc" id="L50">        return dao.selectAll();</span>
     }
 
     public List&lt;DailyReportPojo&gt; getAllByDate(ZonedDateTime startDate, ZonedDateTime endDate){
-<span class="nc" id="L56">        return dao.selectAllByDate(startDate, endDate);</span>
+<span class="nc" id="L54">        return dao.selectAllByDate(startDate, endDate);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

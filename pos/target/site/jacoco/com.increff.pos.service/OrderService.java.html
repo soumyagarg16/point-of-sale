@@ -28,8 +28,8 @@ import org.springframework.web.client.RestTemplate;
     private OrderDao dao;
 
     public void add(OrderPojo p) throws ApiException {
-<span class="nc" id="L31">        dao.insert(p);</span>
-<span class="nc" id="L32">    }</span>
+<span class="fc" id="L31">        dao.insert(p);</span>
+<span class="fc" id="L32">    }</span>
 
     public void delete(Integer id) throws ApiException {
 <span class="nc" id="L35">        getCheck(id);</span>
@@ -37,32 +37,23 @@ import org.springframework.web.client.RestTemplate;
 <span class="nc" id="L37">    }</span>
 
     public OrderPojo get(Integer id) throws ApiException {
-<span class="nc" id="L40">        return getCheck(id);</span>
-    }
-
-    //TODO check its usage
-    public Integer get(String time) throws ApiException {
-<span class="nc" id="L45">        OrderPojo p = dao.select(time);</span>
-<span class="nc bnc" id="L46" title="All 2 branches missed.">        if(p==null){</span>
-<span class="nc" id="L47">            throw new ApiException(&quot;No order exists in the given time.&quot;);</span>
-        }
-<span class="nc" id="L49">        return p.getId();</span>
+<span class="fc" id="L40">        return getCheck(id);</span>
     }
 
     public List&lt;OrderPojo&gt; getAllByDate(String startDate, String endDate){
-<span class="nc" id="L53">        return dao.selectAllByDate(startDate,endDate);</span>
+<span class="nc" id="L44">        return dao.selectAllByDate(startDate,endDate);</span>
     }
 
     public List&lt;OrderPojo&gt; getAll() {
-<span class="nc" id="L57">        return dao.selectAll();</span>
+<span class="fc" id="L48">        return dao.selectAll();</span>
     }
 
     private OrderPojo getCheck(Integer id) throws ApiException {
-<span class="nc" id="L61">        OrderPojo orderPojo = dao.select(id);</span>
-<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (orderPojo == null) {</span>
-<span class="nc" id="L63">            throw new ApiException(&quot;No order exists with the given id &quot; + id);</span>
+<span class="fc" id="L52">        OrderPojo orderPojo = dao.select(id);</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if (orderPojo == null) {</span>
+<span class="nc" id="L54">            throw new ApiException(&quot;No order exists with the given id &quot; + id);</span>
         }
-<span class="nc" id="L65">        return orderPojo;</span>
+<span class="fc" id="L56">        return orderPojo;</span>
     }
 
 

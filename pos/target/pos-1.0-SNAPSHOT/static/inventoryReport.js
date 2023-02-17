@@ -119,6 +119,7 @@ function init(){
     getAll();
     $('.active').removeClass('active');
     $('#navbarDropdown').addClass('active');
+    setActive();
 }
 
 $(document).ready(init);

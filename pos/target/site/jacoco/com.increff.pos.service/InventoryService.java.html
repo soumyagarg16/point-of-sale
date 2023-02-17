@@ -19,43 +19,43 @@ import com.increff.pos.pojo.InventoryPojo;
 
     @Transactional(rollbackOn = ApiException.class)
     public void add(InventoryPojo inventoryPojo) throws ApiException {
-<span class="nc" id="L22">        InventoryPojo existingPojo = getInventoryPojoById(inventoryPojo.getId());</span>
-<span class="nc bnc" id="L23" title="All 2 branches missed.">        if(existingPojo==null){</span>
-<span class="nc" id="L24">            dao.insert(inventoryPojo);</span>
+<span class="fc" id="L22">        InventoryPojo existingPojo = getInventoryPojoById(inventoryPojo.getId());</span>
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">        if(existingPojo==null){</span>
+<span class="fc" id="L24">            dao.insert(inventoryPojo);</span>
        }
        else{
 <span class="nc" id="L27">           existingPojo.setQuantity(inventoryPojo.getQuantity()+existingPojo.getQuantity());</span>
        }
-<span class="nc" id="L29">    }</span>
+<span class="fc" id="L29">    }</span>
 
     @Transactional(rollbackOn = ApiException.class)
     public void addAll(List&lt;InventoryPojo&gt; inventoryPojos) throws ApiException{
-<span class="nc bnc" id="L33" title="All 2 branches missed.">        for(InventoryPojo inventoryPojo: inventoryPojos){</span>
-<span class="nc" id="L34">            add(inventoryPojo);</span>
-<span class="nc" id="L35">        }</span>
-<span class="nc" id="L36">    }</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        for(InventoryPojo inventoryPojo: inventoryPojos){</span>
+<span class="fc" id="L34">            add(inventoryPojo);</span>
+<span class="fc" id="L35">        }</span>
+<span class="fc" id="L36">    }</span>
 
     public InventoryPojo getInventoryPojoById(Integer id){
-<span class="nc" id="L39">        return dao.select(id);</span>
+<span class="fc" id="L39">        return dao.select(id);</span>
     }
 
     public List&lt;InventoryPojo&gt; getAll() {
-<span class="nc" id="L43">        return dao.selectAll();</span>
+<span class="fc" id="L43">        return dao.selectAll();</span>
     }
 
     @Transactional(rollbackOn = ApiException.class)
     public void update(Integer id, InventoryPojo inventoryPojo) throws ApiException {
-<span class="nc" id="L48">        InventoryPojo existingPojo = getCheck(id);</span>
-<span class="nc" id="L49">        existingPojo.setQuantity(inventoryPojo.getQuantity());</span>
+<span class="fc" id="L48">        InventoryPojo existingPojo = getCheck(id);</span>
+<span class="fc" id="L49">        existingPojo.setQuantity(inventoryPojo.getQuantity());</span>
 
-<span class="nc" id="L51">    }</span>
+<span class="fc" id="L51">    }</span>
 
     public InventoryPojo getCheck(Integer id) throws ApiException {
-<span class="nc" id="L54">        InventoryPojo inventoryPojo = dao.select(id);</span>
-<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (inventoryPojo == null) {</span>
+<span class="fc" id="L54">        InventoryPojo inventoryPojo = dao.select(id);</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if (inventoryPojo == null) {</span>
 <span class="nc" id="L56">            throw new ApiException(&quot;No Inventory exists with the given id&quot;);</span>
         }
-<span class="nc" id="L58">        return inventoryPojo;</span>
+<span class="fc" id="L58">        return inventoryPojo;</span>
     }
 
 

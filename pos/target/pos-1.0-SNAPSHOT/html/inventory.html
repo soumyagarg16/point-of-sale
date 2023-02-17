@@ -9,11 +9,12 @@
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
 
 <div class="container">
+    <br>
     <div>
         <h1>Inventory</h1>
         <br>
-        <button type="button" class="btn btn-success" id="create-inventory" style="margin-right:10px">Add Inventory</button>
-        <button type="button" class="btn btn-info" id="upload-data">Upload</button>
+        <button type="button" class="btn btn-success" id="create-inventory" style="margin-right:10px"><i class="fa-solid fa-plus" style="margin-right:8px"></i>Add Inventory</button>
+        <button type="button" class="btn btn-info" id="upload-data"><i class="fa-solid fa-upload" style="margin-right:8px"></i>Upload</button>
     </div>
 
 <!--   Inventory add modal-->
@@ -137,9 +138,9 @@
                 </div>
 
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-info" id="process-data">Upload</button>
-                    <button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
                 </div>
             </div>
         </div>

@@ -39,9 +39,9 @@ import org.springframework.stereotype.Repository;
 <span class="nc" id="L39">    }</span>
 
     public BrandPojo select(Integer id) {
-<span class="nc" id="L42">        TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ID, BrandPojo.class);</span>
-<span class="nc" id="L43">        query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L44">        return getSingle(query);</span>
+<span class="fc" id="L42">        TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ID, BrandPojo.class);</span>
+<span class="fc" id="L43">        query.setParameter(&quot;id&quot;, id);</span>
+<span class="fc" id="L44">        return getSingle(query);</span>
     }
     public BrandPojo select(String brand, String category){
 <span class="fc" id="L47">        TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_BY_BRAND_CATEGORY,BrandPojo.class);</span>
@@ -75,8 +75,8 @@ import org.springframework.stereotype.Repository;
     }
 
     public List&lt;BrandPojo&gt; selectAll() {
-<span class="nc" id="L78">        TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ALL, BrandPojo.class);</span>
-<span class="nc" id="L79">        return query.getResultList();</span>
+<span class="fc" id="L78">        TypedQuery&lt;BrandPojo&gt; query = getQuery(SELECT_ALL, BrandPojo.class);</span>
+<span class="fc" id="L79">        return query.getResultList();</span>
     }
 
 

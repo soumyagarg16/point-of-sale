@@ -27,8 +27,8 @@ import org.springframework.stereotype.Repository;
 
     @Transactional
     public void insert(OrderPojo p) {
-<span class="nc" id="L30">        em.persist(p);</span>
-<span class="nc" id="L31">    }</span>
+<span class="fc" id="L30">        em.persist(p);</span>
+<span class="fc" id="L31">    }</span>
 
     public void delete(Integer id) {
 <span class="nc" id="L34">        Query query = em.createQuery(DELETE_ID);</span>
@@ -43,13 +43,13 @@ import org.springframework.stereotype.Repository;
     }
 
     public OrderPojo select(Integer id) {
-<span class="nc" id="L46">        TypedQuery&lt;OrderPojo&gt; query = getQuery(SELECT_BY_ID, OrderPojo.class);</span>
-<span class="nc" id="L47">        query.setParameter(&quot;id&quot;, id);</span>
-<span class="nc" id="L48">        return getSingle(query);</span>
+<span class="fc" id="L46">        TypedQuery&lt;OrderPojo&gt; query = getQuery(SELECT_BY_ID, OrderPojo.class);</span>
+<span class="fc" id="L47">        query.setParameter(&quot;id&quot;, id);</span>
+<span class="fc" id="L48">        return getSingle(query);</span>
     }
     public List&lt;OrderPojo&gt; selectAll(){
-<span class="nc" id="L51">        TypedQuery&lt;OrderPojo&gt; query = getQuery(SELECT_ALL, OrderPojo.class);</span>
-<span class="nc" id="L52">        return query.getResultList();</span>
+<span class="fc" id="L51">        TypedQuery&lt;OrderPojo&gt; query = getQuery(SELECT_ALL, OrderPojo.class);</span>
+<span class="fc" id="L52">        return query.getResultList();</span>
     }
 
     public List&lt;OrderPojo&gt; selectAllByDate(String startDate, String endDate) {
