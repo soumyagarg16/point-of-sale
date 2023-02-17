@@ -33,7 +33,7 @@ public class BrandDto {
 
         List<String> errors = Validate.validateBrandForms(brandForms);
         if(!errors.isEmpty()){
-            throw new ApiException(errors.toString());
+            throw new ApiException(Helper.convertListToString(errors));
         }
 
         List<BrandPojo> brandPojos = new ArrayList<>();

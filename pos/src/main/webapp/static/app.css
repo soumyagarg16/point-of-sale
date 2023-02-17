@@ -54,6 +54,10 @@ nav{
     transition: all 0.4s ease-in-out;
 }
 .nav-link:hover:before {
+    color:white;
     visibility: visible;
     transform: scaleX(0.8);
+}
+.nav-link:hover {
+    color:white;
 }

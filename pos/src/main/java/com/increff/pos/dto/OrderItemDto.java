@@ -124,7 +124,7 @@ public class OrderItemDto {
     }
 
     //Existing product and inventory check
-    private OrderItemPojo addOrderItem(OrderItemForm orderItemForm, List<String> errors) throws ApiException{
+    private OrderItemPojo addOrderItem(OrderItemForm orderItemForm, List<String> errors){
         OrderItemPojo orderItemPojo = Helper.convertOrderItemFormToPojo(orderItemForm);
         ProductPojo productPojo = productService.getProductPojoByBarcode(orderItemForm.getBarcode());
         if(productPojo==null){

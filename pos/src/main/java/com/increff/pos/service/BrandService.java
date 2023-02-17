@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import com.increff.pos.model.BrandForm;
+import com.increff.pos.util.Helper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +42,7 @@ public class BrandService {
             count++;
         }
         if(!errors.isEmpty()){
-            throw new ApiException(errors.toString());
+            throw new ApiException(Helper.convertListToString(errors));
         }
         for(BrandPojo brandPojo: brandPojos){
             dao.insert(brandPojo);

@@ -2,10 +2,10 @@ package com.increff.pos.util;
 
 import com.increff.pos.model.BrandForm;
 import com.increff.pos.model.InventoryForm;
+import com.increff.pos.model.OrderItemForm;
 import com.increff.pos.model.ProductForm;
-import com.increff.pos.pojo.BrandPojo;
-import com.increff.pos.pojo.InventoryPojo;
-import com.increff.pos.pojo.ProductPojo;
+import com.increff.pos.pojo.*;
+import org.junit.jupiter.api.Order;
 
 public class TestHelper {
     public static BrandForm createBrandForm(String brand, String category){
@@ -51,4 +51,28 @@ public class TestHelper {
         inventoryPojo.setQuantity(quantity);
         return inventoryPojo;
     }
+
+    public static OrderItemForm createOrderItemForm(String barcode, Integer quantity, Double sellingPrice){
+        OrderItemForm orderItemForm = new OrderItemForm();
+        orderItemForm.setBarcode(barcode);
+        orderItemForm.setQuantity(quantity);
+        orderItemForm.setSellingPrice(sellingPrice);
+        return orderItemForm;
+    }
+    public static OrderItemPojo createOrderItemPojo(Integer orderId,Integer productId, Integer quantity, Double sellingPrice){
+        OrderItemPojo orderItemPojo = new OrderItemPojo();
+        orderItemPojo.setOrderId(orderId);
+        orderItemPojo.setProductId(productId);
+        orderItemPojo.setQuantity(quantity);
+        orderItemPojo.setSellingPrice(sellingPrice);
+        return orderItemPojo;
+    }
+
+    public static OrderPojo createOrderPojo(String time){
+        OrderPojo orderPojo = new OrderPojo();
+        orderPojo.setTime(time);
+        orderPojo.setIsInvoiceGenerated(0);
+        return orderPojo;
+    }
+
 }

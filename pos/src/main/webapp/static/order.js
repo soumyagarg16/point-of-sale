@@ -103,6 +103,9 @@ function checkValidItem(entry){
     else if(entry.quantity==""){
         msg = "Quantity cannot be empty!";
     }
+    else if(entry.quantity=="0"){
+        msg = "Quantity cannot be 0!";
+    }
     else if(entry.sellingPrice==""){
             msg = "Price cannot be empty!";
     }
@@ -256,7 +259,7 @@ function generateInvoice(id){
        url: url,
        type: 'GET',
        success: function(response) {
-            toastr.success("Invoice download successfully!");
+            toastr.success("Invoice downloaded successfully!");
             const link = document.createElement("a");
             link.href = "data:application/pdf;base64," + response;
             link.download = "invoice_" + id + ".pdf";
@@ -278,14 +281,14 @@ function displayOrderList(data){
 	let count = 1;
 	for(var i in data){
 		var singleEntry = data[i];
-		var buttonHtml = '<button class="btn btn-primary" onclick="getOrderItemList(' + singleEntry.id + ')" style = "margin-right:8px"><i class="fa-solid fa-eye"></i></button>';
+		var buttonHtml = '<button class="btn btn-primary" onclick="getOrderItemList(' + singleEntry.id + ')" style = "margin-right:8px"><i class="fa-solid fa-eye" style = "margin-right:8px;"></i>View</button>';
 		if(singleEntry.isInvoiceGenerated==1){
-		    buttonHtml += '<button class="btn btn-success" onclick="generateInvoice(' + singleEntry.id + ')" disabled style = "margin-right:8px">Generate Invoice<i class="fa-solid fa-file" style = "margin-left:5px"></i></button>';
-        	buttonHtml += '<button class="btn btn-warning" onclick="generateInvoice(' + singleEntry.id + ')">Download Invoice<i class="fa-solid fa-download" style = "margin-left:5px"></i></button>';
+		    buttonHtml += '<button class="btn btn-success" onclick="generateInvoice(' + singleEntry.id + ')" disabled style = "margin-right:8px"><i class="fa-solid fa-file" style = "margin-right:8px"></i>Generate Invoice</button>';
+        	buttonHtml += '<button class="btn btn-warning" onclick="generateInvoice(' + singleEntry.id + ')"><i class="fa-solid fa-download" style = "margin-right:8px"></i>Download Invoice</button>';
 		}
 		else{
-		    buttonHtml += '<button class="btn btn-success" onclick="generateInvoice(' + singleEntry.id + ')" style = "margin-right:8px">Generate Invoice<i class="fa-solid fa-file" style = "margin-left:5px"></i></button>';
-        	buttonHtml += '<button class="btn btn-warning" onclick="generateInvoice(' + singleEntry.id + ')" disabled>Download Invoice<i class="fa-solid fa-download" style = "margin-left:5px"></i></button>';
+		    buttonHtml += '<button class="btn btn-success" onclick="generateInvoice(' + singleEntry.id + ')" style = "margin-right:8px"><i class="fa-solid fa-file" style = "margin-right:8px"></i>Generate Invoice</button>';
+        	buttonHtml += '<button class="btn btn-warning" onclick="generateInvoice(' + singleEntry.id + ')" disabled><i class="fa-solid fa-download" style = "margin-right:8px"></i>Download Invoice</button>';
 		}
 		var row = '<tr>'
 		+ '<td>' + count + '</td>'

@@ -31,7 +31,7 @@ function readFileData(file, callback){
 		skipEmptyLines: "greedy",
 		complete: function(results) {
 			callback(results);
-	  	}	
+	  	}
 	}
 	Papa.parse(file, config);
 }
@@ -43,7 +43,7 @@ function writeFileData(arr){
 		escapeChar: '',
 		delimiter: "\t"
 	};
-	
+
 	var data = Papa.unparse(arr, config);
     var blob = new Blob([data], {type: 'text/tsv;charset=utf-8;'});
     var fileUrl =  null;
@@ -55,7 +55,7 @@ function writeFileData(arr){
     var tempLink = document.createElement('a');
     tempLink.href = fileUrl;
     tempLink.setAttribute('download', 'download.tsv');
-    tempLink.click(); 
+    tempLink.click();
 }
 
 function setActive(){
@@ -75,3 +75,7 @@ function setActive(){
        link.style.borderBottom = "3px solid #ffffff";
     }
 }
+
+
+
+

@@ -130,6 +130,14 @@ public class Helper {
         return inventoryReportData;
     }
 
+    public static String convertListToString(List<String> errors){
+        String result = "";
+        for(String error: errors){
+            result+=error;
+            result+='\n';
+        }
+        return result;
+    }
 
 
 }
