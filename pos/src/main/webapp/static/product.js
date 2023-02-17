@@ -141,9 +141,6 @@ function readFileDataCallback(results){
 }
 
 function downloadErrors(){
-    errorData = errorData.replaceAll(",","\n");
-    errorData = errorData.replace("["," ");
-    errorData = errorData.slice(0,-1);
     var element = document.createElement('a');
     element.setAttribute('href','data:text/plain;charset=utf-8,' + encodeURIComponent(errorData));
     element.setAttribute('download',"product_errors.txt");
