@@ -27,7 +27,11 @@ function addRole(){
        	'Content-Type': 'application/json'
        },	   
 	   success: function(response) {
-	        toastr.success("Role added successfully!")
+	        toastr.success("Role added successfully!");
+	        $("#inputEmail").val("");
+	        $("#inputPassword").val("");
+	        $("#inputRole").val("");
+	        createRole();
 	   		getUserList();    
 	   },
 	   error: function(response){
@@ -92,7 +96,7 @@ function displayUserList(data){
         $tbody.append(row);
         count = count +1;
 	}
-	roleDataTable = ('#role-table').DataTable({
+	roleDataTable = $('#role-table').DataTable({
             scrollY: '45vh',
             scrollCollapse: false,
             ordering: false,

@@ -18,7 +18,13 @@ public class UserService {
 
 	@Transactional
 	public void add(UserPojo userPojo) throws ApiException {
-		dao.insert(userPojo);
+		UserPojo existing = dao.select(userPojo.getEmail());
+		if(existing==null){
+			dao.insert(userPojo);
+		}
+		else{
+			throw new ApiException("Email already registered!");
+		}
 	}
 
 	@Transactional(rollbackOn = ApiException.class)
