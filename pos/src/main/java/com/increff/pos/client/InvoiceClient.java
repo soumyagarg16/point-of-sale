@@ -8,5 +8,6 @@ public class InvoiceClient {
     @Autowired
     private RestTemplate restTemplate;
 
+    public String
 
 }

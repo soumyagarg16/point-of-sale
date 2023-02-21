@@ -18,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,6 +32,7 @@ import com.increff.pos.service.AdminService;
 import io.swagger.annotations.ApiOperation;
 
 @Controller
+@RequestMapping("/session")
 public class LoginController {
 
 	@Autowired
@@ -39,7 +41,7 @@ public class LoginController {
 	private InfoData info;
 	
 	@ApiOperation(value = "Logs in a user")
-	@RequestMapping(path = "/session/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	@RequestMapping(path = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView login(HttpServletRequest req, LoginForm loginForm) throws ApiException {
 		UserPojo userPojo = service.get(loginForm.getEmail());
 		if (userPojo == null) {
@@ -65,7 +67,7 @@ public class LoginController {
 	}
 
 	@ApiOperation(value = "SignUp a user")
-	@RequestMapping(path = "/session/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	@RequestMapping(path = "/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView signup(HttpServletRequest req, SignupForm signupForm) throws ApiException {
 		info.setMessage(Validate.validateSignupForm(signupForm));
 		if(info.getMessage()!=""){

@@ -98,7 +98,7 @@ public class OrderItemDto {
         //todo exchange method
         try{
             RestTemplate restTemplate = new RestTemplate();
-            invoice = restTemplate.postForEntity("http://localhost:8000/fop/api/pdf", invoiceData, String.class).getBody();
+            Response = restTemplate.postForEntity("http://localhost:8000/fop/api/pdf", invoiceData, String.class).getBody();
         } catch (Exception e){
             throw new ApiException("Unable to create invoice at this moment!");
         }

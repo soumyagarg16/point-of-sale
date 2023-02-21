@@ -22,29 +22,28 @@ import com.increff.pos.service.ApiException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-//todo use common request mapping here(api/admin)
 @Api
 @RestController
+@RequestMapping("/api/admin/user")
 public class AdminApiController {
 
-	//todo remove service from here, use dto
 	@Autowired
 	private AdminDto dto;
 
 	@ApiOperation(value = "Adds a user")
-	@RequestMapping(path = "/api/admin/user", method = RequestMethod.POST)
+	@RequestMapping(path = "", method = RequestMethod.POST)
 	public void addUser(@RequestBody UserForm userForm) throws ApiException {
 		dto.add(userForm);
 	}
 
 	@ApiOperation(value = "Deletes a user")
-	@RequestMapping(path = "/api/admin/user/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
 	public void deleteUser(@PathVariable int id) {
 		dto.delete(id);
 	}
 
 	@ApiOperation(value = "Gets list of all users")
-	@RequestMapping(path = "/api/admin/user", method = RequestMethod.GET)
+	@RequestMapping(path = "", method = RequestMethod.GET)
 	public List<UserData> getAllUser() {
 		return dto.getAll();
 	}
