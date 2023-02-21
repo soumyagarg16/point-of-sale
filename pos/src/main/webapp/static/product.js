@@ -18,6 +18,16 @@ function addProduct(event){
 	var json = toJson($form);
 	//console.log(json);
 	var url = getProductUrl();
+    var msg = isValid(json);
+    if(msg!=""){
+        console.log("frontend check!");
+        toastr.error(msg, "Error: ", {
+            "closeButton": true,
+            "timeOut": "0",
+            "extendedTimeOut": "0"
+        });
+        return;
+    }
 
 	$.ajax({
 	   url: url,
@@ -42,6 +52,33 @@ function addProduct(event){
 	});
 }
 
+function isValid(json){
+    var json = JSON.parse(json);
+    var msg = "";
+    if(json.brand==""){
+        msg = "Brand cannot be empty";
+    }
+    else if(json.category==""){
+        msg = "Category cannot be empty";
+    }
+    else if(json.barcode==""){
+        msg = "Barcode cannot be empty";
+    }
+    else if(json.name==""){
+        msg = "Product name cannot be empty";
+    }
+    else if(json.mrp==""){
+        msg = "Mrp cannot be empty";
+    }
+    else if(json.mrp<=0){
+        msg = "Mrp cannot be less than or equal to 0";
+    }
+    else if(json.mrp>10000000){
+        msg = "Mrp cannot exceed 10000000";
+    }
+    return msg;
+}
+
 function updateProduct(event){
 	//Get the ID
 	var id = $("#product-edit-form input[name=id]").val();
@@ -50,6 +87,15 @@ function updateProduct(event){
 	//Set the values to update
 	var $form = $("#product-edit-form");
 	var json = toJson($form);
+    var msg = isValid(json);
+        if(msg!=""){
+            toastr.error(msg, "Error: ", {
+                "closeButton": true,
+                "timeOut": "0",
+                "extendedTimeOut": "0"
+            });
+            return;
+        }
 
 	$.ajax({
 	   url: url,
@@ -113,8 +159,18 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results.data;
-    	var json = JSON.stringify(fileData);
-    	var url = getProductUrl()+'s';
+	var row = fileData[0];
+    var title = Object.keys(row);
+    if(title.length!=5 || title[0]!='brand' || title[1]!='category' || title[2]!='barcode' || title[3]!='name' || title[4]!='mrp'){
+      toastr.error("Incorrect tsv format", "Error: ", {
+           "closeButton": true,
+           "timeOut": "0",
+           "extendedTimeOut": "0"
+       });
+      return;
+    }
+    var json = JSON.stringify(fileData);
+    var url = getProductUrl()+'s';
         //Make ajax call
         $.ajax({
            url: url,

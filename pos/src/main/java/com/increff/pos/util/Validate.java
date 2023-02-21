@@ -13,22 +13,25 @@ import java.util.regex.Pattern;
 public class Validate {
     public static void validateProductForm(ProductForm productForm) throws ApiException{
         if(StringUtil.isEmpty(productForm.getBrand())){
-            throw new ApiException("Brand cannot be empty!");
+            throw new ApiException("Brand cannot be empty");
         }
         if(StringUtil.isEmpty(productForm.getCategory())){
-            throw new ApiException("Category cannot be empty!");
+            throw new ApiException("Category cannot be empty");
         }
         if(StringUtil.isEmpty(productForm.getBarcode())){
-            throw new ApiException("Barcode cannot be empty!");
+            throw new ApiException("Barcode cannot be empty");
         }
         if(StringUtil.isEmpty(productForm.getName())){
-            throw new ApiException("Product Name cannot be empty!");
+            throw new ApiException("Product Name cannot be empty");
         }
         if(productForm.getMrp()==null){
-            throw new ApiException("Mrp cannot be empty!");
+            throw new ApiException("Mrp cannot be empty");
         }
-        if(productForm.getMrp()<0){
-            throw new ApiException("Mrp cannot be negative!");
+        if(productForm.getMrp()<=0){
+            throw new ApiException("Mrp cannot be less than or equal to 0");
+        }
+        if(productForm.getMrp()>=10000000){
+            throw new ApiException("Mrp cannot exceed 10000000");
         }
         Normalize.normalize(productForm);
         Normalize.normalizeDouble(productForm);
@@ -72,13 +75,16 @@ public class Validate {
 
     public static void validateInventoryForm(InventoryForm inventoryForm) throws ApiException{
         if(StringUtil.isEmpty(inventoryForm.getBarcode())){
-            throw new ApiException("Barcode cannot be empty!");
+            throw new ApiException("Barcode cannot be empty");
         }
         if(inventoryForm.getQuantity()==null){
-            throw new ApiException("Quantity field cannot be empty!");
+            throw new ApiException("Quantity cannot be empty");
         }
         if(inventoryForm.getQuantity()<0){
-            throw new ApiException("Quantity cannot be negative!");
+            throw new ApiException("Quantity cannot be negative");
+        }
+        if(inventoryForm.getQuantity()>10000000){
+            throw new ApiException("Quantity cannot exceed 10000000");
         }
     }
     public static List<String> validateInventoryForms(List<InventoryForm> inventoryForms) throws ApiException{
@@ -112,13 +118,12 @@ public class Validate {
         if(StringUtil.isEmpty(brandForm.getCategory())) {
             throw new ApiException("Category cannot be empty");
         }
-
     }
 
     public static List<String> validateBrandForms(List<BrandForm> brandForms) throws ApiException{
         List<String> errors = new ArrayList<>();
         Set<String> set = new HashSet<String>();
-        Integer count = 1;
+        int count = 1;
         for(BrandForm brandForm: brandForms){
             Normalize.normalize(brandForm);
             if(StringUtil.isEmpty(brandForm.getBrand())){

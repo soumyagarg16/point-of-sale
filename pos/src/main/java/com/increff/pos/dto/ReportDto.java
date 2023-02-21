@@ -6,6 +6,7 @@ import com.increff.pos.service.*;
 import com.increff.pos.util.Helper;
 import com.increff.pos.util.Normalize;
 import com.increff.pos.util.Validate;
+import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -98,13 +99,6 @@ public class ReportDto {
         List<DailyReportPojo> dailyReportPojos = dailyReportService.getAllByDate(start,end);
         if(dailyReportPojos==null){
             throw new ApiException("No items were sold in the given date range!");
-        }
-        return Helper.convertDailyReportPojosToDatas(dailyReportPojos);
-    }
-    public List<DailyReportData> getAllDailyReport() throws ApiException {
-        List<DailyReportPojo> dailyReportPojos = dailyReportService.getAll();
-        if(dailyReportPojos==null){
-            throw new ApiException("No sales made yet :(");
         }
         return Helper.convertDailyReportPojosToDatas(dailyReportPojos);
     }

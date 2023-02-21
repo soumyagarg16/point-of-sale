@@ -3,7 +3,6 @@ package com.increff.pos.dto;
 import com.increff.pos.AbstractUnitTest;
 import com.increff.pos.controller.OrderApiController;
 import com.increff.pos.dao.*;
-import com.increff.pos.model.InventoryForm;
 import com.increff.pos.model.OrderData;
 import com.increff.pos.model.OrderItemData;
 import com.increff.pos.model.OrderItemForm;
@@ -108,6 +107,5 @@ public class OrderControllerTest extends AbstractUnitTest {
         assertEquals(3,orderDataList.size());
 
     }
-    //TODO how to do generate invoice testing
 
 }

@@ -44,12 +44,4 @@ public class OrderApiController {
     public String generateInvoice(@PathVariable Integer orderId) throws ApiException, IOException {
         return dto.generateInvoice(orderId);
     }
-
-
-
-
-
-
-
-
 }

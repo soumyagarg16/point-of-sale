@@ -32,6 +32,7 @@ com\increff\pos\service\ProductService.class
 com\increff\pos\controller\AppUiController.class
 com\increff\pos\dao\ProductDao.class
 com\increff\pos\model\MessageData.class
+com\increff\pos\service\AdminService.class
 com\increff\pos\controller\ProductApiController.class
 com\increff\pos\model\SalesReportForm.class
 com\increff\pos\controller\LoginController.class
@@ -39,6 +40,7 @@ com\increff\pos\controller\InventoryApiController.class
 com\increff\pos\model\InfoData.class
 com\increff\pos\model\ProductForm.class
 com\increff\pos\dao\AbstractDao.class
+com\increff\pos\dto\AdminDto.class
 com\increff\pos\util\Validate.class
 com\increff\pos\pojo\DailyReportPojo.class
 com\increff\pos\util\StringUtil.class
@@ -57,7 +59,6 @@ com\increff\pos\dto\BrandDto.class
 com\increff\pos\pojo\OrderPojo.class
 com\increff\pos\controller\SampleController.class
 com\increff\pos\controller\SiteUiController.class
-com\increff\pos\service\UserService.class
 com\increff\pos\dao\DailyReportDao.class
 com\increff\pos\pojo\UserPojo.class
 com\increff\pos\controller\BrandApiController.class

@@ -24,7 +24,11 @@ public class InventoryService {
             dao.insert(inventoryPojo);
        }
        else{
-           existingPojo.setQuantity(inventoryPojo.getQuantity()+existingPojo.getQuantity());
+           Integer qty = inventoryPojo.getQuantity()+existingPojo.getQuantity();
+           if(qty>10000000){
+               throw new ApiException("Quantity cannot exceed 10000000");
+           }
+           existingPojo.setQuantity(qty);
        }
     }
 

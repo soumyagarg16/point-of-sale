@@ -17,6 +17,15 @@ function addInventory(event){
 	console.log(json);
     //$form.reportValidity();
 	var url = getInventoryUrl();
+    var msg = isValid(json);
+        if(msg!=""){
+            toastr.error(msg, "Error: ", {
+                "closeButton": true,
+                "timeOut": "0",
+                "extendedTimeOut": "0"
+            });
+            return;
+        }
 
 	$.ajax({
 	   url: url,
@@ -38,6 +47,24 @@ function addInventory(event){
 	});
 }
 
+function isValid(json){
+    var json = JSON.parse(json);
+    var msg = "";
+    if(json.barcode==""){
+        msg = "Barcode cannot be empty";
+    }
+    else if(json.quantity==""){
+        msg = "Quantity cannot be empty";
+    }
+    else if(json.quantity<0){
+            msg = "Quantity cannot be negative";
+    }
+    else if(json.quantity>10000000){
+            msg = "Quantity cannot exceed 10000000";
+    }
+    return msg;
+}
+
 function updateInventory(event){
 	//Get the ID
 	var id = $("#inventory-edit-form input[name=id]").val();
@@ -46,6 +73,15 @@ function updateInventory(event){
 	//Set the values to update
 	var $form = $("#inventory-edit-form");
 	var json = toJson($form);
+    var msg = isValid(json);
+        if(msg!=""){
+            toastr.error(msg, "Error: ", {
+                "closeButton": true,
+                "timeOut": "0",
+                "extendedTimeOut": "0"
+            });
+            return;
+        }
 
 	$.ajax({
 	   url: url,
@@ -92,6 +128,16 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results.data;
+	var row = fileData[0];
+    var title = Object.keys(row);
+    if(title.length!=2 || title[0]!='barcode' || title[1]!='quantity'){
+      toastr.error("Incorrect tsv format", "Error: ", {
+           "closeButton": true,
+           "timeOut": "0",
+           "extendedTimeOut": "0"
+       });
+      return;
+    }
     var json = JSON.stringify(fileData);
     var url = getInventoryUrl()+'s';
     console.log("here");
@@ -160,7 +206,7 @@ function displayEditInventory(id){
 	   success: function(data) {
 	   		displayInventory(data);
 	   },
-	   error: handleAjaxError(data)
+	   error: handleAjaxError
 	});
 }
 

@@ -14,9 +14,7 @@ function toJson($form){
 
 
 function handleAjaxError(response){
-    console.log(response);
 	var response = JSON.parse(response.responseText);
-	console.log(response);
 	toastr.error(response.message, "Error: ", {
 	    "closeButton": true,
 	    "timeOut": "0",
@@ -62,7 +60,6 @@ function setActive(){
     var navLinks = document.querySelectorAll('.nav-link');
     var currentURL = window.location.href;
     var list = ["http://localhost:9000/pos/ui/brandReport", "http://localhost:9000/pos/ui/inventoryReport", "http://localhost:9000/pos/ui/salesReport", "http://localhost:9000/pos/ui/dailyReport"];
-    console.log(currentURL);
     for (var i = 0; i < navLinks.length; i++) {
       var link = navLinks[i];
       if (link.href === currentURL) {

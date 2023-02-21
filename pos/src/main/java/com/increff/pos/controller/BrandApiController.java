@@ -16,7 +16,7 @@ import com.increff.pos.service.ApiException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
+//todo use common mapping here
 @Api
 @RestController
 public class BrandApiController {

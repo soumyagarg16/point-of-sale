@@ -1,11 +1,10 @@
 package com.increff.pos.util;
 
-import com.increff.pos.model.BrandForm;
-import com.increff.pos.model.InventoryForm;
-import com.increff.pos.model.OrderItemForm;
-import com.increff.pos.model.ProductForm;
+import com.increff.pos.model.*;
 import com.increff.pos.pojo.*;
 import org.junit.jupiter.api.Order;
+
+import java.time.ZonedDateTime;
 
 public class TestHelper {
     public static BrandForm createBrandForm(String brand, String category){
@@ -73,6 +72,31 @@ public class TestHelper {
         orderPojo.setTime(time);
         orderPojo.setIsInvoiceGenerated(0);
         return orderPojo;
+    }
+
+    public static SalesReportForm createSalesReportForm(String brand, String category, String startDate, String endDate){
+        SalesReportForm salesReportForm = new SalesReportForm();
+        salesReportForm.setBrand(brand);
+        salesReportForm.setCategory(category);
+        salesReportForm.setStartDate(startDate);
+        salesReportForm.setEndDate(endDate);
+        return salesReportForm;
+    }
+
+    public static DailyReportForm createDailyReportForm(String startDate, String endDate){
+        DailyReportForm dailyReportForm = new DailyReportForm();
+        dailyReportForm.setStartDate(startDate);
+        dailyReportForm.setEndDate(endDate);
+        return dailyReportForm;
+    }
+
+    public static DailyReportPojo createDailyReportPojo(ZonedDateTime dt, Integer orderCount, Integer itemCount, Double rev){
+        DailyReportPojo dailyReportPojo = new DailyReportPojo();
+        dailyReportPojo.setDate(dt);
+        dailyReportPojo.setInvoiced_orders_count(orderCount);
+        dailyReportPojo.setInvoiced_items_count(itemCount);
+        dailyReportPojo.setTotal_revenue(rev);
+        return dailyReportPojo;
     }
 
 }

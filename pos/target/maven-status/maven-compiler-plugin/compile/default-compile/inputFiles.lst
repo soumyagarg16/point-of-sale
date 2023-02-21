@@ -29,6 +29,7 @@ D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\controller\OrderApiC
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\service\OrderItemService.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\dao\DailyReportDao.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\spring\WebInitializer.java
+D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\client\InvoiceClient.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\model\OrderItemForm.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\model\UserForm.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\controller\AdminApiController.java

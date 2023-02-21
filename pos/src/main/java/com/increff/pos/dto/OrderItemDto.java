@@ -61,7 +61,7 @@ public class OrderItemDto {
         }
     }
 
-    @Transactional(rollbackOn = ApiException.class)
+    @Transactional
     public List<OrderItemData> getAllByOrderId(Integer id) throws ApiException{
         orderService.get(id);
         List<OrderItemPojo> orderItemPojos = orderItemService.getAll(id);
@@ -95,6 +95,7 @@ public class OrderItemDto {
         }
         InvoiceData invoiceData = createInvoiceData(orderPojo);
         String invoice;
+        //todo exchange method
         try{
             RestTemplate restTemplate = new RestTemplate();
             invoice = restTemplate.postForEntity("http://localhost:8000/fop/api/pdf", invoiceData, String.class).getBody();

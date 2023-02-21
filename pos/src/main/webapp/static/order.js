@@ -72,7 +72,13 @@ function addOrderItem(){
     var json = toJson($form);
     console.log(json);
     var entry = JSON.parse(json);
-    if(!checkValidItem(entry)){
+    var msg = isValid(entry);
+    if(msg!=""){
+        toastr.error(msg, "Error: ", {
+                "closeButton": true,
+                "timeOut": "0",
+                "extendedTimeOut": "0"
+            });
         return;
     }
     if(barcodeSet.has(entry.barcode)){
@@ -95,31 +101,27 @@ function addOrderItem(){
     displayOrderItemList();
 }
 
-function checkValidItem(entry){
+function isValid(json){
     var msg = "";
-    if(entry.barcode==""){
-        msg = "Barcode cannot be empty!";
-    }
-    else if(entry.quantity==""){
-        msg = "Quantity cannot be empty!";
-    }
-    else if(entry.quantity=="0"){
-        msg = "Quantity cannot be 0!";
-    }
-    else if(entry.sellingPrice==""){
-            msg = "Price cannot be empty!";
-    }
-    if(msg==""){
-        return true;
-    }
-    else{
-        toastr.error(msg, "Error: ", {
-                	    "closeButton": true,
-                	    "timeOut": "0",
-                	    "extendedTimeOut": "0"
-                	});
-        return false;
-    }
+        if(json.barcode==""){
+            msg = "Barcode cannot be empty";
+        }
+        else if(json.quantity==""){
+            msg = "Quantity cannot be empty";
+        }
+        else if(json.quantity<0){
+                msg = "Quantity cannot be negative";
+        }
+        else if(json.quantity>10000000){
+                msg = "Quantity cannot exceed 10000000";
+        }
+        else if(json.sellingPrice==""){
+                msg = "Selling price cannot be empty";
+        }
+        else if(json.sellingPrice<0){
+                msg = "Selling Price cannot be negative";
+        }
+        return msg;
 }
 
 function createOrderModal(){

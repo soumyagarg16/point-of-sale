@@ -27,7 +27,6 @@ public class BrandService {
             dao.insert(brandPojo);
         else
             throw new ApiException("Brand: " + existingPojo.getBrand() + " and category: " + existingPojo.getCategory() + " pair already exists!");
-
     }
 
     @Transactional(rollbackOn = ApiException.class)

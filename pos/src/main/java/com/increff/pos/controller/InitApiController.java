@@ -12,7 +12,7 @@ import com.increff.pos.model.InfoData;
 import com.increff.pos.model.UserForm;
 import com.increff.pos.pojo.UserPojo;
 import com.increff.pos.service.ApiException;
-import com.increff.pos.service.UserService;
+import com.increff.pos.service.AdminService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiOperation;
 public class InitApiController extends AbstractUiController {
 
 	@Autowired
-	private UserService service;
+	private AdminService service;
 	@Autowired
 	private InfoData info;
 

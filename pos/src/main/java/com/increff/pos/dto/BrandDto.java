@@ -24,13 +24,10 @@ public class BrandDto {
         brandService.add(brandPojo);
     }
 
-
     public void addAll(List<BrandForm> brandForms) throws ApiException {
-
         if(brandForms.size()>5000){
             throw new ApiException("File size cannot exceed 5000 rows!");
         }
-
         List<String> errors = Validate.validateBrandForms(brandForms);
         if(!errors.isEmpty()){
             throw new ApiException(Helper.convertListToString(errors));

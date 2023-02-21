@@ -26,7 +26,7 @@ public class BrandControllerTest extends AbstractUnitTest {
     BrandDao brandDao;
 
     @Test
-    public void NormalizeAddTest() throws ApiException {
+    public void testAddBrand() throws ApiException {
         BrandForm brandForm = TestHelper.createBrandForm(" brAnd 1", "   caTegOry 5  ");
         brandApiController.add(brandForm);
         BrandPojo brandPojo = brandDao.selectAll().get(0);

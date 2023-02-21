@@ -15,7 +15,15 @@ function addBrand(event){
 	var $form = $("#brand-form");
 	var json = toJson($form);
 	var url = getBrandUrl();
-
+	var msg = isValid(json);
+    if(msg!=""){
+        toastr.error(msg, "Error: ", {
+            "closeButton": true,
+            "timeOut": "0",
+            "extendedTimeOut": "0"
+        });
+        return;
+    }
 	$.ajax({
 	   url: url,
 	   type: 'POST',
@@ -36,8 +44,18 @@ function addBrand(event){
 	       handleAjaxError(response);
 	   }
 	});
+}
 
-	//return false;
+function isValid(json){
+    var json = JSON.parse(json);
+    var msg = "";
+    if(json.brand==""){
+        msg = "Brand cannot be empty";
+    }
+    else if(json.category==""){
+        msg = "Category cannot be empty";
+    }
+    return msg;
 }
 
 function updateBrand(event){
@@ -48,7 +66,15 @@ function updateBrand(event){
 	//Set the values to update
 	var $form = $("#brand-edit-form");
 	var json = toJson($form);
-
+    var msg = isValid(json);
+        if(msg!=""){
+            toastr.error(msg, "Error: ", {
+                "closeButton": true,
+                "timeOut": "0",
+                "extendedTimeOut": "0"
+            });
+            return;
+        }
 	$.ajax({
 	   url: url,
 	   type: 'PUT',
@@ -65,6 +91,7 @@ function updateBrand(event){
                handleAjaxError(response);
            }
 	});
+
 
 }
 
@@ -106,10 +133,21 @@ function processData(){
  	var file = $('#brandFile')[0].files[0];
 	console.log(file);
 	readFileData(file, readFileDataCallback);
+
 }
 
 function readFileDataCallback(results){
 	fileData = results.data;
+    var row = fileData[0];
+    var title = Object.keys(row);
+    if(title.length!=2 || title[0]!='brand' || title[1]!='category'){
+       toastr.error("Incorrect tsv format", "Error: ", {
+            "closeButton": true,
+            "timeOut": "0",
+            "extendedTimeOut": "0"
+        });
+       return;
+    }
 	var json = JSON.stringify(fileData);
 	var url = getBrandUrl()+'s';
 

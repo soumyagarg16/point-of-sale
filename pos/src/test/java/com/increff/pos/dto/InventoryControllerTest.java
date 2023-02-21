@@ -82,7 +82,6 @@ public class InventoryControllerTest extends AbstractUnitTest {
         assertEquals(new Integer(10),existing.getQuantity());
     }
 
-    //TODO Problem in this test
     @Test
     public void getAllTest() throws ApiException {
         BrandPojo brandPojo = TestHelper.createBrandPojo("b","c");
