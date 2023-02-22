@@ -10,7 +10,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Api
 @RestController
@@ -24,11 +23,8 @@ public class pdfController {
     @ApiOperation(value = "JavaToPdf")
     @RequestMapping(path = "/api/pdf", method = RequestMethod.POST)
     public String classToPDF(@RequestBody InvoiceData invoiceData) {
-        System.out.println("here");
+        //System.out.println("here");
         javaToXml.javaToXmlConverter(invoiceData);
         return pdfGenerator.xmlToPdfConverter(invoiceData);
-
     }
-
-
 }

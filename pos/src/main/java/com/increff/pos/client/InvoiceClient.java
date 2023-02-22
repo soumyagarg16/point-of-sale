@@ -1,5 +1,6 @@
 package com.increff.pos.client;
 import com.increff.pos.model.InvoiceData;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -8,7 +9,7 @@ import java.util.Arrays;
 
 @Service
 public class InvoiceClient {
-    //todo you autowired rest template but it shows error
+
     private RestTemplate restTemplate;
 
     public String generateInvoice(InvoiceData invoiceData){

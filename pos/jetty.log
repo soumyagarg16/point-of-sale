@@ -979,3 +979,8 @@ Caused by: java.lang.ClassNotFoundException: com.increff.pos.dto.OrderItemDto
 	at org.eclipse.jetty.webapp.WebAppClassLoader.loadClass(WebAppClassLoader.java:543)
 	at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
 	... 48 more
+2023-02-22 12:01:41 INFO  SecurityConfig:36 - Configuration complete
+2023-02-22 12:24:04 INFO  SecurityConfig:36 - Configuration complete
+2023-02-22 14:18:29 INFO  SecurityConfig:36 - Configuration complete
+2023-02-22 14:22:06 INFO  SecurityConfig:36 - Configuration complete
+2023-02-22 14:23:07 INFO  SecurityConfig:36 - Configuration complete
