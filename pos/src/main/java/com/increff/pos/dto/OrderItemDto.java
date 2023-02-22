@@ -1,5 +1,6 @@
 package com.increff.pos.dto;
 
+import com.increff.pos.client.InvoiceClient;
 import com.increff.pos.model.*;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.OrderItemPojo;
@@ -9,6 +10,7 @@ import com.increff.pos.service.*;
 import com.increff.pos.util.Helper;
 import com.increff.pos.util.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,6 +35,8 @@ public class OrderItemDto {
     private OrderItemService orderItemService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private InvoiceClient invoiceClient;
 
     @Transactional(rollbackOn = ApiException.class)
     public void addAll(List<OrderItemForm> orderItemForms) throws ApiException {
@@ -61,7 +65,6 @@ public class OrderItemDto {
         }
     }
 
-    @Transactional
     public List<OrderItemData> getAllByOrderId(Integer id) throws ApiException{
         orderService.get(id);
         List<OrderItemPojo> orderItemPojos = orderItemService.getAll(id);
@@ -97,12 +100,12 @@ public class OrderItemDto {
         String invoice;
         //todo exchange method
         try{
+            //invoice = invoiceClient.generateInvoice(invoiceData);
             RestTemplate restTemplate = new RestTemplate();
-            Response = restTemplate.postForEntity("http://localhost:8000/fop/api/pdf", invoiceData, String.class).getBody();
+            invoice = restTemplate.postForEntity("http://localhost:8000/fop/api/pdf", invoiceData, String.class).getBody();
         } catch (Exception e){
             throw new ApiException("Unable to create invoice at this moment!");
         }
-
         String pdfFileName = "invoice_" + invoiceData.getInvoiceNumber() + ".pdf";
         storeFile(invoice,pdfFileName);
         orderPojo.setIsInvoiceGenerated(1);

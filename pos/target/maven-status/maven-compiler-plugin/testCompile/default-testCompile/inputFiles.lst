@@ -1,8 +1,9 @@
+D:\Workspace\PointOfSales\pos\src\test\java\com\increff\pos\controller\OrderControllerTest.java
+D:\Workspace\PointOfSales\pos\src\test\java\com\increff\pos\controller\InventoryControllerTest.java
 D:\Workspace\PointOfSales\pos\src\test\java\com\increff\pos\QaConfig.java
-D:\Workspace\PointOfSales\pos\src\test\java\com\increff\pos\dto\BrandControllerTest.java
 D:\Workspace\PointOfSales\pos\src\test\java\com\increff\pos\AbstractUnitTest.java
-D:\Workspace\PointOfSales\pos\src\test\java\com\increff\pos\dto\ProductControllerTest.java
-D:\Workspace\PointOfSales\pos\src\test\java\com\increff\pos\dto\InventoryControllerTest.java
-D:\Workspace\PointOfSales\pos\src\test\java\com\increff\pos\dto\OrderControllerTest.java
+D:\Workspace\PointOfSales\pos\src\test\java\com\increff\pos\controller\ProductControllerTest.java
+D:\Workspace\PointOfSales\pos\src\test\java\com\increff\pos\controller\ReportControllerTest.java
+D:\Workspace\PointOfSales\pos\src\test\java\com\increff\pos\controller\AdminControllerTest.java
 D:\Workspace\PointOfSales\pos\src\test\java\com\increff\pos\util\TestHelper.java
-D:\Workspace\PointOfSales\pos\src\test\java\com\increff\pos\dto\ReportControllerTest.java
+D:\Workspace\PointOfSales\pos\src\test\java\com\increff\pos\controller\BrandControllerTest.java

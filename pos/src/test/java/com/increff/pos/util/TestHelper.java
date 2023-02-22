@@ -99,4 +99,19 @@ public class TestHelper {
         return dailyReportPojo;
     }
 
+    public static UserForm createUserForm(String email, String pass, String role){
+        UserForm userForm = new UserForm();
+        userForm.setEmail(email);
+        userForm.setPassword(pass);
+        userForm.setRole(role);
+        return userForm;
+    }
+    public static UserPojo createUserPojo(String email, String pass, String role){
+        UserPojo userPojo = new UserPojo();
+        userPojo.setEmail(email);
+        userPojo.setPassword(pass);
+        userPojo.setRole(role);
+        return userPojo;
+    }
+
 }

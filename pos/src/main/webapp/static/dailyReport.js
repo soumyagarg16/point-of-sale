@@ -45,7 +45,7 @@ function displayReport(data){
         + '<td>' + entry.date + '</td>'
         + '<td>'  + entry.invoicedOrderCount + '</td>'
         + '<td>'  + entry.invoicedItemCount + '</td>'
-        + '<td>'  + entry.totalRevenue + '</td>'
+        + '<td>'  + entry.totalRevenue.toFixed(2) + '</td>'
         + '</tr>';
         $tbody.append(row);
         count = count+1;

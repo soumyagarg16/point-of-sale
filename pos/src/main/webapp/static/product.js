@@ -161,7 +161,7 @@ function readFileDataCallback(results){
 	fileData = results.data;
 	var row = fileData[0];
     var title = Object.keys(row);
-    if(title.length!=5 || title[0]!='brand' || title[1]!='category' || title[2]!='barcode' || title[3]!='name' || title[4]!='mrp'){
+    if(title.length!=5 || title[0]!='barcode' || title[1]!='brand' || title[2]!='category' || title[3]!='mrp' || title[4]!='name'){
       toastr.error("Incorrect tsv format", "Error: ", {
            "closeButton": true,
            "timeOut": "0",
@@ -221,7 +221,7 @@ function displayProductList(data){
 		+ '<td>'  + e.category + '</td>'
 		+ '<td>'  + e.barcode + '</td>'
 		+ '<td>'  + e.name + '</td>'
-		+ '<td>'  + e.mrp + '</td>'
+		+ '<td>'  + e.mrp.toFixed(2) + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';
         $tbody.append(row);

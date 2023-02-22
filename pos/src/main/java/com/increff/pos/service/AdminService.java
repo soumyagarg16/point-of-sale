@@ -7,14 +7,14 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.increff.pos.dao.UserDao;
+import com.increff.pos.dao.AdminDao;
 import com.increff.pos.pojo.UserPojo;
 
 @Service
 public class AdminService {
 
 	@Autowired
-	private UserDao dao;
+	private AdminDao dao;
 
 	@Transactional(rollbackOn = ApiException.class)
 	public void add(UserPojo userPojo) throws ApiException {

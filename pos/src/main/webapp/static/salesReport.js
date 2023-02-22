@@ -102,7 +102,7 @@ function displayReport(data){
         + '<td>' + entry.brand + '</td>'
         + '<td>'  + entry.category + '</td>'
         + '<td>'  + entry.quantity + '</td>'
-        + '<td>'  + entry.revenue + '</td>'
+        + '<td>'  + entry.revenue.toFixed(2) + '</td>'
         + '</tr>';
         $tbody.append(row);
         count = count+1;

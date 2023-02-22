@@ -32,7 +32,6 @@ public class BrandDto {
         if(!errors.isEmpty()){
             throw new ApiException(Helper.convertListToString(errors));
         }
-
         List<BrandPojo> brandPojos = new ArrayList<>();
         for(BrandForm brandForm: brandForms){
             BrandPojo brandPojo = Helper.convertBrandFormToPojo(brandForm);

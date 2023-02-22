@@ -42,9 +42,9 @@ public class LoginController {
 	
 	@ApiOperation(value = "Logs in a user")
 	@RequestMapping(path = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public ModelAndView login(HttpServletRequest req, LoginForm loginForm) throws ApiException {
+	public ModelAndView login(HttpServletRequest req, LoginForm loginForm){
 		UserPojo userPojo = service.get(loginForm.getEmail());
-		if (userPojo == null) {
+		if(userPojo == null){
 			info.setMessage("Invalid email!");
 			return new ModelAndView("redirect:/site/login");
 		}
@@ -61,7 +61,7 @@ public class LoginController {
 		SecurityUtil.createContext(session);
 		// Attach Authentication object to the Security Context
 		SecurityUtil.setAuthentication(authentication);
-
+		info.setMessage("");
 		return new ModelAndView("redirect:/ui/home");
 
 	}
@@ -94,6 +94,7 @@ public class LoginController {
 			return new ModelAndView("redirect:/site/signup");
 		}
 		service.add(userPojo);
+		info.setMessage("");
 		return new ModelAndView("redirect:/site/login");
 	}
 
