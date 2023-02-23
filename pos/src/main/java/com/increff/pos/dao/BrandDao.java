@@ -15,8 +15,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BrandDao extends AbstractDao {
 
-
-    private static String DELETE_ID = "delete from BrandPojo brandPojo where id=:id";
     private static String SELECT_ID = "select brandPojo from BrandPojo brandPojo where id=:id";
     private static String SELECT_ALL = "select brandPojo from BrandPojo brandPojo";
     private static String SELECT_BY_BRAND_CATEGORY  = "select brandPojo from BrandPojo brandPojo where brand=:brand and category=:category";
@@ -32,11 +30,6 @@ public class BrandDao extends AbstractDao {
         em.persist(brandPojo);
     }
 
-    public void delete(Integer id) {
-        Query query = em.createQuery(DELETE_ID);
-        query.setParameter("id", id);
-        query.executeUpdate();
-    }
 
     public BrandPojo select(Integer id) {
         TypedQuery<BrandPojo> query = getQuery(SELECT_ID, BrandPojo.class);

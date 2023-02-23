@@ -30,7 +30,7 @@ public class InventoryControllerTest extends AbstractUnitTest {
     InventoryDao inventoryDao;
 
     @Test
-    public void addTest() throws ApiException {
+    public void testAdd() throws ApiException {
         BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
         brandDao.insert(brandPojo);
 
@@ -43,6 +43,30 @@ public class InventoryControllerTest extends AbstractUnitTest {
         assertEquals(productPojo.getId(), inventoryPojo.getId());
         assertEquals(new Integer(10), inventoryPojo.getQuantity());
     }
+
+    @Test(expected = ApiException.class)
+    public void testAddWithoutProductExistence() throws ApiException {
+        BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
+        brandDao.insert(brandPojo);
+        InventoryForm inventoryForm = TestHelper.createInventoryForm("x1",10);
+        inventoryApiController.add(inventoryForm);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testAddLimitExceed() throws ApiException {
+        BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
+        brandDao.insert(brandPojo);
+
+        ProductPojo productPojo = TestHelper.createProductPojo("x1", brandPojo.getId(), "p1",10.50);
+        productDao.insert(productPojo);
+
+        InventoryForm inventoryForm = TestHelper.createInventoryForm("x1",100);
+        InventoryPojo inventoryPojo = TestHelper.createInventoryPojo(productPojo.getId(), 9999999);
+        inventoryDao.insert(inventoryPojo);
+        inventoryApiController.add(inventoryForm);
+
+    }
+
     @Test
     public void addAllTest() throws ApiException {
         BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
@@ -66,6 +90,56 @@ public class InventoryControllerTest extends AbstractUnitTest {
             assertEquals(productPojos.get(i-1).getId(), inventoryPojos.get(i-1).getId());
             assertEquals(new Integer(10+i), inventoryPojos.get(i-1).getQuantity());
         }
+    }
+
+    @Test(expected = ApiException.class)
+    public void testAddAllWithoutProductExistence() throws ApiException {
+        BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
+        brandDao.insert(brandPojo);
+
+        List<InventoryForm> inventoryFormList = new ArrayList<>();
+        for(int i=1; i<=3; i++){
+            InventoryForm inventoryForm = TestHelper.createInventoryForm("x"+i,10+i);
+            inventoryFormList.add(inventoryForm);
+        }
+        inventoryApiController.addAll(inventoryFormList);
+
+    }
+
+    @Test(expected = ApiException.class)
+    public void testAddAllWithDuplicateBarcode() throws ApiException {
+        BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
+        brandDao.insert(brandPojo);
+
+        List<InventoryForm> inventoryFormList = new ArrayList<>();
+        for(int i=1; i<=3; i++){
+            InventoryForm inventoryForm = TestHelper.createInventoryForm("x"+i,10+i);
+            inventoryFormList.add(inventoryForm);
+        }
+        InventoryForm inventoryForm = TestHelper.createInventoryForm("x3",10);
+        inventoryFormList.add(inventoryForm);
+        inventoryApiController.addAll(inventoryFormList);
+
+    }
+
+    @Test(expected = ApiException.class)
+    public void testLargeFileAddAll() throws ApiException {
+        BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
+        brandDao.insert(brandPojo);
+
+        List<ProductPojo> productPojos = new ArrayList<>();
+        for(int i=1; i<=3; i++){
+            ProductPojo productPojo = TestHelper.createProductPojo("x"+i, brandPojo.getId(), "p"+i,10.50+i);
+            productDao.insert(productPojo);
+            productPojos.add(productPojo);
+        }
+        List<InventoryForm> inventoryFormList = new ArrayList<>();
+        for(int i=1; i<=5001; i++){
+            InventoryForm inventoryForm = TestHelper.createInventoryForm("x"+i,10+i);
+            inventoryFormList.add(inventoryForm);
+        }
+
+        inventoryApiController.addAll(inventoryFormList);
     }
     @Test
     public void getTest() throws ApiException {

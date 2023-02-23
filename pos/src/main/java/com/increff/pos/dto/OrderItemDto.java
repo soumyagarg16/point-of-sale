@@ -57,12 +57,10 @@ public class OrderItemDto {
             orderItemPojo.setOrderId(orderPojo.getId());
             orderItemPojos.add(orderItemPojo);
         }
-        if(errors.isEmpty()){
-            orderItemService.addAll(orderItemPojos);
-        }
-        else{
+        if(!errors.isEmpty()){
             throw new ApiException(errors.toString());
         }
+        orderItemService.addAll(orderItemPojos);
     }
 
     public List<OrderItemData> getAllByOrderId(Integer id) throws ApiException{

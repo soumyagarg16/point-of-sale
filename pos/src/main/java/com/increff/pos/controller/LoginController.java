@@ -117,8 +117,7 @@ public class LoginController {
 		authorities.add(new SimpleGrantedAuthority(userPojo.getRole()));
 
 		// Create Authentication
-		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, null,
-				authorities);
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(principal, null, authorities);
 		return token;
 	}
 

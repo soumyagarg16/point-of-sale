@@ -24,14 +24,12 @@ public class ProductControllerTest extends AbstractUnitTest {
     @Autowired
     ProductApiController productApiController;
     @Autowired
-    ProductDto productDto;
-    @Autowired
     ProductDao productDao;
     @Autowired
     BrandDao brandDao;
 
     @Test
-    public void addTest() throws ApiException {
+    public void testAdd() throws ApiException {
         BrandPojo brandPojo = TestHelper.createBrandPojo("brand10","category10");
         brandDao.insert(brandPojo);
         ProductForm productForm = TestHelper.createProductForm(" BraNd10 ", "CatEgory10  ","xD12","p1",50.512);
@@ -43,8 +41,14 @@ public class ProductControllerTest extends AbstractUnitTest {
         assertEquals(50.51,productPojo.getMrp(),0.01);
     }
 
+    @Test(expected = ApiException.class)
+    public void testAddWithoutBrandExistence() throws ApiException {
+        ProductForm productForm = TestHelper.createProductForm("brand1", "cat1","xD12","p1",50.512);
+        productApiController.add(productForm);
+
+    }
     @Test
-    public void AddAllTest() throws ApiException {
+    public void testAddAll() throws ApiException {
         List<BrandPojo> brandPojos = new ArrayList<>();
         for(int i = 1; i<=5;i++){
             BrandPojo brandPojo = TestHelper.createBrandPojo("b"+i,"c"+i);
@@ -66,6 +70,47 @@ public class ProductControllerTest extends AbstractUnitTest {
             assertEquals(10.50+i, productPojo.getMrp(),0.0);
             i++;
         }
+    }
+
+    @Test(expected = ApiException.class)
+    public void testAddAllEmptyBarcode() throws ApiException {
+        List<BrandPojo> brandPojos = new ArrayList<>();
+        for(int i = 1; i<5;i++){
+            BrandPojo brandPojo = TestHelper.createBrandPojo("b"+i,"c"+i);
+            brandDao.insert(brandPojo);
+            brandPojos.add(brandPojo);
+        }
+        List<ProductForm> productForms = new ArrayList<>();
+        for(int i = 1; i<=5;i++){
+            ProductForm productForm = TestHelper.createProductForm("b"+i,"c"+i, " ","p"+i,10.50+i);
+            productForms.add(productForm);
+        }
+        productApiController.addAll(productForms);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testAddAllWithoutBrandExisting() throws ApiException {
+        List<ProductForm> productForms = new ArrayList<>();
+        for(int i = 1; i<=5;i++){
+            ProductForm productForm = TestHelper.createProductForm("b"+i,"c"+i,"x"+i,"p"+i,10.50+i);
+            productForms.add(productForm);
+        }
+        productApiController.addAll(productForms);
+    }
+    @Test(expected = ApiException.class)
+    public void testAddLargeFileTest() throws ApiException {
+        List<BrandPojo> brandPojos = new ArrayList<>();
+        for(int i = 1; i<=5;i++){
+            BrandPojo brandPojo = TestHelper.createBrandPojo("b"+i,"c"+i);
+            brandDao.insert(brandPojo);
+            brandPojos.add(brandPojo);
+        }
+        List<ProductForm> productForms = new ArrayList<>();
+        for(int i = 1; i<=5001;i++){
+            ProductForm productForm = TestHelper.createProductForm("b"+i,"c"+i,"x"+i,"p"+i,10.50+i);
+            productForms.add(productForm);
+        }
+        productApiController.addAll(productForms);
     }
 
     @Test
@@ -113,7 +158,7 @@ public class ProductControllerTest extends AbstractUnitTest {
     }
 
     @Test
-    public void UpdateTest() throws ApiException {
+    public void testUpdate() throws ApiException {
         BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
         brandDao.insert(brandPojo);
         ProductPojo productPojo = TestHelper.createProductPojo("x1", brandPojo.getId(), "p1",15.40);
@@ -123,6 +168,16 @@ public class ProductControllerTest extends AbstractUnitTest {
         assertEquals("x2",productPojo.getBarcode());
         assertEquals("p3",productPojo.getName());
         assertEquals(new Double(14.5),productPojo.getMrp(),0.01);
+    }
+
+    @Test(expected = ApiException.class)
+    public void testUpdateWithoutBrandExistence() throws ApiException {
+        BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
+        brandDao.insert(brandPojo);
+        ProductPojo productPojo = TestHelper.createProductPojo("x1", brandPojo.getId(), "p1",15.40);
+        productDao.insert(productPojo);
+        ProductForm productForm = TestHelper.createProductForm("b10", brandPojo.getCategory(), "x2","p3",14.5);
+        productApiController.update(productPojo.getId(),productForm);
     }
 
 }

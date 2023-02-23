@@ -31,11 +31,6 @@ public class OrderService {
         dao.insert(p);
     }
 
-    public void delete(Integer id) throws ApiException {
-        getCheck(id);
-        dao.delete(id);
-    }
-
     public OrderPojo get(Integer id) throws ApiException {
         return getCheck(id);
     }

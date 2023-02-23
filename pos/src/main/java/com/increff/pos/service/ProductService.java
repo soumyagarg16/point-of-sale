@@ -47,10 +47,6 @@ public class ProductService {
         }
     }
 
-    public void delete(Integer id) throws ApiException {
-        dao.delete(id);
-    }
-
     public ProductPojo get(Integer id) throws ApiException {
         return dao.select(id);
     }

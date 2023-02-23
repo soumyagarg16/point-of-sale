@@ -65,6 +65,45 @@ public class OrderControllerTest extends AbstractUnitTest {
         assertEquals(3,orderItemPojos.size());
     }
 
+    @Test(expected = ApiException.class)
+    public void addAllEmptyListTest() throws ApiException {
+        List<OrderItemForm> orderItemFormList = new ArrayList<>();
+        orderApiController.addAll(orderItemFormList);
+    }
+
+    @Test(expected = ApiException.class)
+    public void addAllInvalidItemsTest() throws ApiException {
+        BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
+        brandDao.insert(brandPojo);
+
+        List<ProductPojo> productPojos = new ArrayList<>();
+        for(int i=1; i<=3; i++){
+            ProductPojo productPojo = TestHelper.createProductPojo("x"+i, brandPojo.getId(), "p"+i,10.50+i);
+            productDao.insert(productPojo);
+            productPojos.add(productPojo);
+        }
+        List<InventoryPojo> inventoryPojos = new ArrayList<>();
+        for(int i=1; i<=3; i++){
+            InventoryPojo inventoryPojo = TestHelper.createInventoryPojo(productPojos.get(i-1).getId(),10+i);
+            inventoryDao.insert(inventoryPojo);
+            inventoryPojos.add(inventoryPojo);
+        }
+
+        List<OrderItemForm> orderItemFormList = new ArrayList<>();
+        OrderItemForm orderItemForm = TestHelper.createOrderItemForm("xsda",10,10.50);
+        orderItemFormList.add(orderItemForm);
+        OrderItemForm orderItemForm1 = TestHelper.createOrderItemForm("x1",108756,10.50);
+        orderItemFormList.add(orderItemForm1);
+        OrderItemForm orderItemForm2 = TestHelper.createOrderItemForm("x2",5,100.50);
+        orderItemFormList.add(orderItemForm2);
+
+        orderApiController.addAll(orderItemFormList);
+        List<OrderPojo> orderPojos = orderDao.selectAll();
+        List<OrderItemPojo> orderItemPojos = orderItemDao.selectAll(orderPojos.get(0).getId());
+        int i = 1;
+        assertEquals(3,orderItemPojos.size());
+    }
+
     @Test
     public void getAllByOrderIdTest() throws ApiException {
         BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
