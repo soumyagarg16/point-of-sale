@@ -1,4 +1,4 @@
-com\increff\pos\util\TestHelper.class
 com\increff\pos\AbstractUnitTest.class
+com\increff\pos\util\TestHelper.class
 com\increff\pos\controller\LoginControllerTest.class
 com\increff\pos\QaConfig.class

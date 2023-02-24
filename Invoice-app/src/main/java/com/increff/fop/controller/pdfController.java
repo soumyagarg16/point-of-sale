@@ -23,7 +23,6 @@ public class pdfController {
     @ApiOperation(value = "JavaToPdf")
     @RequestMapping(path = "/api/pdf", method = RequestMethod.POST)
     public String classToPDF(@RequestBody InvoiceData invoiceData) {
-        //System.out.println("here");
         javaToXml.javaToXmlConverter(invoiceData);
         return pdfGenerator.xmlToPdfConverter(invoiceData);
     }
