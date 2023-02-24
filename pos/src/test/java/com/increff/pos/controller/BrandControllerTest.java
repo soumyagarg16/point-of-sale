@@ -35,13 +35,13 @@ public class BrandControllerTest extends AbstractUnitTest {
     }
 
     @Test(expected = ApiException.class)
-    public void EmptyBrandAddTest() throws ApiException {
+    public void emptyBrandAddTest() throws ApiException {
         BrandForm brandForm = TestHelper.createBrandForm("","cat1");
         brandApiController.add(brandForm);
     }
 
     @Test(expected = ApiException.class)
-    public void EmptyCategoryAddTest() throws ApiException {
+    public void emptyCategoryAddTest() throws ApiException {
         BrandForm brandForm = TestHelper.createBrandForm("br1","");
         brandApiController.add(brandForm);
     }
@@ -54,7 +54,7 @@ public class BrandControllerTest extends AbstractUnitTest {
     }
 
     @Test
-    public void AddAllTest() throws ApiException {
+    public void addAllTest() throws ApiException {
         List<BrandForm> brandForms = new ArrayList<>();
         for(int i = 1; i<=5;i++){
             BrandForm brandForm = TestHelper.createBrandForm("b"+i,"c"+i);
@@ -69,6 +69,27 @@ public class BrandControllerTest extends AbstractUnitTest {
             i++;
         }
     }
+
+    @Test(expected = ApiException.class)
+    public void addAllLargeFileTest() throws ApiException {
+        List<BrandForm> brandForms = new ArrayList<>();
+        for(int i = 1; i<=5001;i++){
+            BrandForm brandForm = TestHelper.createBrandForm("b"+i,"c"+i);
+            brandForms.add(brandForm);
+        }
+        brandApiController.addAll(brandForms);
+    }
+
+    @Test(expected = ApiException.class)
+    public void addAllInvalidBrandTest() throws ApiException {
+        List<BrandForm> brandForms = new ArrayList<>();
+        for(int i = 1; i<=2;i++){
+            BrandForm brandForm = TestHelper.createBrandForm("","c"+i);
+            brandForms.add(brandForm);
+        }
+        brandApiController.addAll(brandForms);
+    }
+
 
     @Test
     public void getTest() throws ApiException {
@@ -96,7 +117,7 @@ public class BrandControllerTest extends AbstractUnitTest {
     }
 
     @Test
-    public void UpdateTest() throws ApiException {
+    public void updateTest() throws ApiException {
         BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
         BrandForm brandForm = TestHelper.createBrandForm("b2","c2");
         brandDao.insert(brandPojo);
