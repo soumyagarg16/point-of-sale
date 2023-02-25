@@ -42,7 +42,7 @@ public class InventoryDto {
         }
         List<String> errors = Validate.validateInventoryForms(inventoryForms);
         if(!errors.isEmpty()){
-            throw new ApiException(errors.toString());
+            throw new ApiException(Helper.convertListToString(errors));
         }
         List<InventoryPojo> inventoryPojos = new ArrayList<>();
         for(InventoryForm inventoryForm: inventoryForms){
@@ -56,7 +56,7 @@ public class InventoryDto {
             inventoryPojos.add(inventoryPojo);
         }
         if(!errors.isEmpty()){
-            throw new ApiException(errors.toString());
+            throw new ApiException(Helper.convertListToString(errors));
         }
         inventoryService.addAll(inventoryPojos);
 

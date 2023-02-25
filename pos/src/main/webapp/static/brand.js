@@ -15,7 +15,15 @@ function addBrand(event){
 	var $form = $("#brand-form");
 	var json = toJson($form);
 	var url = getBrandUrl();
-
+	var msg = isValid(json);
+    if(msg!=""){
+        toastr.error(msg, "Error: ", {
+            "closeButton": true,
+            "timeOut": "0",
+            "extendedTimeOut": "0"
+        });
+        return;
+    }
 	$.ajax({
 	   url: url,
 	   type: 'POST',
@@ -36,8 +44,18 @@ function addBrand(event){
 	       handleAjaxError(response);
 	   }
 	});
+}
 
-	//return false;
+function isValid(json){
+    var json = JSON.parse(json);
+    var msg = "";
+    if(json.brand==""){
+        msg = "Brand cannot be empty";
+    }
+    else if(json.category==""){
+        msg = "Category cannot be empty";
+    }
+    return msg;
 }
 
 function updateBrand(event){
@@ -48,7 +66,15 @@ function updateBrand(event){
 	//Set the values to update
 	var $form = $("#brand-edit-form");
 	var json = toJson($form);
-
+    var msg = isValid(json);
+        if(msg!=""){
+            toastr.error(msg, "Error: ", {
+                "closeButton": true,
+                "timeOut": "0",
+                "extendedTimeOut": "0"
+            });
+            return;
+        }
 	$.ajax({
 	   url: url,
 	   type: 'PUT',
@@ -65,6 +91,7 @@ function updateBrand(event){
                handleAjaxError(response);
            }
 	});
+
 
 }
 
@@ -111,6 +138,16 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results.data;
+    var row = fileData[0];
+    var title = Object.keys(row);
+    if(title.length!=2 || title[0]!='brand' || title[1]!='category'){
+       toastr.error("Incorrect tsv format", "Error: ", {
+            "closeButton": true,
+            "timeOut": "0",
+            "extendedTimeOut": "0"
+        });
+       return;
+    }
 	var json = JSON.stringify(fileData);
 	var url = getBrandUrl()+'s';
 
@@ -125,6 +162,7 @@ function readFileDataCallback(results){
         	   success: function() {
         	        toastr.success("Uploaded Successfully!");
         	        $('#upload-brand-modal').modal('toggle');
+        	        resetUploadDialog();
         	   		getBrandList();
         	   },
         	   error: function(response){
@@ -134,20 +172,17 @@ function readFileDataCallback(results){
                     	    "extendedTimeOut": "0"
                     	});
                     errorData=response.responseJSON.message;
+                    $('#download-errors').removeAttr('hidden');
         	   }
         	});
 }
 
-
 function downloadErrors(){
-    errorData = errorData.replaceAll(",","\n");
-    errorData = errorData.replace("["," ");
-    errorData = errorData.slice(0,-1);
     var element = document.createElement('a');
     element.setAttribute('href','data:text/plain;charset=utf-8,' + encodeURIComponent(errorData));
     element.setAttribute('download',"brand_errors.txt");
     element.click();
-	//writeFileData(errorData);
+    $('#download-errors').attr('hidden',true);
 }
 
 //UI DISPLAY METHODS
@@ -197,12 +232,23 @@ function resetUploadDialog(){
 	var $file = $('#brandFile');
 	$file.val('');
 	$('#brandFileName').html("Choose File");
+	$('#download-errors').attr('hidden',true);
+	$('#process-data').attr('disabled',true);
 }
 
 function updateFileName(){
 	var $file = $('#brandFile');
 	var fileName = $file.val();
-	$('#brandFileName').html(fileName);
+	if(fileName.slice(-4)!=".tsv"){
+        toastr.error("File must be in .tsv format!", "Error: ", {
+        	    "closeButton": true,
+        	    "timeOut": "0",
+        	    "extendedTimeOut": "0"
+        	});
+        	return;
+	}
+	$('#brandFileName').html(fileName); // putting file name on label
+	$("#process-data").removeAttr('disabled');
 
 }
 
@@ -240,9 +286,10 @@ function init(){
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#brandFile').on('change', updateFileName);
+    $('#process-data').attr('disabled',true);
+    $('#download-errors').attr('hidden',true);
     getBrandList();
-    $('.active').removeClass('active');
-    $('#brand-link').addClass('active');
+    setActive();
 }
 
 $(document).ready(init);

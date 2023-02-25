@@ -20,7 +20,7 @@
                             <fo:table-column column-width="8.5cm"/>
                             <fo:table-column column-width="8.5cm"/>
                             <fo:table-body>
-                                <fo:table-row font-size="18pt" line-height="30px" background-color="#002D62" color="white">
+                                <fo:table-row font-size="18pt" line-height="30px" background-color="#002050" color="white">
                                     <fo:table-cell padding-left="5pt">
                                     <fo:block>
                                         <fo:external-graphic  src="url(file:///D:/WorkSpace/PointOfSales/Invoice-app/src/main/resources/logo.jpg)" content-height="scale-to-fit" height="50px"  content-width="2.00in" scaling="non-uniform"/>

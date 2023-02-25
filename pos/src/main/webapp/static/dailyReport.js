@@ -45,7 +45,7 @@ function displayReport(data){
         + '<td>' + entry.date + '</td>'
         + '<td>'  + entry.invoicedOrderCount + '</td>'
         + '<td>'  + entry.invoicedItemCount + '</td>'
-        + '<td>'  + entry.totalRevenue + '</td>'
+        + '<td>'  + entry.totalRevenue.toFixed(2) + '</td>'
         + '</tr>';
         $tbody.append(row);
         count = count+1;
@@ -84,6 +84,7 @@ function init(){
     $('.active').removeClass('active');
     $('#navbarDropdown').addClass('active');
     formatDate();
+    setActive();
 }
 
 $(document).ready(init);

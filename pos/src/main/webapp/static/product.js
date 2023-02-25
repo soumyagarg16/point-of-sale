@@ -18,6 +18,16 @@ function addProduct(event){
 	var json = toJson($form);
 	//console.log(json);
 	var url = getProductUrl();
+    var msg = isValid(json);
+    if(msg!=""){
+        console.log("frontend check!");
+        toastr.error(msg, "Error: ", {
+            "closeButton": true,
+            "timeOut": "0",
+            "extendedTimeOut": "0"
+        });
+        return;
+    }
 
 	$.ajax({
 	   url: url,
@@ -42,6 +52,33 @@ function addProduct(event){
 	});
 }
 
+function isValid(json){
+    var json = JSON.parse(json);
+    var msg = "";
+    if(json.brand==""){
+        msg = "Brand cannot be empty";
+    }
+    else if(json.category==""){
+        msg = "Category cannot be empty";
+    }
+    else if(json.barcode==""){
+        msg = "Barcode cannot be empty";
+    }
+    else if(json.name==""){
+        msg = "Product name cannot be empty";
+    }
+    else if(json.mrp==""){
+        msg = "Mrp cannot be empty";
+    }
+    else if(json.mrp<=0){
+        msg = "Mrp cannot be less than or equal to 0";
+    }
+    else if(json.mrp>10000000){
+        msg = "Mrp cannot exceed 10000000";
+    }
+    return msg;
+}
+
 function updateProduct(event){
 	//Get the ID
 	var id = $("#product-edit-form input[name=id]").val();
@@ -50,6 +87,15 @@ function updateProduct(event){
 	//Set the values to update
 	var $form = $("#product-edit-form");
 	var json = toJson($form);
+    var msg = isValid(json);
+        if(msg!=""){
+            toastr.error(msg, "Error: ", {
+                "closeButton": true,
+                "timeOut": "0",
+                "extendedTimeOut": "0"
+            });
+            return;
+        }
 
 	$.ajax({
 	   url: url,
@@ -113,8 +159,18 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results.data;
-    	var json = JSON.stringify(fileData);
-    	var url = getProductUrl()+'s';
+	var row = fileData[0];
+    var title = Object.keys(row);
+    if(title.length!=5 || title[0]!='barcode' || title[1]!='brand' || title[2]!='category' || title[3]!='mrp' || title[4]!='name'){
+      toastr.error("Incorrect tsv format", "Error: ", {
+           "closeButton": true,
+           "timeOut": "0",
+           "extendedTimeOut": "0"
+       });
+      return;
+    }
+    var json = JSON.stringify(fileData);
+    var url = getProductUrl()+'s';
         //Make ajax call
         $.ajax({
            url: url,
@@ -135,19 +191,17 @@ function readFileDataCallback(results){
                         "extendedTimeOut": "0"
                     });
                 errorData=response.responseJSON.message;
+                $('#download-errors').removeAttr('hidden');
            }
         });
 }
 
 function downloadErrors(){
-    errorData = errorData.replaceAll(",","\n");
-    errorData = errorData.replace("["," ");
-    errorData = errorData.slice(0,-1);
     var element = document.createElement('a');
     element.setAttribute('href','data:text/plain;charset=utf-8,' + encodeURIComponent(errorData));
-    element.setAttribute('download',"product_upload_errors.txt");
+    element.setAttribute('download',"product_errors.txt");
     element.click();
-	//writeFileData(errorData);
+    $('#download-errors').attr('hidden',true);
 }
 
 //UI DISPLAY METHODS
@@ -167,7 +221,7 @@ function displayProductList(data){
 		+ '<td>'  + e.category + '</td>'
 		+ '<td>'  + e.barcode + '</td>'
 		+ '<td>'  + e.name + '</td>'
-		+ '<td>'  + e.mrp + '</td>'
+		+ '<td>'  + e.mrp.toFixed(2) + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';
         $tbody.append(row);
@@ -201,12 +255,23 @@ function resetUploadDialog(){
 	var $file = $('#productFile');
 	$file.val('');
 	$('#productFileName').html("Choose File");
+	$('#download-errors').attr('hidden',true);
+    $('#process-data').attr('disabled',true);
 }
 
 function updateFileName(){
 	var $file = $('#productFile');
 	var fileName = $file.val();
-	$('#productFileName').html(fileName);
+	if(fileName.slice(-4)!=".tsv"){
+            toastr.error("File must be in .tsv format!", "Error: ", {
+            	    "closeButton": true,
+            	    "timeOut": "0",
+            	    "extendedTimeOut": "0"
+            	});
+            	return;
+    	}
+    	$('#productFileName').html(fileName); // putting file name on label
+    	$("#process-data").removeAttr('disabled');
 }
 
 function displayUploadData(){
@@ -230,7 +295,6 @@ function displayProduct(data){
 	$("#product-edit-form input[name=id]").val(data.id);
 	$("#product-edit-form input[name=name]").val(data.name);
 	$("#product-edit-form input[name=mrp]").val(data.mrp);
-
 	$('#edit-product-modal').modal('toggle');
 }
 
@@ -247,9 +311,10 @@ function init(){
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
-    $('#productFile').on('change', updateFileName)
-    $('.active').removeClass('active');
-    $('#product-link').addClass('active');
+    $('#productFile').on('change', updateFileName);
+    $('#process-data').attr('disabled',true);
+    $('#download-errors').attr('hidden',true);
+    setActive();
 }
 
 $(document).ready(init);

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.increff.pos.util.Helper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,15 +40,11 @@ public class ProductService {
             count++;
         }
         if(!errors.isEmpty()){
-            throw new ApiException(errors.toString());
+            throw new ApiException(Helper.convertListToString(errors));
         }
         for(ProductPojo productPojo: productPojos){
             dao.insert(productPojo);
         }
-    }
-
-    public void delete(Integer id) throws ApiException {
-        dao.delete(id);
     }
 
     public ProductPojo get(Integer id) throws ApiException {

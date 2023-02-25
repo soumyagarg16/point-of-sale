@@ -5,47 +5,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping("/ui")
 public class AppUiController extends AbstractUiController {
 
-	@RequestMapping(value = "/ui/home")
+	@RequestMapping(value = "/home")
 	public ModelAndView home() {
 		return mav("home.html");
 	}
-	@RequestMapping(value = "/ui/admin")
+	@RequestMapping(value = "/admin")
 	public ModelAndView admin() {
 		return mav("supervisor.html");
 	}
 
-	@RequestMapping(value = "/ui/brand")
+	@RequestMapping(value = "/brand")
 	public ModelAndView brand() {
 		return mav("brand.html");
 	}
-	@RequestMapping(value = "/ui/product")
+	@RequestMapping(value = "/product")
 	public ModelAndView product() {
 		return mav("product.html");
 	}
 
-	@RequestMapping(value = "/ui/inventory")
+	@RequestMapping(value = "/inventory")
 	public ModelAndView inventory() {
 		return mav("inventory.html");
 	}
-	@RequestMapping(value = "/ui/order")
+	@RequestMapping(value = "/order")
 	public ModelAndView order() {
 		return mav("order.html");
 	}
-	@RequestMapping(value = "/ui/brandReport")
+	@RequestMapping(value = "/brandReport")
 	public ModelAndView brandReport() {
 		return mav("brandReport.html");
 	}
-	@RequestMapping(value = "/ui/inventoryReport")
+	@RequestMapping(value = "/inventoryReport")
 	public ModelAndView inventoryReport() {
 		return mav("inventoryReport.html");
 	}
-	@RequestMapping(value = "/ui/salesReport")
+	@RequestMapping(value = "/salesReport")
 	public ModelAndView salesReport() {
 		return mav("salesReport.html");
 	}
-	@RequestMapping(value = "/ui/dailyReport")
+	@RequestMapping(value = "/dailyReport")
 	public ModelAndView dailyReport() {
 		return mav("dailyReport.html");
 	}

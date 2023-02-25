@@ -43,7 +43,7 @@ public class ProductDto {
 
         List<String> errors = Validate.validateProductForms(productForms);
         if(!errors.isEmpty()){
-            throw new ApiException(errors.toString());
+            throw new ApiException(Helper.convertListToString(errors));
         }
 
         List<ProductPojo> productPojos = new ArrayList<>();
@@ -60,6 +60,9 @@ public class ProductDto {
                 productPojos.add(productPojo);
             }
             count++;
+        }
+        if(!errors.isEmpty()){
+            throw new ApiException(Helper.convertListToString(errors));
         }
         productService.addAll(productPojos);
     }

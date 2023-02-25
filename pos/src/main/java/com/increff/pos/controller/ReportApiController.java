@@ -17,43 +17,34 @@ import io.swagger.annotations.ApiOperation;
 
 @Api
 @RestController
+@RequestMapping("/api")
 public class ReportApiController {
-
 
     @Autowired
     private ReportDto dto;
 
-
     @ApiOperation(value = "Fetch Brand Report")
-    @RequestMapping(path = "/api/brandReport", method = RequestMethod.POST)
+    @RequestMapping(path = "/brandReport", method = RequestMethod.POST)
     public List<BrandData> getBrandReport(@RequestBody BrandForm brandForm) throws ApiException {
         return dto.getBrandReport(brandForm);
     }
 
-
     @ApiOperation(value = "Fetch Inventory Report")
-    @RequestMapping(path = "/api/inventoryReport", method = RequestMethod.POST)
+    @RequestMapping(path = "/inventoryReport", method = RequestMethod.POST)
     public List<InventoryReportData> getInventoryReport(@RequestBody BrandForm brandForm) throws ApiException {
         return dto.getInventoryReport(brandForm);
     }
 
     @ApiOperation(value = "Fetch Sales Report")
-    @RequestMapping(path = "/api/salesReport", method = RequestMethod.POST)
+    @RequestMapping(path = "/salesReport", method = RequestMethod.POST)
     public List<SalesReportData> getSalesReport(@RequestBody SalesReportForm salesReportForm) throws ApiException {
         return dto.getSalesReport(salesReportForm);
     }
 
     @ApiOperation(value = "Fetch Daily Report by date range")
-    @RequestMapping(path = "/api/dailyReport", method = RequestMethod.POST)
+    @RequestMapping(path = "/dailyReport", method = RequestMethod.POST)
     public List<DailyReportData> getDailyReport(@RequestBody DailyReportForm dailyReportForm) throws ApiException {
         return dto.getDailyReport(dailyReportForm);
     }
 
-
-    //TODO Remove this method
-    @ApiOperation(value = "Fetch complete daily report")
-    @RequestMapping(path = "/api/dailyReport", method = RequestMethod.GET)
-    public List<DailyReportData> getAllDailyReport() throws ApiException {
-        return dto.getAllDailyReport();
-    }
 }

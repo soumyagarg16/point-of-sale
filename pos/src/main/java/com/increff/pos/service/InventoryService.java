@@ -12,7 +12,6 @@ import com.increff.pos.pojo.InventoryPojo;
 
 
 @Service
-
 public class InventoryService {
 
     @Autowired
@@ -25,7 +24,11 @@ public class InventoryService {
             dao.insert(inventoryPojo);
        }
        else{
-           existingPojo.setQuantity(inventoryPojo.getQuantity()+existingPojo.getQuantity());
+           Integer qty = inventoryPojo.getQuantity()+existingPojo.getQuantity();
+           if(qty>10000000){
+               throw new ApiException("Quantity cannot exceed 10000000");
+           }
+           existingPojo.setQuantity(qty);
        }
     }
 
@@ -36,12 +39,6 @@ public class InventoryService {
         }
     }
 
-    @Transactional(rollbackOn = ApiException.class)
-    public void delete(Integer id) throws ApiException {
-        getCheck(id);
-        dao.delete(id);
-    }
-
     public InventoryPojo getInventoryPojoById(Integer id){
         return dao.select(id);
     }
@@ -50,6 +47,7 @@ public class InventoryService {
         return dao.selectAll();
     }
 
+    @Transactional(rollbackOn = ApiException.class)
     public void update(Integer id, InventoryPojo inventoryPojo) throws ApiException {
         InventoryPojo existingPojo = getCheck(id);
         existingPojo.setQuantity(inventoryPojo.getQuantity());

@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="baseUrl" th:attr="content=${baseUrl}">
-
 <script src="https://kit.fontawesome.com/c30beb553f.js" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
@@ -14,7 +13,7 @@
 <link rel="stylesheet" th:href="@{/static/app.css}">
 </head>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-1" th:fragment="name_site_navbar">
+<nav class="navbar navbar-expand-lg mb-1" th:fragment="name_site_navbar">
   <a class="navbar-brand" th:href="@{/}">
     <img th:src="@{/static/logo.jpg}" class="d-inline-block align-top" alt="">
   </a>
@@ -41,7 +40,7 @@
   </div>
 </nav>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light  mb-1" th:fragment="name_app_navbar">
+<nav class="navbar navbar-expand-lg mb-1" th:fragment="name_app_navbar">
   <a class="navbar-brand" th:href="@{/}">
     <img th:src="@{/static/logo.jpg}" class="d-inline-block align-top" alt="">
   </a>
@@ -55,7 +54,7 @@
             <a class="nav-link" th:href="@{/ui/home}">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" th:href="@{/ui/admin}">Supervisor</a>
+            <a class="nav-link" th:href="@{/ui/admin}">Admin</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id = "brand-link" th:href="@{/ui/brand}">Brand</a>
@@ -83,11 +82,11 @@
     </ul>
     
     <ul class="navbar-nav ml-auto">
-        <li class="navbar-text">
+        <li class="nav-link">
             [[${info.getRole()}]]
             &nbsp;&gt;&nbsp;
         </li>
-	    <li class="navbar-text">
+	    <li class="nav-link">
 	    	[[${info.getEmail()}]]
 	    	&nbsp;&gt;&nbsp;
 	    </li>
@@ -111,6 +110,7 @@
 	<script th:src="@{/static/app.js}"/></script>
 	<script th:src="@{/static/papaparse.min.js}"/></script>
     <script th:inline="javascript">
+    $(document).ready(setActive());
   /*<![CDATA[*/
       var userRole = /*[[${info.getRole()}]]*/ 'operator';
     /*]]>*/

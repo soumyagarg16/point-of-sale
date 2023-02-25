@@ -6,6 +6,9 @@ import com.increff.pos.model.SalesReportForm;
 import com.increff.pos.model.UserForm;
 import com.increff.pos.pojo.UserPojo;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 public class Normalize {
     public static void normalize(BrandForm brandForm){
         brandForm.setBrand(StringUtil.toLowerCase(brandForm.getBrand()));
@@ -17,7 +20,9 @@ public class Normalize {
         productForm.setName(StringUtil.toLowerCase(productForm.getName()));
     }
     public static void normalizeDouble(ProductForm productForm){
-        productForm.setMrp(Math.floor(productForm.getMrp() * 100) / 100);
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.setRoundingMode(RoundingMode.DOWN);
+        productForm.setMrp(Double.valueOf(df.format(productForm.getMrp())));
     }
 
     public static void normalizeDateTime(SalesReportForm salesReportForm){
@@ -33,6 +38,5 @@ public class Normalize {
     public static void normalizeUserForm(UserForm userForm){
         userForm.setEmail(StringUtil.toLowerCase(userForm.getEmail()));
         userForm.setRole(StringUtil.toLowerCase(userForm.getRole()));
-
     }
 }

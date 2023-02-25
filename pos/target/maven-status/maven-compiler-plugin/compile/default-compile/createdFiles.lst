@@ -4,7 +4,6 @@ com\increff\pos\service\ApiException.class
 com\increff\pos\model\InventoryReportData.class
 com\increff\pos\pojo\OrderItemPojo.class
 com\increff\pos\dao\InventoryDao.class
-com\increff\pos\dao\UserDao.class
 com\increff\pos\service\OrderService.class
 com\increff\pos\util\Helper.class
 com\increff\pos\model\InvoiceLineItem.class
@@ -12,9 +11,7 @@ com\increff\pos\model\UserData.class
 com\increff\pos\controller\AdminApiController.class
 com\increff\pos\util\CookieUtil.class
 com\increff\pos\pojo\InventoryPojo.class
-com\increff\pos\model\EmployeeForm.class
 com\increff\pos\model\OrderItemForm.class
-com\increff\pos\controller\InitApiController.class
 com\increff\pos\service\DailyReportService.class
 com\increff\pos\service\InventoryService.class
 com\increff\pos\dto\InventoryDto.class
@@ -33,6 +30,7 @@ com\increff\pos\service\ProductService.class
 com\increff\pos\controller\AppUiController.class
 com\increff\pos\dao\ProductDao.class
 com\increff\pos\model\MessageData.class
+com\increff\pos\service\AdminService.class
 com\increff\pos\controller\ProductApiController.class
 com\increff\pos\model\SalesReportForm.class
 com\increff\pos\controller\LoginController.class
@@ -40,6 +38,7 @@ com\increff\pos\controller\InventoryApiController.class
 com\increff\pos\model\InfoData.class
 com\increff\pos\model\ProductForm.class
 com\increff\pos\dao\AbstractDao.class
+com\increff\pos\dto\AdminDto.class
 com\increff\pos\util\Validate.class
 com\increff\pos\pojo\DailyReportPojo.class
 com\increff\pos\util\StringUtil.class
@@ -50,7 +49,6 @@ com\increff\pos\model\LoginForm.class
 com\increff\pos\model\AboutAppData.class
 com\increff\pos\pojo\BrandPojo.class
 com\increff\pos\service\OrderItemService.class
-com\increff\pos\controller\OrderItemApiController.class
 com\increff\pos\dao\OrderDao.class
 com\increff\pos\model\InvoiceData.class
 com\increff\pos\util\IOUtil.class
@@ -59,7 +57,6 @@ com\increff\pos\dto\BrandDto.class
 com\increff\pos\pojo\OrderPojo.class
 com\increff\pos\controller\SampleController.class
 com\increff\pos\controller\SiteUiController.class
-com\increff\pos\service\UserService.class
 com\increff\pos\dao\DailyReportDao.class
 com\increff\pos\pojo\UserPojo.class
 com\increff\pos\controller\BrandApiController.class
@@ -72,11 +69,12 @@ com\increff\pos\model\BrandData.class
 com\increff\pos\dto\ProductDto.class
 com\increff\pos\model\SignupForm.class
 com\increff\pos\spring\ControllerConfig.class
+com\increff\pos\controller\OrderApiController.class
 com\increff\pos\dao\BrandDao.class
 com\increff\pos\controller\ReportApiController.class
 com\increff\pos\model\OrderItemData.class
-com\increff\pos\model\EmployeeData.class
 com\increff\pos\util\UserPrincipal.class
 com\increff\pos\util\SecurityUtil.class
 com\increff\pos\model\UserForm.class
 com\increff\pos\service\AboutAppService.class
+com\increff\pos\client\InvoiceClient.class

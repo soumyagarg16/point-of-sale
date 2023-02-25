@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class InventoryDao extends AbstractDao {
 
-    private static String DELETE_ID = "delete from InventoryPojo inventoryPojo where id=:id";
+
     private static String SELECT_ID = "select inventoryPojo from InventoryPojo inventoryPojo where id=:id";
     private static String SELECT_ALL = "select inventoryPojo from InventoryPojo inventoryPojo";
 
@@ -29,11 +29,6 @@ public class InventoryDao extends AbstractDao {
         em.persist(inventoryPojo);
     }
 
-    public void delete(Integer id) {
-        Query query = em.createQuery(DELETE_ID);
-        query.setParameter("id", id);
-        query.executeUpdate();
-    }
 
     public InventoryPojo select(Integer id) {
         TypedQuery<InventoryPojo> query = getQuery(SELECT_ID, InventoryPojo.class);

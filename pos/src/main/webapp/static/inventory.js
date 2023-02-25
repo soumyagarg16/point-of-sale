@@ -17,6 +17,15 @@ function addInventory(event){
 	console.log(json);
     //$form.reportValidity();
 	var url = getInventoryUrl();
+    var msg = isValid(json);
+        if(msg!=""){
+            toastr.error(msg, "Error: ", {
+                "closeButton": true,
+                "timeOut": "0",
+                "extendedTimeOut": "0"
+            });
+            return;
+        }
 
 	$.ajax({
 	   url: url,
@@ -38,6 +47,24 @@ function addInventory(event){
 	});
 }
 
+function isValid(json){
+    var json = JSON.parse(json);
+    var msg = "";
+    if(json.barcode==""){
+        msg = "Barcode cannot be empty";
+    }
+    else if(json.quantity==""){
+        msg = "Quantity cannot be empty";
+    }
+    else if(json.quantity<0){
+            msg = "Quantity cannot be negative";
+    }
+    else if(json.quantity>10000000){
+            msg = "Quantity cannot exceed 10000000";
+    }
+    return msg;
+}
+
 function updateInventory(event){
 	//Get the ID
 	var id = $("#inventory-edit-form input[name=id]").val();
@@ -46,6 +73,15 @@ function updateInventory(event){
 	//Set the values to update
 	var $form = $("#inventory-edit-form");
 	var json = toJson($form);
+    var msg = isValid(json);
+        if(msg!=""){
+            toastr.error(msg, "Error: ", {
+                "closeButton": true,
+                "timeOut": "0",
+                "extendedTimeOut": "0"
+            });
+            return;
+        }
 
 	$.ajax({
 	   url: url,
@@ -81,32 +117,27 @@ function getInventoryList(){
 	});
 }
 
-function deleteInventory(id){
-	var url = getInventoryUrl() + "/" + id;
-
-	$.ajax({
-	   url: url,
-	   type: 'DELETE',
-	   success: function(data) {
-	   		getInventoryList();
-	   },
-	   error: handleAjaxError
-	});
-}
-
 // FILE UPLOAD METHODS
 var fileData = [];
 var errorData = [];
 
 function processData(){
-    console.log("entered process data");
 	var file = $('#inventoryFile')[0].files[0];
 	readFileData(file, readFileDataCallback);
 }
 
 function readFileDataCallback(results){
-    console.log("entered readFileCallback");
 	fileData = results.data;
+	var row = fileData[0];
+    var title = Object.keys(row);
+    if(title.length!=2 || title[0]!='barcode' || title[1]!='quantity'){
+      toastr.error("Incorrect tsv format", "Error: ", {
+           "closeButton": true,
+           "timeOut": "0",
+           "extendedTimeOut": "0"
+       });
+      return;
+    }
     var json = JSON.stringify(fileData);
     var url = getInventoryUrl()+'s';
     console.log("here");
@@ -129,19 +160,17 @@ function readFileDataCallback(results){
                         "extendedTimeOut": "0"
                     });
                 errorData=response.responseJSON.message;
+                $('#download-errors').removeAttr('hidden');
            }
         });
 }
 
 function downloadErrors(){
-    errorData = errorData.replaceAll(",","\n");
-    errorData = errorData.replace("["," ");
-    errorData = errorData.slice(0,-1);
     var element = document.createElement('a');
     element.setAttribute('href','data:text/plain;charset=utf-8,' + encodeURIComponent(errorData));
     element.setAttribute('download',"inventory_errors.txt");
     element.click();
-	//writeFileData(errorData);
+	$('#download-errors').attr('hidden',true);
 }
 
 //UI DISPLAY METHODS
@@ -186,16 +215,24 @@ function resetUploadDialog(){
 	var $file = $('#inventoryFile');
 	$file.val('');
 	$('#inventoryFileName').html("Choose File");
-	//Reset various counts
-	fileData = [];
-	errorData = [];
+	$('#download-errors').attr('hidden',true);
+    $('#process-data').attr('disabled',true);
 }
 
 
 function updateFileName(){
 	var $file = $('#inventoryFile');
 	var fileName = $file.val();
-	$('#inventoryFileName').html(fileName);
+	if(fileName.slice(-4)!=".tsv"){
+                toastr.error("File must be in .tsv format!", "Error: ", {
+                	    "closeButton": true,
+                	    "timeOut": "0",
+                	    "extendedTimeOut": "0"
+                	});
+                	return;
+        	}
+        	$('#inventoryFileName').html(fileName); // putting file name on label
+        	$("#process-data").removeAttr('disabled');
 }
 
 function displayUploadData(){
@@ -230,9 +267,10 @@ function init(){
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
-    $('#inventoryFile').on('change', updateFileName)
-    $('.active').removeClass('active');
-    $('#inventory-link').addClass('active');
+    $('#inventoryFile').on('change', updateFileName);
+    $('#process-data').attr('disabled',true);
+    $('#download-errors').attr('hidden',true);
+    setActive();
 }
 
 $(document).ready(init);
