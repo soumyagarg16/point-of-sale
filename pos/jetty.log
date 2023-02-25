@@ -1010,3 +1010,10 @@ Caused by: java.lang.ClassNotFoundException: com.increff.pos.dto.OrderItemDto
 2023-02-24 16:19:53 INFO  SecurityConfig:36 - Configuration complete
 2023-02-24 16:20:42 INFO  SecurityConfig:36 - Configuration complete
 2023-02-24 17:16:29 INFO  SecurityConfig:36 - Configuration complete
+2023-02-24 18:08:32 INFO  SecurityConfig:36 - Configuration complete
+2023-02-24 18:16:19 INFO  SecurityConfig:36 - Configuration complete
+2023-02-24 18:23:41 INFO  SecurityConfig:36 - Configuration complete
+2023-02-24 18:25:00 INFO  SecurityConfig:36 - Configuration complete
+2023-02-24 18:28:13 INFO  SecurityConfig:36 - Configuration complete
+2023-02-24 18:38:42 INFO  SecurityConfig:36 - Configuration complete
+2023-02-25 14:49:55 INFO  SecurityConfig:36 - Configuration complete

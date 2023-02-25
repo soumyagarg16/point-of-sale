@@ -12,7 +12,6 @@ com\increff\pos\controller\AdminApiController.class
 com\increff\pos\util\CookieUtil.class
 com\increff\pos\pojo\InventoryPojo.class
 com\increff\pos\model\OrderItemForm.class
-com\increff\pos\controller\InitApiController.class
 com\increff\pos\service\DailyReportService.class
 com\increff\pos\service\InventoryService.class
 com\increff\pos\dto\InventoryDto.class
