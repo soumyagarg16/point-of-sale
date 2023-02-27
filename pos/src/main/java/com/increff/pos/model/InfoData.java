@@ -19,10 +19,12 @@ public class InfoData implements Serializable {
 	private String message;
 	private String email;
 	private String role;
+	private Boolean hasMsg;
 	public InfoData() {
 		message = "";
 		email = "";
 		role = "";
+		hasMsg = false;
 	}
 
 

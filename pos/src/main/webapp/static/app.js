@@ -56,6 +56,7 @@ function writeFileData(arr){
     tempLink.click();
 }
 
+
 function setActive(){
     var navLinks = document.querySelectorAll('.nav-link');
     var currentURL = window.location.href;

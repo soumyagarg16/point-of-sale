@@ -43,13 +43,20 @@ public class LoginController {
 	@ApiOperation(value = "Logs in a user")
 	@RequestMapping(path = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView login(HttpServletRequest req, LoginForm loginForm){
+		info.setMessage(Validate.validateLoginForm(loginForm));
+		if(info.getMessage() != ""){
+			info.setHasMsg(true);
+			return new ModelAndView("redirect:/site/login");
+		}
 		UserPojo userPojo = service.get(loginForm.getEmail());
 		if(userPojo == null){
-			info.setMessage("Invalid email!");
+			info.setMessage("Unregistered Email!");
+			info.setHasMsg(true);
 			return new ModelAndView("redirect:/site/login");
 		}
 		if(!Objects.equals(userPojo.getPassword(), loginForm.getPassword())){
 			info.setMessage("Wrong password!");
+			info.setHasMsg(true);
 			return new ModelAndView("redirect:/site/login");
 		}
 
@@ -62,6 +69,7 @@ public class LoginController {
 		// Attach Authentication object to the Security Context
 		SecurityUtil.setAuthentication(authentication);
 		info.setMessage("");
+		info.setHasMsg(false);
 		return new ModelAndView("redirect:/ui/home");
 
 	}
@@ -70,7 +78,11 @@ public class LoginController {
 	@RequestMapping(path = "/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView signup(HttpServletRequest req, SignupForm signupForm) throws ApiException {
 		info.setMessage(Validate.validateSignupForm(signupForm));
-		if(info.getMessage()!=""){
+		if(info.getMessage()==""){
+			info.setHasMsg(false);
+		}
+		else{
+			info.setHasMsg(true);
 			return new ModelAndView("redirect:/site/signup");
 		}
 		UserPojo userPojo = Helper.convertSignupFormToPojo(signupForm);
@@ -91,10 +103,12 @@ public class LoginController {
 		UserPojo existing = service.get(userPojo.getEmail());
 		if (existing != null) {
 			info.setMessage("User with given email already exists!");
+			info.setHasMsg(true);
 			return new ModelAndView("redirect:/site/signup");
 		}
 		service.add(userPojo);
 		info.setMessage("");
+		info.setHasMsg(false);
 		return new ModelAndView("redirect:/site/login");
 	}
 

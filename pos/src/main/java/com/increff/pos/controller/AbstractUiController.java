@@ -24,6 +24,11 @@ public abstract class AbstractUiController {
 
 		info.setEmail(principal == null ? "" : principal.getEmail());
 		info.setRole(principal==null? "": principal.getRole());
+		if(info.getHasMsg()==false){
+			info.setMessage("");
+
+		}
+		info.setHasMsg(false);
 		// Set info
 		ModelAndView mav = new ModelAndView(page);
 		mav.addObject("info", info);

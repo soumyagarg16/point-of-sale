@@ -1,5 +1,6 @@
 package com.increff.pos.util;
 
+import com.increff.pos.controller.LoginController;
 import com.increff.pos.model.*;
 import com.increff.pos.service.ApiException;
 
@@ -209,13 +210,27 @@ public class Validate {
         }
         return "";
     }
+
+    public static String validateLoginForm(LoginForm loginForm){
+        loginForm.setEmail(loginForm.getEmail().toLowerCase().trim());
+        if(StringUtil.isEmpty(loginForm.getEmail())){
+            return "Enter email!";
+        }
+        if(!validEmail(loginForm.getEmail())){
+            return "Not a valid email address!";
+        }
+        if(StringUtil.isEmpty(loginForm.getPassword())){
+            return "Enter a password!";
+        }
+        return "";
+    }
     public static void validateUserForm(UserForm userForm) throws ApiException{
         Normalize.normalizeUserForm(userForm);
         if(StringUtil.isEmpty(userForm.getEmail())){
             throw new ApiException("Email cannot be empty!");
         }
         if(!validEmail(userForm.getEmail())){
-            throw new ApiException("Invalid Email!");
+            throw new ApiException("Invalid email!");
         }
         if(StringUtil.isEmpty(userForm.getPassword())){
             throw new ApiException("Password cannot be empty!");
