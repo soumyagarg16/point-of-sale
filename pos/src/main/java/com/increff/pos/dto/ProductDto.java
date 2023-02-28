@@ -36,7 +36,6 @@ public class ProductDto {
     }
 
     public void addAll(List<ProductForm> productForms) throws ApiException {
-
         if(productForms.size()>5000){
             throw new ApiException("File size cannot exceed 5000 rows!");
         }

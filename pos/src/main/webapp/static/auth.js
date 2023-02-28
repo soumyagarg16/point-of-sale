@@ -11,6 +11,7 @@ function showMsg(){
 
 function init(){
     showMsg();
+    setActive();
 }
 
 $(document).ready(init);
