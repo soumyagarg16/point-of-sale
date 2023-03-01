@@ -1,27 +1,22 @@
 package com.increff.pos.dao;
 
-import java.util.List;
+import com.increff.pos.pojo.ProductPojo;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-
-import com.increff.pos.pojo.ProductPojo;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 
 @Repository
 public class ProductDao extends AbstractDao {
 
-    private static String DELETE_ID = "delete from ProductPojo productPojo where id=:id";
-    private static String SELECT_ID = "select productPojo from ProductPojo productPojo where id=:id";
-    private static String SELECT_ALL = "select productPojo from ProductPojo productPojo";
-    private static String SELECT_ID_BY_BARCODE = "select productPojo from ProductPojo productPojo where barcode=:barcode";
-
-    private static String SELECT_ALL_BY_BRAND_CATEGORY_ID = "select productPojo from ProductPojo productPojo where brand_category=:brand_category";
-    //TODO remove delete
+    private static final String SELECT_ID = "select productPojo from ProductPojo productPojo where id=:id";
+    private static final String SELECT_ALL = "select productPojo from ProductPojo productPojo";
+    private static final String SELECT_ID_BY_BARCODE = "select productPojo from ProductPojo productPojo where barcode=:barcode";
+    private static final String SELECT_ALL_BY_BRAND_CATEGORY_ID = "select productPojo from ProductPojo productPojo where brand_category=:brand_category";
 
     @PersistenceContext
     private EntityManager em;
@@ -29,12 +24,6 @@ public class ProductDao extends AbstractDao {
     @Transactional
     public void insert(ProductPojo productPojo) {
         em.persist(productPojo);
-    }
-
-    public void delete(Integer id) {
-        Query query = em.createQuery(DELETE_ID);
-        query.setParameter("id", id);
-        query.executeUpdate();
     }
 
     public ProductPojo select(Integer id) {
@@ -53,12 +42,12 @@ public class ProductDao extends AbstractDao {
         TypedQuery<ProductPojo> query = getQuery(SELECT_ALL, ProductPojo.class);
         return query.getResultList();
     }
+
     public List<ProductPojo> selectAll(Integer id) {
         TypedQuery<ProductPojo> query = getQuery(SELECT_ALL_BY_BRAND_CATEGORY_ID, ProductPojo.class);
-        query.setParameter("brand_category",id);
+        query.setParameter("brand_category", id);
         return query.getResultList();
     }
-
 
 
 }

@@ -156,7 +156,7 @@ public class OrderItemDto {
 
     private List<InvoiceLineItem> createInvoiceItemList(List<OrderItemPojo> orderItemPojos) throws ApiException {
         List<InvoiceLineItem> invoiceLineItems = new ArrayList<>();
-        Integer sno = 1;
+        int sno = 1;
         for (OrderItemPojo orderItemPojo : orderItemPojos) {
             InvoiceLineItem invoiceLineItem = new InvoiceLineItem();
             //TODO Helper method to create invoiceLineITem

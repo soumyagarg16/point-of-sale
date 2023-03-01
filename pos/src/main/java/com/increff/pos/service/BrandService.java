@@ -2,6 +2,7 @@ package com.increff.pos.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.transaction.Transactional;
 
@@ -57,6 +58,12 @@ public class BrandService {
     }
 
     public List<BrandPojo> getAllByBrandCategory(String brand, String category){
+        if(Objects.equals(brand, "")){
+            return dao.selectAllByCategory(category);
+        }
+        if(Objects.equals(category, "")){
+            return dao.selectAllByBrand(brand);
+        }
         return dao.selectAllByBrandCategory(brand,category);
     }
 
@@ -69,7 +76,7 @@ public class BrandService {
     public void update(Integer id, BrandForm brandForm) throws ApiException {
         BrandPojo brandPojo = getById(id);
         BrandPojo existingPojo = getByBrandCategory(brandForm.getBrand(),brandForm.getCategory());
-        if(existingPojo==null || existingPojo.getId()==id){
+        if(existingPojo==null || Objects.equals(existingPojo.getId(), id)){
             brandPojo.setBrand(brandForm.getBrand());
             brandPojo.setCategory(brandForm.getCategory());
         }

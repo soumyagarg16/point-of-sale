@@ -1,20 +1,17 @@
 package com.increff.pos.dao;
 
-import java.util.List;
+import com.increff.pos.pojo.InventoryPojo;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-
-import com.increff.pos.pojo.InventoryPojo;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 
 @Repository
 public class InventoryDao extends AbstractDao {
-
 
     private static final String SELECT_ID = "select inventoryPojo from InventoryPojo inventoryPojo where id=:id";
     private static final String SELECT_ALL = "select inventoryPojo from InventoryPojo inventoryPojo";
@@ -37,8 +34,6 @@ public class InventoryDao extends AbstractDao {
         TypedQuery<InventoryPojo> query = getQuery(SELECT_ALL, InventoryPojo.class);
         return query.getResultList();
     }
-
-
 
 
 }

@@ -1,24 +1,20 @@
 package com.increff.pos.dao;
 
-import java.util.List;
+import com.increff.pos.pojo.OrderItemPojo;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
-
-import com.increff.pos.pojo.OrderItemPojo;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
 
 @Repository
 public class OrderItemDao extends AbstractDao {
 
     private static final String SELECT_ID = "select orderItemPojo from OrderItemPojo orderItemPojo where id=:id";
-    private static final String SELECT_ALL = "select orderItemPojo from OrderItemPojo orderItemPojo";
     private static final String SELECT_ALL_BY_ORDER_ID = "select orderItemPojo from OrderItemPojo orderItemPojo where orderId=:orderId";
-
-    //private static String update = "update BrandPojo p set ";
 
     @PersistenceContext
     private EntityManager em;
