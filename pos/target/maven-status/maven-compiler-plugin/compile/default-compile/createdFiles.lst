@@ -9,7 +9,6 @@ com\increff\pos\util\Helper.class
 com\increff\pos\model\InvoiceLineItem.class
 com\increff\pos\model\UserData.class
 com\increff\pos\controller\AdminApiController.class
-com\increff\pos\util\CookieUtil.class
 com\increff\pos\pojo\InventoryPojo.class
 com\increff\pos\model\OrderItemForm.class
 com\increff\pos\service\DailyReportService.class
@@ -19,7 +18,6 @@ com\increff\pos\model\DailyReportForm.class
 com\increff\pos\model\InventoryData.class
 com\increff\pos\model\InventoryForm.class
 com\increff\pos\dto\OrderItemDto.class
-com\increff\pos\controller\AboutApiController.class
 com\increff\pos\service\BrandService.class
 com\increff\pos\spring\WebInitializer.class
 com\increff\pos\model\SalesReportData.class

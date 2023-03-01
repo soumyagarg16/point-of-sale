@@ -14,9 +14,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class OrderItemDao extends AbstractDao {
 
-    private static String SELECT_ID = "select orderItemPojo from OrderItemPojo orderItemPojo where id=:id";
-    private static String SELECT_ALL = "select orderItemPojo from OrderItemPojo orderItemPojo";
-    private static String SELECT_ALL_BY_ORDER_ID = "select orderItemPojo from OrderItemPojo orderItemPojo where orderId=:orderId";
+    private static final String SELECT_ID = "select orderItemPojo from OrderItemPojo orderItemPojo where id=:id";
+    private static final String SELECT_ALL = "select orderItemPojo from OrderItemPojo orderItemPojo";
+    private static final String SELECT_ALL_BY_ORDER_ID = "select orderItemPojo from OrderItemPojo orderItemPojo where orderId=:orderId";
 
     //private static String update = "update BrandPojo p set ";
 

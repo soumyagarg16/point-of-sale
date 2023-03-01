@@ -41,7 +41,7 @@ public class LoginControllerTest extends AbstractUnitTest{
         MockHttpServletRequest request = new MockHttpServletRequest();
         signupForm.setEmail("a@a.c");
         signupForm.setPassword("a");
-        loginController.signup(request,signupForm);
+        loginController.signup(signupForm);
         assertEquals("",info.getMessage());
     }
 }

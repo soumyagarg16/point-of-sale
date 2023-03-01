@@ -10,10 +10,10 @@ import org.springframework.web.client.RestTemplate;
 public class InvoiceClient {
     @Autowired
     private RestTemplate restTemplate;
+    private static final String INVOICE_URL = "http://localhost:8000/fop/api/pdf";
 
     public String generateInvoice(InvoiceData invoiceData){
         HttpEntity<InvoiceData> httpEntity = new HttpEntity<>(invoiceData);
-        String invoice_base64 = restTemplate.exchange("http://localhost:8000/fop/api/pdf", HttpMethod.POST,httpEntity,String.class).getBody();
-        return invoice_base64;
+        return restTemplate.exchange(INVOICE_URL, HttpMethod.POST,httpEntity,String.class).getBody();
     }
 }

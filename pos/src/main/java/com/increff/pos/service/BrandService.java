@@ -31,7 +31,7 @@ public class BrandService {
 
     @Transactional(rollbackOn = ApiException.class)
     public void addAll(List<BrandPojo> brandPojos) throws ApiException {
-        Integer count = 1;
+        int count = 1;
         List<String> errors = new ArrayList<>();
         for(BrandPojo brandPojo: brandPojos){
             BrandPojo existingPojo = getByBrandCategory(brandPojo.getBrand(), brandPojo.getCategory());

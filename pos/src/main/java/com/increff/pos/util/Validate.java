@@ -1,6 +1,5 @@
 package com.increff.pos.util;
 
-import com.increff.pos.controller.LoginController;
 import com.increff.pos.model.*;
 import com.increff.pos.service.ApiException;
 
@@ -12,6 +11,8 @@ import java.util.regex.Pattern;
 
 
 public class Validate {
+    private static final Integer MAX_QUANTITY = 1000000000;
+
     public static void validateProductForm(ProductForm productForm) throws ApiException{
         if(StringUtil.isEmpty(productForm.getBrand())){
             throw new ApiException("Brand cannot be empty");
@@ -31,18 +32,18 @@ public class Validate {
         if(productForm.getMrp()<=0){
             throw new ApiException("Mrp cannot be less than or equal to 0");
         }
-        if(productForm.getMrp()>=10000000){
-            throw new ApiException("Mrp cannot exceed 10000000");
+        if(productForm.getMrp()>=MAX_QUANTITY){
+            throw new ApiException("Mrp cannot exceed "+MAX_QUANTITY);
         }
         Normalize.normalize(productForm);
         Normalize.normalizeDouble(productForm);
     }
 
-    public static List<String> validateProductForms(List<ProductForm> productForms) throws ApiException{
+    public static List<String> validateProductForms(List<ProductForm> productForms){
 
         List<String> errors = new ArrayList<>();
-        Set<String> set = new HashSet<String>();
-        Integer count = 1;
+        Set<String> set = new HashSet<>();
+        int count = 1;
         for(ProductForm productForm: productForms){
             Normalize.normalize(productForm);
             Normalize.normalizeDouble(productForm);
@@ -84,14 +85,14 @@ public class Validate {
         if(inventoryForm.getQuantity()<0){
             throw new ApiException("Quantity cannot be negative");
         }
-        if(inventoryForm.getQuantity()>10000000){
-            throw new ApiException("Quantity cannot exceed 10000000");
+        if(inventoryForm.getQuantity()>MAX_QUANTITY){
+            throw new ApiException("Quantity cannot exceed "+MAX_QUANTITY);
         }
     }
-    public static List<String> validateInventoryForms(List<InventoryForm> inventoryForms) throws ApiException{
+    public static List<String> validateInventoryForms(List<InventoryForm> inventoryForms){
         List<String> errors = new ArrayList<>();
-        Set<String> set = new HashSet<String>();
-        Integer count = 1;
+        Set<String> set = new HashSet<>();
+        int count = 1;
         for(InventoryForm inventoryForm: inventoryForms){
             if(StringUtil.isEmpty(inventoryForm.getBarcode())){
                 errors.add("Barcode cannot be empty in row "+count);
@@ -121,9 +122,9 @@ public class Validate {
         }
     }
 
-    public static List<String> validateBrandForms(List<BrandForm> brandForms) throws ApiException{
+    public static List<String> validateBrandForms(List<BrandForm> brandForms){
         List<String> errors = new ArrayList<>();
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new HashSet<>();
         int count = 1;
         for(BrandForm brandForm: brandForms){
             Normalize.normalize(brandForm);
@@ -142,10 +143,10 @@ public class Validate {
         return errors;
     }
 
-    public static List<String> validateOrderItemForms(List<OrderItemForm> orderItemForms) throws ApiException{
+    public static List<String> validateOrderItemForms(List<OrderItemForm> orderItemForms){
         List<String> errors = new ArrayList<>();
-        Set<String> set = new HashSet<String>();
-        Integer count = 1;
+        Set<String> set = new HashSet<>();
+        int count = 1;
         for(OrderItemForm orderItemForm: orderItemForms){
             if(StringUtil.isEmpty(orderItemForm.getBarcode())){
                 errors.add("Barcode cannot be empty for item "+count);
@@ -178,7 +179,7 @@ public class Validate {
         if(salesReportForm.getEndDate().isEmpty()){
             throw new ApiException("Invalid end date!");
         }
-        Integer compare = salesReportForm.getStartDate().compareTo(salesReportForm.getEndDate());
+        int compare = salesReportForm.getStartDate().compareTo(salesReportForm.getEndDate());
         if(compare>0){
             throw new ApiException("Start date cannot be beyond end date!");
         }
@@ -191,7 +192,7 @@ public class Validate {
         if(dailyReportForm.getEndDate().isEmpty()){
             throw new ApiException("Invalid end Date!");
         }
-        Integer compare = dailyReportForm.getStartDate().compareTo(dailyReportForm.getEndDate());
+        int compare = dailyReportForm.getStartDate().compareTo(dailyReportForm.getEndDate());
         if(compare>0){
             throw new ApiException("Start date cannot be beyond end date!");
         }
@@ -202,7 +203,7 @@ public class Validate {
            return "Email cannot be empty!";
         }
         signupForm.setEmail(signupForm.getEmail().toLowerCase().trim());
-        if(!validEmail(signupForm.getEmail())){
+        if(validEmail(signupForm.getEmail())){
             return "Not a valid email address!";
         }
         if(StringUtil.isEmpty(signupForm.getPassword())){
@@ -216,7 +217,7 @@ public class Validate {
         if(StringUtil.isEmpty(loginForm.getEmail())){
             return "Enter email!";
         }
-        if(!validEmail(loginForm.getEmail())){
+        if(validEmail(loginForm.getEmail())){
             return "Not a valid email address!";
         }
         if(StringUtil.isEmpty(loginForm.getPassword())){
@@ -229,7 +230,7 @@ public class Validate {
         if(StringUtil.isEmpty(userForm.getEmail())){
             throw new ApiException("Email cannot be empty!");
         }
-        if(!validEmail(userForm.getEmail())){
+        if(validEmail(userForm.getEmail())){
             throw new ApiException("Invalid email!");
         }
         if(StringUtil.isEmpty(userForm.getPassword())){
@@ -243,6 +244,6 @@ public class Validate {
     private static boolean validEmail(String email){
         String regex = "^(.+)@(.+)$";
         Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(email).matches();
+        return !pattern.matcher(email).matches();
     }
 }

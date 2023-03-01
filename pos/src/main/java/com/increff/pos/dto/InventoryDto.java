@@ -28,6 +28,7 @@ public class InventoryDto {
     public void add(InventoryForm inventoryForm) throws ApiException {
         Validate.validateInventoryForm(inventoryForm);
         InventoryPojo inventoryPojo = Helper.convertInventoryFormToPojo(inventoryForm);
+        //TODO separate getCheck and get function in service layer : ex: getByID() and getCheckById();
         ProductPojo productPojo = productService.getProductPojoByBarcode(inventoryForm.getBarcode());
         if(productPojo==null){
             throw new ApiException("No product exists with the given barcode!");
@@ -63,7 +64,6 @@ public class InventoryDto {
 
     }
 
-
     public InventoryData get(Integer id) throws ApiException {
         InventoryPojo inventoryPojo  = getCheck(id);
         InventoryData inventoryData = Helper.convertInventoryPojoToData(inventoryPojo);
@@ -93,6 +93,7 @@ public class InventoryDto {
         inventoryService.update(id,inventoryPojo);
     }
 
+    //TODO Shift in service layer
     private InventoryPojo getCheck(Integer id) throws ApiException {
         InventoryPojo inventoryPojo = inventoryService.getInventoryPojoById(id);
         if(inventoryPojo==null){

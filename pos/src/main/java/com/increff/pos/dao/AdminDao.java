@@ -13,10 +13,10 @@ import com.increff.pos.pojo.UserPojo;
 @Repository
 public class AdminDao extends AbstractDao {
 
-	private static String DELETE_ID = "delete from UserPojo userPojo where id=:id";
-	private static String SELECT_ID = "select userPojo from UserPojo userPojo where id=:id";
-	private static String SELECT_EMAIL = "select userPojo from UserPojo userPojo where email=:email";
-	private static String SELECT_ALL = "select userPojo from UserPojo userPojo";
+	private static final String DELETE_ID = "delete from UserPojo userPojo where id=:id";
+	private static final String SELECT_ID = "select userPojo from UserPojo userPojo where id=:id";
+	private static final String SELECT_EMAIL = "select userPojo from UserPojo userPojo where email=:email";
+	private static final String SELECT_ALL = "select userPojo from UserPojo userPojo";
 
 	
 	@Transactional
@@ -24,6 +24,7 @@ public class AdminDao extends AbstractDao {
 		em().persist(userPojo);
 	}
 
+	@Transactional
 	public Integer delete(Integer id) {
 		Query query = em().createQuery(DELETE_ID);
 		query.setParameter("id", id);

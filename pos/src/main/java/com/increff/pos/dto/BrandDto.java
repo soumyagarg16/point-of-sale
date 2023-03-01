@@ -25,6 +25,7 @@ public class BrandDto {
     }
 
     public void addAll(List<BrandForm> brandForms) throws ApiException {
+        //TODO add in validate
         if(brandForms.size()>5000){
             throw new ApiException("File size cannot exceed 5000 rows!");
         }

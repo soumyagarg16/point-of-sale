@@ -1,18 +1,17 @@
 package com.increff.pos.controller;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.increff.pos.dto.OrderItemDto;
-import com.increff.pos.model.*;
-
-import com.increff.pos.service.*;
+import com.increff.pos.model.OrderData;
+import com.increff.pos.model.OrderItemData;
+import com.increff.pos.model.OrderItemForm;
+import com.increff.pos.service.ApiException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import java.io.IOException;
+import java.util.List;
 
 @Api
 @RestController
@@ -27,7 +26,6 @@ public class OrderApiController {
         dto.addAll(orderItemForms);
     }
 
-    // Will be called when clicked on view orders
     @ApiOperation(value = "Gets the order items by order id")
     @RequestMapping(path = "/{orderId}", method = RequestMethod.GET)
     public List<OrderItemData> getAllByOrderId(@PathVariable Integer orderId) throws ApiException {
@@ -36,7 +34,7 @@ public class OrderApiController {
 
     @ApiOperation(value = "Gets all orders")
     @RequestMapping(path = "", method = RequestMethod.GET)
-    public List<OrderData> getAllOrders() throws ApiException {
+    public List<OrderData> getAllOrders() {
         return dto.getAllOrders();
     }
 

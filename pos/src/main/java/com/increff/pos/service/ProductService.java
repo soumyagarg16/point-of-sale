@@ -2,6 +2,7 @@ package com.increff.pos.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.transaction.Transactional;
 
@@ -29,7 +30,7 @@ public class ProductService {
 
     public void addAll(List<ProductPojo> productPojos) throws ApiException {
 
-        Integer count = 1;
+        int count = 1;
         List<String> errors = new ArrayList<>();
         //check for existing barcode
         for(ProductPojo productPojo: productPojos){
@@ -58,15 +59,14 @@ public class ProductService {
     public void update(Integer id, ProductPojo productPojo) throws ApiException {
         ProductPojo toBeChangedPojo = get(id);
         ProductPojo existingPojo = getProductPojoByBarcode(productPojo.getBarcode());
-        if(existingPojo==null || existingPojo.getId()==id){
+        if(existingPojo==null || Objects.equals(existingPojo.getId(), id)){
             toBeChangedPojo.setBarcode(productPojo.getBarcode());
             toBeChangedPojo.setMrp(productPojo.getMrp());
             toBeChangedPojo.setName(productPojo.getName());
-            toBeChangedPojo.setBrand_category(productPojo.getBrand_category());
+            toBeChangedPojo.setBrandCategory(productPojo.getBrandCategory());
         }
         else throw new ApiException("Given Barcode already exists!");
     }
-
 
     public ProductPojo getProductPojoByBarcode(String barcode){
         return dao.select(barcode);
@@ -76,7 +76,7 @@ public class ProductService {
         return dao.selectAll(id);
     }
 
-
+ //TODO wRong method
     public ProductPojo getCheck(ProductPojo productPojo) throws ApiException {
         if (productPojo == null) {
             throw new ApiException("No Product exists with this id");

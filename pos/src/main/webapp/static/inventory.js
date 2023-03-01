@@ -194,7 +194,8 @@ function displayInventoryList(data){
                         scrollCollapse: false,
                         paging: false,
                         searching: false,
-                        info: false
+                        info: false,
+                        ordering: false,
                     });
 }
 
