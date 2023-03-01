@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class pdfController {
     @Autowired
     private JavaToXml javaToXml;
-
     @Autowired
     private PdfGenerator pdfGenerator;
 

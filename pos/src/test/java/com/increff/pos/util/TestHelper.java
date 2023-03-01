@@ -2,7 +2,6 @@ package com.increff.pos.util;
 
 import com.increff.pos.model.*;
 import com.increff.pos.pojo.*;
-import org.junit.jupiter.api.Order;
 
 import java.time.ZonedDateTime;
 
@@ -31,7 +30,7 @@ public class TestHelper {
     public static ProductPojo createProductPojo(String barcode, Integer bcId,  String name, Double mrp){
         ProductPojo productPojo = new ProductPojo();
         productPojo.setBarcode(barcode);
-        productPojo.setBrand_category(bcId);
+        productPojo.setBrandCategory(bcId);
         productPojo.setName(name);
         productPojo.setMrp(mrp);
         return productPojo;

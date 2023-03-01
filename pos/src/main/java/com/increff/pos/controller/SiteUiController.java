@@ -7,26 +7,21 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SiteUiController extends AbstractUiController {
 
-	// WEBSITE PAGES
-	@RequestMapping(value = "")
-	public ModelAndView index() {
-		return new ModelAndView("redirect:/site/login");
-	}
+    // WEBSITE PAGES
+    @RequestMapping(value = "")
+    public ModelAndView index() {
+        return mav("redirect:/site/login");
+    }
 
-	@RequestMapping(value = "/site/login")
-	public ModelAndView login() {
-		return mav("login.html");
-	}
+    @RequestMapping(value = "/site/login")
+    public ModelAndView login() {
+        return mav("login.html");
+    }
 
-	@RequestMapping(value = "/site/signup")
-	public ModelAndView signup() {
-		return mav("signup.html");
-	}
-
-	@RequestMapping(value = "/site/logout")
-	public ModelAndView logout() {
-		return mav("logout.html");
-	}
+    @RequestMapping(value = "/site/signup")
+    public ModelAndView signup() {
+        return mav("signup.html");
+    }
 
 
 }

@@ -15,11 +15,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class OrderDao extends AbstractDao {
 
-    private static String DELETE_ID = "delete from OrderPojo orderPojo where id=:id";
-    private static String SELECT_BY_ID = "select orderPojo from OrderPojo orderPojo where id=:id";
-    private static String SELECT_BY_TIME = "select orderPojo from OrderPojo orderPojo where time=:time";
-    private static String SELECT_ALL = "select orderPojo from OrderPojo orderPojo";
-    private static String SELECT_ALL_BY_DATE = "select orderPojo from OrderPojo orderPojo where time>=:start and time<=:end";
+    private static final String DELETE_ID = "delete from OrderPojo orderPojo where id=:id";
+    private static final String SELECT_BY_ID = "select orderPojo from OrderPojo orderPojo where id=:id";
+    private static final String SELECT_BY_TIME = "select orderPojo from OrderPojo orderPojo where time=:time";
+    private static final String SELECT_ALL = "select orderPojo from OrderPojo orderPojo";
+    private static final String SELECT_ALL_BY_DATE = "select orderPojo from OrderPojo orderPojo where time>=:start and time<=:end";
 
 
     @PersistenceContext

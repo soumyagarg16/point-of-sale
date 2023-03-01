@@ -40,6 +40,4 @@ public class AdminService {
 		return dao.selectAll();
 	}
 
-
-
 }

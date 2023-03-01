@@ -21,10 +21,10 @@ public class Normalize {
     }
     public static void normalizeDouble(ProductForm productForm){
         DecimalFormat df = new DecimalFormat("0.00");
-        df.setRoundingMode(RoundingMode.DOWN);
+        df.setRoundingMode(RoundingMode.HALF_UP);
         productForm.setMrp(Double.valueOf(df.format(productForm.getMrp())));
     }
-
+    //TODO final string of time
     public static void normalizeDateTime(SalesReportForm salesReportForm){
         salesReportForm.setStartDate(salesReportForm.getStartDate()+ " 00:00:00");
         salesReportForm.setEndDate(salesReportForm.getEndDate()+ " 23:59:59");

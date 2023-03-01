@@ -16,10 +16,8 @@ import org.springframework.stereotype.Repository;
 public class InventoryDao extends AbstractDao {
 
 
-    private static String SELECT_ID = "select inventoryPojo from InventoryPojo inventoryPojo where id=:id";
-    private static String SELECT_ALL = "select inventoryPojo from InventoryPojo inventoryPojo";
-
-    //private static String update = "update BrandPojo p set ";
+    private static final String SELECT_ID = "select inventoryPojo from InventoryPojo inventoryPojo where id=:id";
+    private static final String SELECT_ALL = "select inventoryPojo from InventoryPojo inventoryPojo";
 
     @PersistenceContext
     private EntityManager em;
@@ -29,13 +27,11 @@ public class InventoryDao extends AbstractDao {
         em.persist(inventoryPojo);
     }
 
-
     public InventoryPojo select(Integer id) {
         TypedQuery<InventoryPojo> query = getQuery(SELECT_ID, InventoryPojo.class);
         query.setParameter("id", id);
         return getSingle(query);
     }
-
 
     public List<InventoryPojo> selectAll() {
         TypedQuery<InventoryPojo> query = getQuery(SELECT_ALL, InventoryPojo.class);

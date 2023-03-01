@@ -28,40 +28,38 @@ public class ProductDto {
         Validate.validateProductForm(productForm);
         ProductPojo productPojo = Helper.convertProductFormToPojo(productForm);
         BrandPojo brandPojo = brandService.getByBrandCategory(productForm.getBrand(), productForm.getCategory());
-        if(brandPojo==null){
+        if (brandPojo == null) {
             throw new ApiException("The given brand-category pair does not exist.");
         }
-        productPojo.setBrand_category(brandPojo.getId());
+        productPojo.setBrandCategory(brandPojo.getId());
         productService.add(productPojo);
     }
 
     public void addAll(List<ProductForm> productForms) throws ApiException {
-
-        if(productForms.size()>5000){
+        if (productForms.size() > 5000) {
             throw new ApiException("File size cannot exceed 5000 rows!");
         }
 
         List<String> errors = Validate.validateProductForms(productForms);
-        if(!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             throw new ApiException(Helper.convertListToString(errors));
         }
 
         List<ProductPojo> productPojos = new ArrayList<>();
-        Integer count = 1;
+        int count = 1;
         //check if given brand category exists
-        for(ProductForm productForm: productForms){
+        for (ProductForm productForm : productForms) {
             BrandPojo brandPojo = brandService.getByBrandCategory(productForm.getBrand(), productForm.getCategory());
-            if(brandPojo==null){
-                errors.add("Brand "+productForm.getBrand()+" and category "+productForm.getCategory()+" pair does not exist for row "+count);
-            }
-            else{
+            if (brandPojo == null) {
+                errors.add("Brand " + productForm.getBrand() + " and category " + productForm.getCategory() + " pair does not exist for row " + count);
+            } else {
                 ProductPojo productPojo = Helper.convertProductFormToPojo(productForm);
-                productPojo.setBrand_category(brandPojo.getId());
+                productPojo.setBrandCategory(brandPojo.getId());
                 productPojos.add(productPojo);
             }
             count++;
         }
-        if(!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             throw new ApiException(Helper.convertListToString(errors));
         }
         productService.addAll(productPojos);
@@ -71,41 +69,36 @@ public class ProductDto {
     public ProductData get(Integer id) throws ApiException {
         ProductPojo productPojo = productService.getCheck(productService.get(id));
         ProductData productData = Helper.convertProductPojoToData(productPojo);
-        productData.setBrand(brandService.getById(productPojo.getBrand_category()).getBrand());
-        productData.setCategory(brandService.getById(productPojo.getBrand_category()).getCategory());
+        productData.setBrand(brandService.getById(productPojo.getBrandCategory()).getBrand());
+        productData.setCategory(brandService.getById(productPojo.getBrandCategory()).getCategory());
         return productData;
     }
 
     @Transactional
-    public List<ProductData> getAll() throws ApiException{
+    public List<ProductData> getAll() throws ApiException {
         List<ProductPojo> productPojos = productService.getAll();
         List<ProductData> productDatas = new ArrayList<>();
-        for(ProductPojo productPojo: productPojos){
+        for (ProductPojo productPojo : productPojos) {
             ProductData productData = Helper.convertProductPojoToData(productPojo);
-            productData.setBrand(brandService.getById(productPojo.getBrand_category()).getBrand());
-            productData.setCategory(brandService.getById(productPojo.getBrand_category()).getCategory());
+            productData.setBrand(brandService.getById(productPojo.getBrandCategory()).getBrand());
+            productData.setCategory(brandService.getById(productPojo.getBrandCategory()).getCategory());
             productDatas.add(productData);
         }
-         return productDatas;
+        return productDatas;
     }
 
     @Transactional(rollbackOn = ApiException.class)
     public void update(Integer id, ProductForm productForm) throws ApiException {
         Validate.validateProductForm(productForm);
-        BrandPojo brandPojo = brandService.getByBrandCategory(productForm.getBrand(),productForm.getCategory());
-        if(brandPojo==null){
+        BrandPojo brandPojo = brandService.getByBrandCategory(productForm.getBrand(), productForm.getCategory());
+        if (brandPojo == null) {
             throw new ApiException("Given brand-category pair does not exist!");
         }
         ProductPojo productPojo = Helper.convertProductFormToPojo(productForm);
-        productPojo.setBrand_category(brandPojo.getId());
-        productService.update(id,productPojo);
+        productPojo.setBrandCategory(brandPojo.getId());
+        productService.update(id, productPojo);
 
     }
-
-
-
-
-
 
 
 }

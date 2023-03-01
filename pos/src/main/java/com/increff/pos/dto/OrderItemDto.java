@@ -10,9 +10,7 @@ import com.increff.pos.service.*;
 import com.increff.pos.util.Helper;
 import com.increff.pos.util.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.io.File;
@@ -26,8 +24,6 @@ import java.util.List;
 @Service
 public class OrderItemDto {
     @Autowired
-    private BrandService brandService;
-    @Autowired
     private ProductService productService;
     @Autowired
     private InventoryService inventoryService;
@@ -40,34 +36,34 @@ public class OrderItemDto {
 
     @Transactional(rollbackOn = ApiException.class)
     public void addAll(List<OrderItemForm> orderItemForms) throws ApiException {
-        if(orderItemForms.isEmpty()){
+        if (orderItemForms.isEmpty()) {
             throw new ApiException("Cannot place an empty order!");
         }
         List<String> errors = Validate.validateOrderItemForms(orderItemForms);
         //Creating an order id
-        if(!errors.isEmpty()){
-            throw new ApiException(errors.toString());
+        if (!errors.isEmpty()) {
+            throw new ApiException(Helper.convertListToString(errors));
         }
         OrderPojo orderPojo = Helper.createOrderPojo();
         orderService.add(orderPojo);
         //Converting OrderItemForms to pojos
         List<OrderItemPojo> orderItemPojos = new ArrayList<>();
-        for(OrderItemForm orderItemForm : orderItemForms){
-            OrderItemPojo orderItemPojo = addOrderItem(orderItemForm,errors);
+        for (OrderItemForm orderItemForm : orderItemForms) {
+            OrderItemPojo orderItemPojo = addOrderItem(orderItemForm, errors);
             orderItemPojo.setOrderId(orderPojo.getId());
             orderItemPojos.add(orderItemPojo);
         }
-        if(!errors.isEmpty()){
-            throw new ApiException(errors.toString());
+        if (!errors.isEmpty()) {
+            throw new ApiException(Helper.convertListToString(errors));
         }
         orderItemService.addAll(orderItemPojos);
     }
 
-    public List<OrderItemData> getAllByOrderId(Integer id) throws ApiException{
+    public List<OrderItemData> getAllByOrderId(Integer id) throws ApiException {
         orderService.get(id);
         List<OrderItemPojo> orderItemPojos = orderItemService.getAll(id);
         List<OrderItemData> orderItemDatas = new ArrayList<>();
-        for(OrderItemPojo orderItemPojo: orderItemPojos){
+        for (OrderItemPojo orderItemPojo : orderItemPojos) {
             OrderItemData orderItemData = Helper.convertOrderItemPojoToData(orderItemPojo);
             orderItemData.setBarcode(productService.get(orderItemPojo.getProductId()).getBarcode());
             orderItemDatas.add(orderItemData);
@@ -75,10 +71,10 @@ public class OrderItemDto {
         return orderItemDatas;
     }
 
-    public List<OrderData> getAllOrders(){
+    public List<OrderData> getAllOrders() {
         List<OrderPojo> orderPojos = orderService.getAll();
         List<OrderData> orderDatas = new ArrayList<>();
-        for(OrderPojo orderPojo: orderPojos){
+        for (OrderPojo orderPojo : orderPojos) {
             OrderData orderData = new OrderData();
             orderData.setId(orderPojo.getId());
             orderData.setTime(orderPojo.getTime());
@@ -91,18 +87,18 @@ public class OrderItemDto {
     @Transactional(rollbackOn = ApiException.class)
     public String generateInvoice(Integer orderId) throws ApiException, IOException {
         OrderPojo orderPojo = orderService.get(orderId);
-        if(orderPojo.getIsInvoiceGenerated()==1){
+        if (orderPojo.getIsInvoiceGenerated() == 1) {
             return downloadInvoice(orderId);
         }
         InvoiceData invoiceData = createInvoiceData(orderPojo);
         String invoice;
-        try{
+        try {
             invoice = invoiceClient.generateInvoice(invoiceData);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new ApiException("Unable to create invoice at this moment!");
         }
         String pdfFileName = "invoice_" + invoiceData.getInvoiceNumber() + ".pdf";
-        storeFile(invoice,pdfFileName);
+        storeFile(invoice, pdfFileName);
         orderPojo.setIsInvoiceGenerated(1);
         return downloadInvoice(orderId);
     }
@@ -110,10 +106,10 @@ public class OrderItemDto {
     @Transactional(rollbackOn = ApiException.class)
     public String downloadInvoice(Integer orderId) throws IOException, ApiException {
         OrderPojo orderPojo = orderService.get(orderId);
-        if(orderPojo.getIsInvoiceGenerated()==0){
+        if (orderPojo.getIsInvoiceGenerated() == 0) {
             throw new ApiException("Invoice needs to be generated before downloading!");
         }
-        String filePath = "src/main/resources/pdf/invoice_order_"+orderId + ".pdf";
+        String filePath = "src/main/resources/pdf/invoice_order_" + orderId + ".pdf";
         File file = new File(filePath);
         byte[] bytesArray = new byte[(int) file.length()];
         FileInputStream fis = new FileInputStream(file);
@@ -123,24 +119,21 @@ public class OrderItemDto {
     }
 
     //Existing product and inventory check
-    private OrderItemPojo addOrderItem(OrderItemForm orderItemForm, List<String> errors){
+    private OrderItemPojo addOrderItem(OrderItemForm orderItemForm, List<String> errors) {
         OrderItemPojo orderItemPojo = Helper.convertOrderItemFormToPojo(orderItemForm);
         ProductPojo productPojo = productService.getProductPojoByBarcode(orderItemForm.getBarcode());
-        if(productPojo==null){
+        if (productPojo == null) {
             errors.add("No Product exists with the given barcode: " + orderItemForm.getBarcode());
-        }
-        else{
+        } else {
             orderItemPojo.setProductId(productPojo.getId());
             InventoryPojo inventoryPojo = inventoryService.getInventoryPojoById(productPojo.getId());
-            if(inventoryPojo==null || inventoryPojo.getQuantity()<orderItemPojo.getQuantity()){
+            if (inventoryPojo == null || inventoryPojo.getQuantity() < orderItemPojo.getQuantity()) {
                 errors.add("Product with the barcode " + productPojo.getBarcode() + " has insufficient inventory!");
-            }
-            else if(orderItemPojo.getSellingPrice()> productPojo.getMrp()){
+            } else if (orderItemPojo.getSellingPrice() > productPojo.getMrp()) {
                 errors.add("Selling price cannot exceed mrp!");
-            }
-            else{
+            } else {
                 orderItemPojo.setQuantity(orderItemForm.getQuantity());
-                inventoryPojo.setQuantity(inventoryPojo.getQuantity()-orderItemForm.getQuantity());
+                inventoryPojo.setQuantity(inventoryPojo.getQuantity() - orderItemForm.getQuantity());
             }
 
         }
@@ -152,7 +145,8 @@ public class OrderItemDto {
         List<OrderItemPojo> orderItemPojos = orderItemService.getAll(orderPojo.getId());
         List<InvoiceLineItem> invoiceLineItems = createInvoiceItemList(orderItemPojos);
         String[] time = orderPojo.getTime().split(" ");
-        invoiceData.setInvoiceNumber("order_"+orderPojo.getId());
+        //TODO create method
+        invoiceData.setInvoiceNumber("order_" + orderPojo.getId());
         invoiceData.setInvoiceDate(time[0]);
         invoiceData.setInvoiceTime(time[1]);
         invoiceData.setLineItems(invoiceLineItems);
@@ -163,8 +157,9 @@ public class OrderItemDto {
     private List<InvoiceLineItem> createInvoiceItemList(List<OrderItemPojo> orderItemPojos) throws ApiException {
         List<InvoiceLineItem> invoiceLineItems = new ArrayList<>();
         Integer sno = 1;
-        for(OrderItemPojo orderItemPojo: orderItemPojos){
+        for (OrderItemPojo orderItemPojo : orderItemPojos) {
             InvoiceLineItem invoiceLineItem = new InvoiceLineItem();
+            //TODO Helper method to create invoiceLineITem
             ProductPojo productPojo = productService.get(orderItemPojo.getProductId());
             invoiceLineItem.setSno(sno++);
             invoiceLineItem.setBarcode(productPojo.getBarcode());
@@ -177,11 +172,11 @@ public class OrderItemDto {
         return invoiceLineItems;
     }
 
-    private void storeFile(String invoice, String pdfFileName){
+    private void storeFile(String invoice, String pdfFileName) {
         File pdfDir = new File("src/main/resources./pdf");
         pdfDir.mkdirs();
         File file = new File(pdfDir, pdfFileName);
-        try (FileOutputStream fos = new FileOutputStream(file) ) {
+        try (FileOutputStream fos = new FileOutputStream(file)) {
             byte[] decoder = Base64.getDecoder().decode(invoice);
             fos.write(decoder);
         } catch (Exception e) {

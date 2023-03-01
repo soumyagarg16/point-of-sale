@@ -52,7 +52,7 @@ public class DailyReportServiceTest extends AbstractUnitTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String currentDate = date.format(formatter);
         System.out.println(currentDate.toString());
-        OrderPojo orderPojo =  TestHelper.createOrderPojo(currentDate.toString()+" 10:00:00");
+        OrderPojo orderPojo = TestHelper.createOrderPojo(currentDate.toString()+" 10:00:00");
         orderDao.insert(orderPojo);
         for(int i=1; i<=3; i++){
             OrderItemPojo orderItemPojo = TestHelper.createOrderItemPojo(orderPojo.getId(),productPojos.get(i-1).getId(),5+i,10.50);
@@ -65,7 +65,7 @@ public class DailyReportServiceTest extends AbstractUnitTest {
     }
 
     @Test
-    public void testGetAll() throws ApiException {
+    public void testGetAll() {
 
         DailyReportPojo dailyReportPojo = new DailyReportPojo();
         dailyReportPojo.setDate(ZonedDateTime.now());

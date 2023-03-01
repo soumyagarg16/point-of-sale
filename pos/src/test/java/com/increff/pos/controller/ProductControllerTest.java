@@ -1,10 +1,8 @@
 package com.increff.pos.controller;
 
 import com.increff.pos.AbstractUnitTest;
-import com.increff.pos.controller.ProductApiController;
 import com.increff.pos.dao.BrandDao;
 import com.increff.pos.dao.ProductDao;
-import com.increff.pos.dto.ProductDto;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.BrandPojo;
@@ -35,7 +33,7 @@ public class ProductControllerTest extends AbstractUnitTest {
         ProductForm productForm = TestHelper.createProductForm(" BraNd10 ", "CatEgory10  ","xD12","p1",50.512);
         productApiController.add(productForm);
         ProductPojo productPojo = productDao.selectAll().get(0);
-        assertEquals(brandPojo.getId(), productPojo.getBrand_category());
+        assertEquals(brandPojo.getId(), productPojo.getBrandCategory());
         assertEquals("xD12",productPojo.getBarcode());
         assertEquals("p1",productPojo.getName());
         assertEquals(50.51,productPojo.getMrp(),0.01);
@@ -64,7 +62,7 @@ public class ProductControllerTest extends AbstractUnitTest {
         List<ProductPojo> productPojos = productDao.selectAll();
         int i = 1;
         for(ProductPojo productPojo: productPojos){
-            assertEquals(brandPojos.get(i - 1).getId(), productPojo.getBrand_category());
+            assertEquals(brandPojos.get(i - 1).getId(), productPojo.getBrandCategory());
             assertEquals("x"+i, productPojo.getBarcode());
             assertEquals("p"+i, productPojo.getName());
             assertEquals(10.50+i, productPojo.getMrp(),0.0);

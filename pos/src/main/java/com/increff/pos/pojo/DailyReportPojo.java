@@ -12,10 +12,11 @@ import java.time.ZonedDateTime;
 public class DailyReportPojo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
-    ZonedDateTime date;
-    Integer invoiced_orders_count;
-    Integer invoiced_items_count;
-    Double total_revenue;
+    private Integer id;
+    private ZonedDateTime date;
+    //TODO remove snake casing, use camel case
+    private Integer invoiced_orders_count;
+    private Integer invoiced_items_count;
+    private Double total_revenue;
 
 }

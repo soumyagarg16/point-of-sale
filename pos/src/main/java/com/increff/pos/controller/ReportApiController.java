@@ -1,19 +1,17 @@
 package com.increff.pos.controller;
 
-import java.util.List;
-
 import com.increff.pos.dto.ReportDto;
 import com.increff.pos.model.*;
+import com.increff.pos.service.ApiException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.increff.pos.service.ApiException;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import java.util.List;
 
 @Api
 @RestController
@@ -25,13 +23,13 @@ public class ReportApiController {
 
     @ApiOperation(value = "Fetch Brand Report")
     @RequestMapping(path = "/brandReport", method = RequestMethod.POST)
-    public List<BrandData> getBrandReport(@RequestBody BrandForm brandForm) throws ApiException {
+    public List<BrandData> getBrandReport(@RequestBody BrandForm brandForm) {
         return dto.getBrandReport(brandForm);
     }
 
     @ApiOperation(value = "Fetch Inventory Report")
     @RequestMapping(path = "/inventoryReport", method = RequestMethod.POST)
-    public List<InventoryReportData> getInventoryReport(@RequestBody BrandForm brandForm) throws ApiException {
+    public List<InventoryReportData> getInventoryReport(@RequestBody BrandForm brandForm) {
         return dto.getInventoryReport(brandForm);
     }
 

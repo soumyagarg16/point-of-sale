@@ -48,7 +48,6 @@ D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\util\IOUtil.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\model\OrderData.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\util\SecurityUtil.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\dto\ProductDto.java
-D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\controller\InitApiController.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\model\DailyReportData.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\dao\AbstractDao.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\dao\AdminDao.java

@@ -1,17 +1,15 @@
 package com.increff.pos.controller;
 
-import java.util.List;
-
 import com.increff.pos.dto.ProductDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.service.ApiException;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api
 @RestController
@@ -48,9 +46,8 @@ public class ProductApiController {
     @ApiOperation(value = "Updates a product")
     @RequestMapping(path = "/product/{id}", method = RequestMethod.PUT)
     public void update(@PathVariable Integer id, @RequestBody ProductForm productForm) throws ApiException {
-        dto.update(id,productForm);
+        dto.update(id, productForm);
     }
-
 
 
 }

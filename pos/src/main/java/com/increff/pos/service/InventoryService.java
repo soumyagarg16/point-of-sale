@@ -16,7 +16,7 @@ public class InventoryService {
 
     @Autowired
     private InventoryDao dao;
-
+    private static final Integer MAX_QUANTITY = 1000000000;
     @Transactional(rollbackOn = ApiException.class)
     public void add(InventoryPojo inventoryPojo) throws ApiException {
         InventoryPojo existingPojo = getInventoryPojoById(inventoryPojo.getId());
@@ -25,7 +25,7 @@ public class InventoryService {
        }
        else{
            Integer qty = inventoryPojo.getQuantity()+existingPojo.getQuantity();
-           if(qty>10000000){
+           if(qty>MAX_QUANTITY){
                throw new ApiException("Quantity cannot exceed 10000000");
            }
            existingPojo.setQuantity(qty);

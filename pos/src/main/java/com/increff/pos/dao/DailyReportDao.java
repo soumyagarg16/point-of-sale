@@ -15,9 +15,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class DailyReportDao extends AbstractDao {
 
-    private static String SELECT_ID = "select dailyReportPojo from DailyReportPojo dailyReportPojo where id=:id";
-    private static String SELECT_ALL = "select dailyReportPojo from DailyReportPojo dailyReportPojo";
-    private static String SELECT_ALL_BY_DATE = "select dailyReportPojo from DailyReportPojo dailyReportPojo where date>=:start and date<=:end";
+    private static final String SELECT_ID = "select dailyReportPojo from DailyReportPojo dailyReportPojo where id=:id";
+    private static final String SELECT_ALL = "select dailyReportPojo from DailyReportPojo dailyReportPojo";
+    private static final String SELECT_ALL_BY_DATE = "select dailyReportPojo from DailyReportPojo dailyReportPojo where date>=:start and date<=:end";
 
     @PersistenceContext
     private EntityManager em;
