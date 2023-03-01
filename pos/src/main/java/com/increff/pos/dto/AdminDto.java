@@ -26,13 +26,13 @@ public class AdminDto {
         adminService.add(userPojo);
     }
 
-    public void delete(Integer id){
+    public void delete(Integer id) {
         adminService.delete(id);
     }
 
-    public List<UserData> getAll(){
+    public List<UserData> getAll() {
         List<UserPojo> userPojos = adminService.getAll();
-        List<UserData> userDatas = new ArrayList<UserData>();
+        List<UserData> userDatas = new ArrayList<>();
         for (UserPojo userPojo : userPojos) {
             userDatas.add(Helper.convertUserPojoToData(userPojo));
         }

@@ -25,24 +25,19 @@ public class BrandDto {
     }
 
     public void addAll(List<BrandForm> brandForms) throws ApiException {
-        //TODO add in validate
-        if(brandForms.size()>5000){
-            throw new ApiException("File size cannot exceed 5000 rows!");
-        }
         List<String> errors = Validate.validateBrandForms(brandForms);
-        if(!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             throw new ApiException(Helper.convertListToString(errors));
         }
         List<BrandPojo> brandPojos = new ArrayList<>();
-        for(BrandForm brandForm: brandForms){
+        for (BrandForm brandForm : brandForms) {
             BrandPojo brandPojo = Helper.convertBrandFormToPojo(brandForm);
             brandPojos.add(brandPojo);
         }
         brandService.addAll(brandPojos);
-
     }
 
-    public List<BrandData> getAll(){
+    public List<BrandData> getAll() {
         List<BrandPojo> brandPojos = brandService.getAll();
         return Helper.convertBrandPojosToDatas(brandPojos);
     }
@@ -52,9 +47,9 @@ public class BrandDto {
         return Helper.convert(brandPojo);
     }
 
-    public void update(Integer id, BrandForm brandForm) throws ApiException{
+    public void update(Integer id, BrandForm brandForm) throws ApiException {
         Validate.validateBrandForm(brandForm);
-        brandService.update(id,brandForm);
+        brandService.update(id, brandForm);
     }
 
 }

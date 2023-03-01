@@ -123,7 +123,7 @@ public class ProductControllerTest extends AbstractUnitTest {
         assertEquals("x1",existing.getBarcode());
         assertEquals("p1",existing.getName());
         assertEquals(50.50,existing.getMrp(),0.0);
-        assertEquals(brandPojo.getId(),existing.getBrand_category());
+        assertEquals(brandPojo.getId(),existing.getBrandCategory());
 
     }
 
@@ -147,7 +147,7 @@ public class ProductControllerTest extends AbstractUnitTest {
         for(ProductData productData: productDatas){
             assertEquals("b"+i,productData.getBrand());
             assertEquals("c"+i,productData.getCategory());
-            assertEquals(brandPojos.get(i-1).getId(),productData.getBrand_category());
+            assertEquals(brandPojos.get(i-1).getId(),productData.getBrandCategory());
             assertEquals("x"+i,productData.getBarcode());
             assertEquals("p"+i,productData.getName());
             assertEquals(10.50+i,productData.getMrp(),0.0);

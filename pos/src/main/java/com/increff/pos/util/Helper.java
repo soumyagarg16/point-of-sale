@@ -49,7 +49,7 @@ public class Helper {
     public static ProductData convertProductPojoToData(ProductPojo productPojo) {
         ProductData productData = new ProductData();
         productData.setId(productPojo.getId());
-        productData.setBrand_category(productPojo.getBrandCategory());
+        productData.setBrandCategory(productPojo.getBrandCategory());
         productData.setName(productPojo.getName());
         productData.setBarcode(productPojo.getBarcode());
         productData.setMrp(productPojo.getMrp());

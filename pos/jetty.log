@@ -1068,3 +1068,12 @@ Caused by: java.lang.ClassNotFoundException: com.increff.pos.dto.OrderItemDto
 2023-02-28 12:03:47 INFO  SecurityConfig:36 - Configuration complete
 2023-02-28 18:42:19 INFO  SecurityConfig:36 - Configuration complete
 2023-03-01 11:25:47 INFO  SecurityConfig:36 - Configuration complete
+2023-03-01 15:06:15 INFO  SecurityConfig:36 - Configuration complete
+2023-03-01 15:11:27 INFO  SecurityConfig:36 - Configuration complete
+2023-03-01 15:16:10 INFO  SecurityConfig:36 - Configuration complete
+2023-03-01 15:28:52 INFO  SecurityConfig:36 - Configuration complete
+2023-03-01 15:32:35 WARN  SqlExceptionHelper:137 - SQL Error: 1054, SQLState: 42S22
+2023-03-01 15:32:35 ERROR SqlExceptionHelper:142 - Unknown column 'brand_category' in 'where clause'
+2023-03-01 15:32:59 WARN  SqlExceptionHelper:137 - SQL Error: 1054, SQLState: 42S22
+2023-03-01 15:32:59 ERROR SqlExceptionHelper:142 - Unknown column 'brand_category' in 'where clause'
+2023-03-01 15:35:18 INFO  SecurityConfig:36 - Configuration complete

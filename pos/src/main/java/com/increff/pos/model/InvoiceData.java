@@ -8,21 +8,17 @@ import java.util.List;
 @Getter
 @Setter
 public class InvoiceData {
-    private String InvoiceNumber;
-    private String InvoiceDate;
-    private String InvoiceTime;
-    private Double Total;
-    private List<InvoiceLineItem> LineItems;
+    private String invoiceNumber;
+    private String invoiceDate;
+    private String invoiceTime;
+    private Double total;
+    private List<InvoiceLineItem> lineItems;
 
-//    public void setTotal(){
-//
-//    }
-
-    public Double getTotal(){
-        Total=0.0;
-        for(InvoiceLineItem item:LineItems){
-            Total+=item.getTotal();
+    public Double getTotal() {
+        total = 0.0;
+        for (InvoiceLineItem item : lineItems) {
+            total += item.getTotal();
         }
-        return Total;
+        return total;
     }
 }

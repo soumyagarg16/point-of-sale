@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.util.*;
-//TODO Wrap to keep lines within the white line on the right
+
 @Service
 public class ReportDto {
     @Autowired
@@ -43,7 +43,8 @@ public class ReportDto {
         List<BrandData> brandDatas = getBrandReport(brandForm); // List of desirable brand-category pairs
         List<InventoryReportData> inventoryReportDatas = new ArrayList<>();
         for (BrandData brandData : brandDatas) {
-            List<ProductPojo> productPojos = productService.getAllByBrandCategoryId(brandData.getId());// Get all products with the same brand-cat
+            // Get all products with the same brand-cat
+            List<ProductPojo> productPojos = productService.getAllByBrandCategoryId(brandData.getId());
             int qty = 0;
             boolean flag = false;
 
@@ -74,8 +75,8 @@ public class ReportDto {
         if (brandDatas.isEmpty()) {
             throw new ApiException("No order has been placed for the given brand-category in the date range!");
         }
-
-        List<OrderPojo> orderPojos = orderService.getAllByDate(salesReportForm.getStartDate(), salesReportForm.getEndDate());// desirable orders
+        // desirable orders
+        List<OrderPojo> orderPojos = orderService.getAllByDate(salesReportForm.getStartDate(), salesReportForm.getEndDate());
         if (orderPojos.isEmpty()) {
             throw new ApiException("No order exists in the given range!");
         }
@@ -115,24 +116,28 @@ public class ReportDto {
 
         for (OrderPojo orderPojo : orderPojos) {
             List<OrderItemPojo> orderItemPojos = orderItemService.getAll(orderPojo.getId()); // Items with same orderID
-            //TODO put in a separate method
-            for (OrderItemPojo orderItemPojo : orderItemPojos) {
-                ProductPojo productPojo = productService.get(orderItemPojo.getProductId());
-                Integer key = productPojo.getBrandCategory();
-                if (brandCategorySet.contains(key)) {
-                    SalesReportData salesReportData;
-                    if (map.containsKey(key)) {
-                        salesReportData = map.get(key);
-                        salesReportData.setQuantity(salesReportData.getQuantity() + orderItemPojo.getQuantity());
-                        salesReportData.setRevenue(salesReportData.getRevenue() + (orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice()));
-                    } else {
-                        salesReportData = newSalesReportData(orderItemPojo, key);
-                    }
-                    map.put(key, salesReportData);
-                }
-            }
+            updateSalesReportDataMap(orderItemPojos, brandCategorySet, map);
         }
         return map;
+    }
+
+    //TODO how to prevent crossing white line
+    private void updateSalesReportDataMap(List<OrderItemPojo> orderItemPojos, Set<Integer> brandCategorySet, Map<Integer, SalesReportData> map) throws ApiException {
+        for (OrderItemPojo orderItemPojo : orderItemPojos) {
+            ProductPojo productPojo = productService.get(orderItemPojo.getProductId());
+            Integer key = productPojo.getBrandCategory();
+            if (brandCategorySet.contains(key)) {
+                SalesReportData salesReportData;
+                if (map.containsKey(key)) {
+                    salesReportData = map.get(key);
+                    salesReportData.setQuantity(salesReportData.getQuantity() + orderItemPojo.getQuantity());
+                    salesReportData.setRevenue(salesReportData.getRevenue() + (orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice()));
+                } else {
+                    salesReportData = newSalesReportData(orderItemPojo, key);
+                }
+                map.put(key, salesReportData);
+            }
+        }
     }
 
     private SalesReportData newSalesReportData(OrderItemPojo orderItemPojo, Integer key) throws ApiException {

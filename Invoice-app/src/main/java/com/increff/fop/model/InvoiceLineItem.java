@@ -12,8 +12,9 @@ public class InvoiceLineItem {
     private Integer quantity;
     private Double sellingPrice;
     private Double total;
-    public Double getTotal(){
-        return quantity*sellingPrice;
+
+    public Double getTotal() {
+        return quantity * sellingPrice;
     }
 
 }

@@ -13,8 +13,8 @@ public class InvoiceLineItem {
     private Double sellingPrice;
     private Double total;
 
-    public Double getTotal(){
-        return quantity*sellingPrice;
+    public Double getTotal() {
+        return quantity * sellingPrice;
     }
 
 }

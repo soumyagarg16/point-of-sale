@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DailyReportData{
+public class DailyReportData {
     private String date;
     private Integer invoicedOrderCount;
     private Integer invoicedItemCount;

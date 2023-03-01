@@ -38,25 +38,22 @@ public class LoginController {
 
     @ApiOperation(value = "Logs in a user")
     @RequestMapping(path = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public void login(HttpServletRequest req, LoginForm loginForm) {
+    public ModelAndView login(HttpServletRequest req, LoginForm loginForm) {
         info.setMessage(Validate.validateLoginForm(loginForm));
         if (!Objects.equals(info.getMessage(), "")) {
             info.setHasMsg(true);
-            new ModelAndView("redirect:/site/login");
-            return;
+            return new ModelAndView("redirect:/site/login");
         }
         UserPojo userPojo = service.get(loginForm.getEmail());
         if (userPojo == null) {
             info.setMessage("Unregistered Email!");
             info.setHasMsg(true);
-            new ModelAndView("redirect:/site/login");
-            return;
+            return new ModelAndView("redirect:/site/login");
         }
         if (!Objects.equals(userPojo.getPassword(), loginForm.getPassword())) {
             info.setMessage("Wrong password!");
             info.setHasMsg(true);
-            new ModelAndView("redirect:/site/login");
-            return;
+            return new ModelAndView("redirect:/site/login");
         }
 
         // Create authentication object
@@ -69,20 +66,18 @@ public class LoginController {
         SecurityUtil.setAuthentication(authentication);
         info.setMessage("");
         info.setHasMsg(false);
-        new ModelAndView("redirect:/ui/home");
-
+        return new ModelAndView("redirect:/ui/home");
     }
 
     @ApiOperation(value = "SignUp a user")
     @RequestMapping(path = "/signup", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public void signup(SignupForm signupForm) throws ApiException {
+    public ModelAndView signup(SignupForm signupForm) throws ApiException {
         info.setMessage(Validate.validateSignupForm(signupForm));
         if (Objects.equals(info.getMessage(), "")) {
             info.setHasMsg(false);
         } else {
             info.setHasMsg(true);
-            new ModelAndView("redirect:/site/signup");
-            return;
+            return new ModelAndView("redirect:/site/signup");
         }
         UserPojo userPojo = Helper.convertSignupFormToPojo(signupForm);
         //if exists in properties file give supervisor role else operator.
@@ -102,13 +97,12 @@ public class LoginController {
         if (existing != null) {
             info.setMessage("User with given email already exists!");
             info.setHasMsg(true);
-            new ModelAndView("redirect:/site/signup");
-            return;
+            return new ModelAndView("redirect:/site/signup");
         }
         service.add(userPojo);
         info.setMessage("");
         info.setHasMsg(false);
-        new ModelAndView("redirect:/site/login");
+        return new ModelAndView("redirect:/site/login");
     }
 
     @RequestMapping(path = "/logout", method = RequestMethod.GET)

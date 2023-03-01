@@ -23,7 +23,7 @@ public class ProductDto {
     @Autowired
     private ProductService productService;
 
-
+    @Transactional(rollbackOn = ApiException.class)
     public void add(ProductForm productForm) throws ApiException {
         Validate.validateProductForm(productForm);
         ProductPojo productPojo = Helper.convertProductFormToPojo(productForm);
@@ -35,11 +35,8 @@ public class ProductDto {
         productService.add(productPojo);
     }
 
+    @Transactional(rollbackOn = ApiException.class)
     public void addAll(List<ProductForm> productForms) throws ApiException {
-        if (productForms.size() > 5000) {
-            throw new ApiException("File size cannot exceed 5000 rows!");
-        }
-
         List<String> errors = Validate.validateProductForms(productForms);
         if (!errors.isEmpty()) {
             throw new ApiException(Helper.convertListToString(errors));
@@ -65,7 +62,6 @@ public class ProductDto {
         productService.addAll(productPojos);
     }
 
-    @Transactional
     public ProductData get(Integer id) throws ApiException {
         ProductPojo productPojo = productService.getCheck(productService.get(id));
         ProductData productData = Helper.convertProductPojoToData(productPojo);
@@ -74,7 +70,6 @@ public class ProductDto {
         return productData;
     }
 
-    @Transactional
     public List<ProductData> getAll() throws ApiException {
         List<ProductPojo> productPojos = productService.getAll();
         List<ProductData> productDatas = new ArrayList<>();
@@ -97,7 +92,6 @@ public class ProductDto {
         ProductPojo productPojo = Helper.convertProductFormToPojo(productForm);
         productPojo.setBrandCategory(brandPojo.getId());
         productService.update(id, productPojo);
-
     }
 
 
