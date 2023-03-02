@@ -10,6 +10,9 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 public class Normalize {
+    private static final String DAY_START_TIME = "00:00:00";
+    private static final String DAY_END_TIME = "23:59:59";
+
     public static void normalize(BrandForm brandForm){
         brandForm.setBrand(StringUtil.toLowerCase(brandForm.getBrand()));
         brandForm.setCategory(StringUtil.toLowerCase(brandForm.getCategory()));
@@ -24,10 +27,10 @@ public class Normalize {
         df.setRoundingMode(RoundingMode.HALF_UP);
         productForm.setMrp(Double.valueOf(df.format(productForm.getMrp())));
     }
-    //TODO final string of time
+
     public static void normalizeDateTime(SalesReportForm salesReportForm){
-        salesReportForm.setStartDate(salesReportForm.getStartDate()+ " 00:00:00");
-        salesReportForm.setEndDate(salesReportForm.getEndDate()+ " 23:59:59");
+        salesReportForm.setStartDate(salesReportForm.getStartDate()+ " " + DAY_START_TIME);
+        salesReportForm.setEndDate(salesReportForm.getEndDate()+ " " + DAY_END_TIME);
     }
 
     public static void normalizeEmail(UserPojo userPojo){

@@ -13,7 +13,8 @@ import java.util.List;
 
 public class Helper {
 
-    //TODO make final static string of date format
+    public static final String DMY = "dd-MM-yyyy";
+    public static final String YMDTIME = "yyyy-MM-dd HH:mm:ss";
 
     public static BrandPojo convertBrandFormToPojo(BrandForm brandForm) {
         BrandPojo brandPojo = new BrandPojo();
@@ -84,7 +85,7 @@ public class Helper {
     }
 
     public static OrderPojo createOrderPojo() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern(YMDTIME);
         String time = dtf.format(LocalDateTime.now());
         OrderPojo orderPojo = new OrderPojo();
         orderPojo.setTime(time);
@@ -96,7 +97,7 @@ public class Helper {
         List<DailyReportData> dailyReportDataList = new ArrayList<>();
         for (DailyReportPojo dailyReportPojo : dailyReportPojos) {
             DailyReportData dailyReportData = new DailyReportData();
-            dailyReportData.setDate(dailyReportPojo.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+            dailyReportData.setDate(dailyReportPojo.getDate().format(DateTimeFormatter.ofPattern(DMY)));
             dailyReportData.setInvoicedOrderCount(dailyReportPojo.getInvoicedOrdersCount());
             dailyReportData.setInvoicedItemCount(dailyReportPojo.getInvoicedItemsCount());
             dailyReportData.setTotalRevenue(dailyReportPojo.getTotalRevenue());
@@ -160,5 +161,4 @@ public class Helper {
         return new UsernamePasswordAuthenticationToken(principal, null, authorities);
     }
 }
-//TODO ALl privates method should be below public methods
 
