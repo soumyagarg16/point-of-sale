@@ -40,7 +40,6 @@ public class BrandDao extends AbstractDao {
         return getSingle(query);
     }
 
-    //TODO create more static final queries and add logic in service layer
     public List<BrandPojo> selectAllByBrandCategory(String brand, String category) {
         TypedQuery<BrandPojo> query = getQuery(SELECT_BY_BRAND_CATEGORY, BrandPojo.class);
         query.setParameter("brand", brand);

@@ -92,9 +92,9 @@ public class TestHelper {
     public static DailyReportPojo createDailyReportPojo(ZonedDateTime dt, Integer orderCount, Integer itemCount, Double rev){
         DailyReportPojo dailyReportPojo = new DailyReportPojo();
         dailyReportPojo.setDate(dt);
-        dailyReportPojo.setInvoiced_orders_count(orderCount);
-        dailyReportPojo.setInvoiced_items_count(itemCount);
-        dailyReportPojo.setTotal_revenue(rev);
+        dailyReportPojo.setInvoicedOrdersCount(orderCount);
+        dailyReportPojo.setInvoicedItemsCount(itemCount);
+        dailyReportPojo.setTotalRevenue(rev);
         return dailyReportPojo;
     }
 

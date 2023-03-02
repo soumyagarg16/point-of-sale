@@ -43,7 +43,7 @@ public class BrandDto {
     }
 
     public BrandData get(Integer id) throws ApiException {
-        BrandPojo brandPojo = brandService.getById(id);
+        BrandPojo brandPojo = brandService.get(id);
         return Helper.convert(brandPojo);
     }
 

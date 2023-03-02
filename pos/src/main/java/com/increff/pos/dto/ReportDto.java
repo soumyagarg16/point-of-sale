@@ -49,7 +49,7 @@ public class ReportDto {
             boolean flag = false;
 
             for (ProductPojo productPojo : productPojos) {
-                InventoryPojo inventoryPojo = inventoryService.getInventoryPojoById(productPojo.getId());
+                InventoryPojo inventoryPojo = inventoryService.get(productPojo.getId());
                 if (inventoryPojo != null) {
                     qty += inventoryPojo.getQuantity();
                     flag = true;
@@ -142,7 +142,7 @@ public class ReportDto {
 
     private SalesReportData newSalesReportData(OrderItemPojo orderItemPojo, Integer key) throws ApiException {
         SalesReportData salesReportData = new SalesReportData();
-        BrandPojo brandPojo = brandService.getById(key);
+        BrandPojo brandPojo = brandService.get(key);
         salesReportData.setBrand(brandPojo.getBrand());
         salesReportData.setCategory(brandPojo.getCategory());
         salesReportData.setQuantity(orderItemPojo.getQuantity());

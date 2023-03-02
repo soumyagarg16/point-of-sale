@@ -29,7 +29,7 @@ public class InventoryDto {
         Validate.validateInventoryForm(inventoryForm);
         InventoryPojo inventoryPojo = Helper.convertInventoryFormToPojo(inventoryForm);
         //TODO separate getCheck and get function in service layer : ex: getByID() and getCheckById();
-        ProductPojo productPojo = productService.getProductPojoByBarcode(inventoryForm.getBarcode());
+        ProductPojo productPojo = productService.getByBarcode(inventoryForm.getBarcode());
         if (productPojo == null) {
             throw new ApiException("No product exists with the given barcode!");
         }
@@ -44,7 +44,7 @@ public class InventoryDto {
         }
         List<InventoryPojo> inventoryPojos = new ArrayList<>();
         for (InventoryForm inventoryForm : inventoryForms) {
-            ProductPojo productPojo = productService.getProductPojoByBarcode(inventoryForm.getBarcode());
+            ProductPojo productPojo = productService.getByBarcode(inventoryForm.getBarcode());
             if (productPojo == null) {
                 errors.add("No product exists for the barcode " + inventoryForm.getBarcode());
                 continue;
@@ -80,7 +80,7 @@ public class InventoryDto {
     public void update(Integer id, InventoryForm inventoryForm) throws ApiException {
         Validate.validateInventoryForm(inventoryForm);
         InventoryPojo inventoryPojo = Helper.convertInventoryFormToPojo(inventoryForm);
-        ProductPojo productPojo = productService.getProductPojoByBarcode(inventoryForm.getBarcode());
+        ProductPojo productPojo = productService.getByBarcode(inventoryForm.getBarcode());
         if (productPojo == null) {
             throw new ApiException("No product exists with the given barcode!");
         }
@@ -90,7 +90,7 @@ public class InventoryDto {
 
     //TODO Shift in service layer
     private InventoryPojo getCheck(Integer id) throws ApiException {
-        InventoryPojo inventoryPojo = inventoryService.getInventoryPojoById(id);
+        InventoryPojo inventoryPojo = inventoryService.get(id);
         if (inventoryPojo == null) {
             throw new ApiException("No inventory exists for the given product!");
         }

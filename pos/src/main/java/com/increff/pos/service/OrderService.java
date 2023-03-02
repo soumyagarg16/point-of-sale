@@ -1,23 +1,12 @@
 package com.increff.pos.service;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Base64;
-import java.util.List;
-
-import javax.transaction.Transactional;
-
-import com.increff.pos.model.InvoiceData;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
 import com.increff.pos.dao.OrderDao;
 import com.increff.pos.pojo.OrderPojo;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 
 @Service
@@ -27,16 +16,16 @@ public class OrderService {
     @Autowired
     private OrderDao dao;
 
-    public void add(OrderPojo p) throws ApiException {
-        dao.insert(p);
+    public void add(OrderPojo orderPojo){
+        dao.insert(orderPojo);
     }
 
-    public OrderPojo get(Integer id) throws ApiException {
-        return getCheck(id);
+    public OrderPojo get(Integer id){
+        return dao.select(id);
     }
 
-    public List<OrderPojo> getAllByDate(String startDate, String endDate){
-        return dao.selectAllByDate(startDate,endDate);
+    public List<OrderPojo> getAllByDate(String startDate, String endDate) {
+        return dao.selectAllByDate(startDate, endDate);
     }
 
     public List<OrderPojo> getAll() {
@@ -44,13 +33,12 @@ public class OrderService {
     }
 
     private OrderPojo getCheck(Integer id) throws ApiException {
-        OrderPojo orderPojo = dao.select(id);
+        OrderPojo orderPojo = get(id);
         if (orderPojo == null) {
             throw new ApiException("No order exists with the given id " + id);
         }
         return orderPojo;
     }
-
 
 
 }

@@ -74,5 +74,4 @@ com\increff\pos\model\OrderItemData.class
 com\increff\pos\util\UserPrincipal.class
 com\increff\pos\util\SecurityUtil.class
 com\increff\pos\model\UserForm.class
-com\increff\pos\service\AboutAppService.class
 com\increff\pos\client\InvoiceClient.class

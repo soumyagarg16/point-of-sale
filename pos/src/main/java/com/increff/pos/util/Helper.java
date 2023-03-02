@@ -97,9 +97,9 @@ public class Helper {
         for (DailyReportPojo dailyReportPojo : dailyReportPojos) {
             DailyReportData dailyReportData = new DailyReportData();
             dailyReportData.setDate(dailyReportPojo.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-            dailyReportData.setInvoicedOrderCount(dailyReportPojo.getInvoiced_orders_count());
-            dailyReportData.setInvoicedItemCount(dailyReportPojo.getInvoiced_items_count());
-            dailyReportData.setTotalRevenue(dailyReportPojo.getTotal_revenue());
+            dailyReportData.setInvoicedOrderCount(dailyReportPojo.getInvoicedOrdersCount());
+            dailyReportData.setInvoicedItemCount(dailyReportPojo.getInvoicedItemsCount());
+            dailyReportData.setTotalRevenue(dailyReportPojo.getTotalRevenue());
             dailyReportDataList.add(dailyReportData);
         }
         return dailyReportDataList;

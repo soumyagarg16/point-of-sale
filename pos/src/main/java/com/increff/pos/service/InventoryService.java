@@ -1,46 +1,52 @@
 package com.increff.pos.service;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
+import com.increff.pos.dao.InventoryDao;
+import com.increff.pos.pojo.InventoryPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.increff.pos.dao.InventoryDao;
-import com.increff.pos.pojo.InventoryPojo;
+import javax.transaction.Transactional;
+import java.util.List;
 
 
 @Service
 public class InventoryService {
 
+    private static final Integer MAX_QUANTITY = 1000000000;
     @Autowired
     private InventoryDao dao;
-    private static final Integer MAX_QUANTITY = 1000000000;
+
     @Transactional(rollbackOn = ApiException.class)
     public void add(InventoryPojo inventoryPojo) throws ApiException {
-        InventoryPojo existingPojo = getInventoryPojoById(inventoryPojo.getId());
-        if(existingPojo==null){
+        InventoryPojo existingPojo = get(inventoryPojo.getId());
+        if (existingPojo == null) {
             dao.insert(inventoryPojo);
-       }
-       else{
-           Integer qty = inventoryPojo.getQuantity()+existingPojo.getQuantity();
-           if(qty>MAX_QUANTITY){
-               throw new ApiException("Quantity cannot exceed 10000000");
-           }
-           existingPojo.setQuantity(qty);
-       }
+        } else {
+            Integer qty = inventoryPojo.getQuantity() + existingPojo.getQuantity();
+            if (qty > MAX_QUANTITY) {
+                throw new ApiException("Quantity cannot exceed " + MAX_QUANTITY);
+            }
+            existingPojo.setQuantity(qty);
+        }
     }
 
     @Transactional(rollbackOn = ApiException.class)
-    public void addAll(List<InventoryPojo> inventoryPojos) throws ApiException{
-        for(InventoryPojo inventoryPojo: inventoryPojos){
+    public void addAll(List<InventoryPojo> inventoryPojos) throws ApiException {
+        for (InventoryPojo inventoryPojo : inventoryPojos) {
             add(inventoryPojo);
         }
     }
 
-    public InventoryPojo getInventoryPojoById(Integer id){
+    public InventoryPojo get(Integer id) {
         return dao.select(id);
+    }
+
+    public InventoryPojo getCheck(Integer id) throws ApiException {
+        InventoryPojo inventoryPojo = get(id);
+        if (inventoryPojo == null) {
+            throw new ApiException("No Inventory exists with the given id");
+        }
+        return inventoryPojo;
     }
 
     public List<InventoryPojo> getAll() {
@@ -53,15 +59,6 @@ public class InventoryService {
         existingPojo.setQuantity(inventoryPojo.getQuantity());
 
     }
-
-    public InventoryPojo getCheck(Integer id) throws ApiException {
-        InventoryPojo inventoryPojo = dao.select(id);
-        if (inventoryPojo == null) {
-            throw new ApiException("No Inventory exists with the given id");
-        }
-        return inventoryPojo;
-    }
-
 
 
 }

@@ -63,10 +63,10 @@ public class ProductDto {
     }
 
     public ProductData get(Integer id) throws ApiException {
-        ProductPojo productPojo = productService.getCheck(productService.get(id));
+        ProductPojo productPojo = productService.getCheck(id);
         ProductData productData = Helper.convertProductPojoToData(productPojo);
-        productData.setBrand(brandService.getById(productPojo.getBrandCategory()).getBrand());
-        productData.setCategory(brandService.getById(productPojo.getBrandCategory()).getCategory());
+        productData.setBrand(brandService.get(productPojo.getBrandCategory()).getBrand());
+        productData.setCategory(brandService.get(productPojo.getBrandCategory()).getCategory());
         return productData;
     }
 
@@ -75,8 +75,8 @@ public class ProductDto {
         List<ProductData> productDatas = new ArrayList<>();
         for (ProductPojo productPojo : productPojos) {
             ProductData productData = Helper.convertProductPojoToData(productPojo);
-            productData.setBrand(brandService.getById(productPojo.getBrandCategory()).getBrand());
-            productData.setCategory(brandService.getById(productPojo.getBrandCategory()).getCategory());
+            productData.setBrand(brandService.get(productPojo.getBrandCategory()).getBrand());
+            productData.setCategory(brandService.get(productPojo.getBrandCategory()).getCategory());
             productDatas.add(productData);
         }
         return productDatas;

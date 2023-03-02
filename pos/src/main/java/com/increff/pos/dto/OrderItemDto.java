@@ -121,12 +121,12 @@ public class OrderItemDto {
     //Existing product and inventory check
     private OrderItemPojo addOrderItem(OrderItemForm orderItemForm, List<String> errors) {
         OrderItemPojo orderItemPojo = Helper.convertOrderItemFormToPojo(orderItemForm);
-        ProductPojo productPojo = productService.getProductPojoByBarcode(orderItemForm.getBarcode());
+        ProductPojo productPojo = productService.getByBarcode(orderItemForm.getBarcode());
         if (productPojo == null) {
             errors.add("No Product exists with the given barcode: " + orderItemForm.getBarcode());
         } else {
             orderItemPojo.setProductId(productPojo.getId());
-            InventoryPojo inventoryPojo = inventoryService.getInventoryPojoById(productPojo.getId());
+            InventoryPojo inventoryPojo = inventoryService.get(productPojo.getId());
             if (inventoryPojo == null || inventoryPojo.getQuantity() < orderItemPojo.getQuantity()) {
                 errors.add("Product with the barcode " + productPojo.getBarcode() + " has insufficient inventory!");
             } else if (orderItemPojo.getSellingPrice() > productPojo.getMrp()) {
@@ -135,7 +135,6 @@ public class OrderItemDto {
                 orderItemPojo.setQuantity(orderItemForm.getQuantity());
                 inventoryPojo.setQuantity(inventoryPojo.getQuantity() - orderItemForm.getQuantity());
             }
-
         }
         return orderItemPojo;
     }
@@ -157,7 +156,7 @@ public class OrderItemDto {
         List<InvoiceLineItem> invoiceLineItems = new ArrayList<>();
         int sno = 1;
         for (OrderItemPojo orderItemPojo : orderItemPojos) {
-            InvoiceLineItem invoiceLineItem = createInvoiceItem(orderItemPojo,sno);
+            InvoiceLineItem invoiceLineItem = createInvoiceItem(orderItemPojo, sno);
             invoiceLineItems.add(invoiceLineItem);
             sno++;
         }

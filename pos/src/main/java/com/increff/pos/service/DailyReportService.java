@@ -31,7 +31,7 @@ public class DailyReportService {
         List<OrderPojo> orderPojos = orderService.getAllByDate(currentDate+" 00:00:00",currentDate+" 23:59:59");
         DailyReportPojo dailyReportPojo = new DailyReportPojo();
         dailyReportPojo.setDate(date); // Setting Date
-        dailyReportPojo.setInvoiced_orders_count(orderPojos.size()); // Setting order count
+        dailyReportPojo.setInvoicedOrdersCount(orderPojos.size()); // Setting order count
         double revenue = 0.0;
         int itemCount = 0;
 
@@ -40,8 +40,8 @@ public class DailyReportService {
             itemCount += orderItemPojos.size();
             revenue += orderItemPojos.stream().mapToDouble(orderItemPojo -> orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice()).sum();
         }
-        dailyReportPojo.setInvoiced_items_count(itemCount);
-        dailyReportPojo.setTotal_revenue(revenue);
+        dailyReportPojo.setInvoicedItemsCount(itemCount);
+        dailyReportPojo.setTotalRevenue(revenue);
 
         dao.insert(dailyReportPojo);
     }

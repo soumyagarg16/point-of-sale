@@ -1,17 +1,15 @@
 package com.increff.pos.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import javax.transaction.Transactional;
-
+import com.increff.pos.dao.ProductDao;
+import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.util.Helper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.increff.pos.dao.ProductDao;
-import com.increff.pos.pojo.ProductPojo;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional(rollbackOn = ApiException.class)
@@ -21,11 +19,10 @@ public class ProductService {
     private ProductDao dao;
 
     public void add(ProductPojo productPojo) throws ApiException {
-        ProductPojo existingPojo = getProductPojoByBarcode(productPojo.getBarcode());
-        if(existingPojo==null){
+        ProductPojo existingPojo = getByBarcode(productPojo.getBarcode());
+        if (existingPojo == null) {
             dao.insert(productPojo);
-        }
-        else throw new ApiException("Product with this barcode already exists!");
+        } else throw new ApiException("Product with this barcode already exists!");
     }
 
     public void addAll(List<ProductPojo> productPojos) throws ApiException {
@@ -33,17 +30,17 @@ public class ProductService {
         int count = 1;
         List<String> errors = new ArrayList<>();
         //check for existing barcode
-        for(ProductPojo productPojo: productPojos){
-            ProductPojo existingPojo = getProductPojoByBarcode(productPojo.getBarcode());
-            if(existingPojo!=null){
-                errors.add("Product already exists with barcode "+ productPojo.getBarcode() + " in row "+count);
+        for (ProductPojo productPojo : productPojos) {
+            ProductPojo existingPojo = getByBarcode(productPojo.getBarcode());
+            if (existingPojo != null) {
+                errors.add("Product already exists with barcode " + productPojo.getBarcode() + " in row " + count);
             }
             count++;
         }
-        if(!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             throw new ApiException(Helper.convertListToString(errors));
         }
-        for(ProductPojo productPojo: productPojos){
+        for (ProductPojo productPojo : productPojos) {
             dao.insert(productPojo);
         }
     }
@@ -56,34 +53,32 @@ public class ProductService {
         return dao.selectAll();
     }
 
-    public void update(Integer id, ProductPojo productPojo) throws ApiException {
-        ProductPojo toBeChangedPojo = get(id);
-        ProductPojo existingPojo = getProductPojoByBarcode(productPojo.getBarcode());
-        if(existingPojo==null || Objects.equals(existingPojo.getId(), id)){
-            toBeChangedPojo.setBarcode(productPojo.getBarcode());
-            toBeChangedPojo.setMrp(productPojo.getMrp());
-            toBeChangedPojo.setName(productPojo.getName());
-            toBeChangedPojo.setBrandCategory(productPojo.getBrandCategory());
-        }
-        else throw new ApiException("Given Barcode already exists!");
-    }
-
-    public ProductPojo getProductPojoByBarcode(String barcode){
+    public ProductPojo getByBarcode(String barcode) {
         return dao.select(barcode);
     }
 
-    public List<ProductPojo> getAllByBrandCategoryId(Integer id){
+    public List<ProductPojo> getAllByBrandCategoryId(Integer id) {
         return dao.selectAll(id);
     }
 
- //TODO wRong method
-    public ProductPojo getCheck(ProductPojo productPojo) throws ApiException {
+    public ProductPojo getCheck(Integer id) throws ApiException {
+        ProductPojo productPojo = get(id);
         if (productPojo == null) {
-            throw new ApiException("No Product exists with this id");
+            throw new ApiException("No Product exists with the given id");
         }
         return productPojo;
     }
 
+    public void update(Integer id, ProductPojo productPojo) throws ApiException {
+        ProductPojo toBeChangedPojo = getCheck(id);
+        ProductPojo existingPojo = getByBarcode(productPojo.getBarcode());
+        if (existingPojo == null || Objects.equals(existingPojo.getId(), id)) {
+            toBeChangedPojo.setBarcode(productPojo.getBarcode());
+            toBeChangedPojo.setMrp(productPojo.getMrp());
+            toBeChangedPojo.setName(productPojo.getName());
+            toBeChangedPojo.setBrandCategory(productPojo.getBrandCategory());
+        } else throw new ApiException("Given Barcode already exists!");
+    }
 
 
 }
