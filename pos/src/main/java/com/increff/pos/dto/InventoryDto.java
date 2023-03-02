@@ -5,7 +5,6 @@ import com.increff.pos.model.InventoryForm;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
-import com.increff.pos.service.BrandService;
 import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.util.Helper;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-//TODO check all dto once again
+
 @Service
 public class InventoryDto {
 

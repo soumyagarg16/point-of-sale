@@ -47,7 +47,7 @@ public class BrandService {
     }
 
     public BrandPojo get(Integer id) throws ApiException {
-        return getCheck(id);
+        return dao.select(id);
 
     }
 

@@ -61,7 +61,7 @@ public class InventoryControllerTest extends AbstractUnitTest {
         productDao.insert(productPojo);
 
         InventoryForm inventoryForm = TestHelper.createInventoryForm("x1",100);
-        InventoryPojo inventoryPojo = TestHelper.createInventoryPojo(productPojo.getId(), 9999999);
+        InventoryPojo inventoryPojo = TestHelper.createInventoryPojo(productPojo.getId(), 999999999);
         inventoryDao.insert(inventoryPojo);
         inventoryApiController.add(inventoryForm);
 

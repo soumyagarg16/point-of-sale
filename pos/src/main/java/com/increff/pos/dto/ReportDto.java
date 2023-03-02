@@ -121,7 +121,6 @@ public class ReportDto {
         return map;
     }
 
-    //TODO how to prevent crossing white line
     private void updateSalesReportDataMap(List<OrderItemPojo> orderItemPojos, Set<Integer> brandCategorySet, Map<Integer, SalesReportData> map) throws ApiException {
         for (OrderItemPojo orderItemPojo : orderItemPojos) {
             ProductPojo productPojo = productService.get(orderItemPojo.getProductId());
