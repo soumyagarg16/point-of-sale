@@ -9,6 +9,4 @@ import lombok.Setter;
 public class SignupForm {
     private String email;
     private String password;
-
-
 }

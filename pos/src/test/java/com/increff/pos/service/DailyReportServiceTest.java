@@ -7,7 +7,6 @@ import com.increff.pos.util.TestHelper;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -69,9 +68,9 @@ public class DailyReportServiceTest extends AbstractUnitTest {
 
         DailyReportPojo dailyReportPojo = new DailyReportPojo();
         dailyReportPojo.setDate(ZonedDateTime.now());
-        dailyReportPojo.setInvoiced_orders_count(5);
-        dailyReportPojo.setInvoiced_items_count(10);
-        dailyReportPojo.setTotal_revenue(650.45);
+        dailyReportPojo.setInvoicedOrdersCount(5);
+        dailyReportPojo.setInvoicedItemsCount(10);
+        dailyReportPojo.setTotalRevenue(650.45);
         dailyReportDao.insert(dailyReportPojo);
 
         List<DailyReportPojo> dailyReportPojos = dailyReportService.getAll();
@@ -83,9 +82,9 @@ public class DailyReportServiceTest extends AbstractUnitTest {
         for(int i = 1; i<=4; i++){
             DailyReportPojo dailyReportPojo = new DailyReportPojo();
             dailyReportPojo.setDate(ZonedDateTime.now().minusDays(i-1));
-            dailyReportPojo.setInvoiced_orders_count(5+i);
-            dailyReportPojo.setInvoiced_items_count(10+i);
-            dailyReportPojo.setTotal_revenue(650.45+i);
+            dailyReportPojo.setInvoicedOrdersCount(5+i);
+            dailyReportPojo.setInvoicedItemsCount(10+i);
+            dailyReportPojo.setTotalRevenue(650.45+i);
             dailyReportDao.insert(dailyReportPojo);
         }
         List<DailyReportPojo> dailyReportPojos = dailyReportService.getAllByDate(ZonedDateTime.now().minusDays(2).minusMinutes(2),ZonedDateTime.now().plusMinutes(2));

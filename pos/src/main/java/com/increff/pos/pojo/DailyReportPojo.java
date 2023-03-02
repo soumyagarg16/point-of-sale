@@ -14,9 +14,8 @@ public class DailyReportPojo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private ZonedDateTime date;
-    //TODO remove snake casing, use camel case
-    private Integer invoiced_orders_count;
-    private Integer invoiced_items_count;
-    private Double total_revenue;
+    private Integer invoicedOrdersCount;
+    private Integer invoicedItemsCount;
+    private Double totalRevenue;
 
 }

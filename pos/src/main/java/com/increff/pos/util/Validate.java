@@ -39,8 +39,10 @@ public class Validate {
         Normalize.normalizeDouble(productForm);
     }
 
-    public static List<String> validateProductForms(List<ProductForm> productForms){
-
+    public static List<String> validateProductForms(List<ProductForm> productForms) throws ApiException {
+        if (productForms.size() > 5000) {
+            throw new ApiException("File size cannot exceed 5000 rows!");
+        }
         List<String> errors = new ArrayList<>();
         Set<String> set = new HashSet<>();
         int count = 1;
@@ -89,7 +91,10 @@ public class Validate {
             throw new ApiException("Quantity cannot exceed "+MAX_QUANTITY);
         }
     }
-    public static List<String> validateInventoryForms(List<InventoryForm> inventoryForms){
+    public static List<String> validateInventoryForms(List<InventoryForm> inventoryForms) throws ApiException {
+        if(inventoryForms.size()>5000){
+            throw new ApiException("File size cannot exceed 5000 rows!");
+        }
         List<String> errors = new ArrayList<>();
         Set<String> set = new HashSet<>();
         int count = 1;
@@ -122,7 +127,10 @@ public class Validate {
         }
     }
 
-    public static List<String> validateBrandForms(List<BrandForm> brandForms){
+    public static List<String> validateBrandForms(List<BrandForm> brandForms) throws ApiException {
+        if(brandForms.size()>5000){
+            throw new ApiException("File size cannot exceed 5000 rows!");
+        }
         List<String> errors = new ArrayList<>();
         Set<String> set = new HashSet<>();
         int count = 1;

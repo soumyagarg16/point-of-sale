@@ -16,7 +16,6 @@ D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\controller\AbstractU
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\model\BrandData.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\model\SalesReportForm.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\controller\SiteUiController.java
-D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\util\CookieUtil.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\model\SignupForm.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\model\InvoiceData.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\pojo\DailyReportPojo.java
@@ -37,7 +36,6 @@ D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\model\BrandForm.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\controller\AppRestControllerAdvice.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\service\ApiException.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\controller\SampleController.java
-D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\controller\AboutApiController.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\service\InventoryService.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\spring\SpringConfig.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\dto\OrderItemDto.java
@@ -63,7 +61,6 @@ D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\controller\BrandApiC
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\model\InventoryForm.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\util\StringUtil.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\model\ProductForm.java
-D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\service\AboutAppService.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\model\InfoData.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\controller\ReportApiController.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\dto\BrandDto.java

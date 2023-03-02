@@ -8,6 +8,5 @@ import lombok.Setter;
 
 public class ProductData extends ProductForm {
     private Integer id;
-    private Integer brand_category;
-
+    private Integer brandCategory;
 }

@@ -29,8 +29,8 @@ public class InventoryDto {
         Validate.validateInventoryForm(inventoryForm);
         InventoryPojo inventoryPojo = Helper.convertInventoryFormToPojo(inventoryForm);
         //TODO separate getCheck and get function in service layer : ex: getByID() and getCheckById();
-        ProductPojo productPojo = productService.getProductPojoByBarcode(inventoryForm.getBarcode());
-        if(productPojo==null){
+        ProductPojo productPojo = productService.getByBarcode(inventoryForm.getBarcode());
+        if (productPojo == null) {
             throw new ApiException("No product exists with the given barcode!");
         }
         inventoryPojo.setId(productPojo.getId());
@@ -38,17 +38,14 @@ public class InventoryDto {
     }
 
     public void addAll(List<InventoryForm> inventoryForms) throws ApiException {
-        if(inventoryForms.size()>5000){
-            throw new ApiException("File size cannot exceed 5000 rows!");
-        }
         List<String> errors = Validate.validateInventoryForms(inventoryForms);
-        if(!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             throw new ApiException(Helper.convertListToString(errors));
         }
         List<InventoryPojo> inventoryPojos = new ArrayList<>();
-        for(InventoryForm inventoryForm: inventoryForms){
-            ProductPojo productPojo = productService.getProductPojoByBarcode(inventoryForm.getBarcode());
-            if(productPojo==null){
+        for (InventoryForm inventoryForm : inventoryForms) {
+            ProductPojo productPojo = productService.getByBarcode(inventoryForm.getBarcode());
+            if (productPojo == null) {
                 errors.add("No product exists for the barcode " + inventoryForm.getBarcode());
                 continue;
             }
@@ -56,25 +53,23 @@ public class InventoryDto {
             inventoryPojo.setId(productPojo.getId());
             inventoryPojos.add(inventoryPojo);
         }
-        if(!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             throw new ApiException(Helper.convertListToString(errors));
         }
         inventoryService.addAll(inventoryPojos);
-
-
     }
 
     public InventoryData get(Integer id) throws ApiException {
-        InventoryPojo inventoryPojo  = getCheck(id);
+        InventoryPojo inventoryPojo = getCheck(id);
         InventoryData inventoryData = Helper.convertInventoryPojoToData(inventoryPojo);
         inventoryData.setBarcode(productService.get(id).getBarcode());
         return inventoryData;
     }
 
-    public List<InventoryData> getAll() throws ApiException{
+    public List<InventoryData> getAll() throws ApiException {
         List<InventoryPojo> inventoryPojos = inventoryService.getAll();
         List<InventoryData> inventoryDatas = new ArrayList<>();
-        for(InventoryPojo inventoryPojo : inventoryPojos){
+        for (InventoryPojo inventoryPojo : inventoryPojos) {
             InventoryData inventoryData = Helper.convertInventoryPojoToData(inventoryPojo);
             inventoryData.setBarcode(productService.get(inventoryPojo.getId()).getBarcode());
             inventoryDatas.add(inventoryData);
@@ -85,25 +80,22 @@ public class InventoryDto {
     public void update(Integer id, InventoryForm inventoryForm) throws ApiException {
         Validate.validateInventoryForm(inventoryForm);
         InventoryPojo inventoryPojo = Helper.convertInventoryFormToPojo(inventoryForm);
-        ProductPojo productPojo = productService.getProductPojoByBarcode(inventoryForm.getBarcode());
-        if(productPojo==null){
+        ProductPojo productPojo = productService.getByBarcode(inventoryForm.getBarcode());
+        if (productPojo == null) {
             throw new ApiException("No product exists with the given barcode!");
         }
         inventoryPojo.setId(productPojo.getId());
-        inventoryService.update(id,inventoryPojo);
+        inventoryService.update(id, inventoryPojo);
     }
 
     //TODO Shift in service layer
     private InventoryPojo getCheck(Integer id) throws ApiException {
-        InventoryPojo inventoryPojo = inventoryService.getInventoryPojoById(id);
-        if(inventoryPojo==null){
+        InventoryPojo inventoryPojo = inventoryService.get(id);
+        if (inventoryPojo == null) {
             throw new ApiException("No inventory exists for the given product!");
         }
         return inventoryPojo;
     }
-
-
-
 
 
 }

@@ -9,7 +9,4 @@ import lombok.Setter;
 public class InventoryForm {
     private String barcode;
     private Integer quantity;
-
-
-
 }
