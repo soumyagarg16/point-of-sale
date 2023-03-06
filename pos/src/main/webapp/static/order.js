@@ -112,8 +112,8 @@ function isValid(json){
         else if(json.quantity<0){
                 msg = "Quantity cannot be negative";
         }
-        else if(json.quantity>10000000){
-                msg = "Quantity cannot exceed 10000000";
+        else if(json.quantity>1000000000){
+                msg = "Quantity cannot exceed 1000000000";
         }
         else if(json.sellingPrice==""){
                 msg = "Selling price cannot be empty";

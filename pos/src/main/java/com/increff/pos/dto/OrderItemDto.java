@@ -61,7 +61,7 @@ public class OrderItemDto {
 
     public List<OrderItemData> getAllByOrderId(Integer id) throws ApiException {
         orderService.get(id);
-        List<OrderItemPojo> orderItemPojos = orderItemService.getAll(id);
+        List<OrderItemPojo> orderItemPojos = orderItemService.getByOrderId(id);
         List<OrderItemData> orderItemDatas = new ArrayList<>();
         for (OrderItemPojo orderItemPojo : orderItemPojos) {
             OrderItemData orderItemData = Helper.convertOrderItemPojoToData(orderItemPojo);
@@ -141,7 +141,7 @@ public class OrderItemDto {
 
     private InvoiceData createInvoiceData(OrderPojo orderPojo) throws ApiException {
         InvoiceData invoiceData = new InvoiceData();
-        List<OrderItemPojo> orderItemPojos = orderItemService.getAll(orderPojo.getId());
+        List<OrderItemPojo> orderItemPojos = orderItemService.getByOrderId(orderPojo.getId());
         List<InvoiceLineItem> invoiceLineItems = createInvoiceItemList(orderItemPojos);
         String[] time = orderPojo.getTime().split(" ");
         invoiceData.setInvoiceNumber("order_" + orderPojo.getId());

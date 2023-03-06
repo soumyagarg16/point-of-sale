@@ -30,7 +30,7 @@ public class OrderItemDao extends AbstractDao {
         return getSingle(query);
     }
 
-    public List<OrderItemPojo> selectAll(Integer orderId) {
+    public List<OrderItemPojo> selectByOrderId(Integer orderId) {
         TypedQuery<OrderItemPojo> query = getQuery(SELECT_ALL_BY_ORDER_ID, OrderItemPojo.class);
         query.setParameter("orderId", orderId);
         return query.getResultList();

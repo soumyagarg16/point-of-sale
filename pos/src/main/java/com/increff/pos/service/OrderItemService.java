@@ -23,8 +23,8 @@ public class OrderItemService {
     }
 
     //Get all items by orderId
-    public List<OrderItemPojo> getAll(Integer id) {
-        return dao.selectAll(id);
+    public List<OrderItemPojo> getByOrderId(Integer id) {
+        return dao.selectByOrderId(id);
     }
 
 

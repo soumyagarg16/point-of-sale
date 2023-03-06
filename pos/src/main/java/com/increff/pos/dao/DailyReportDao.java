@@ -1,6 +1,7 @@
 package com.increff.pos.dao;
 
 import com.increff.pos.pojo.DailyReportPojo;
+import com.increff.pos.pojo.OrderItemPojo;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -16,6 +17,7 @@ public class DailyReportDao extends AbstractDao {
 
     private static final String SELECT_ALL = "select dailyReportPojo from DailyReportPojo dailyReportPojo";
     private static final String SELECT_ALL_BY_DATE = "select dailyReportPojo from DailyReportPojo dailyReportPojo where date>=:start and date<=:end";
+    private static final String SELECT_BY_DATE = "select dailyReportPojo from DailyReportPojo dailyReportPojo where date=:date";
 
     @PersistenceContext
     private EntityManager em;
@@ -23,6 +25,13 @@ public class DailyReportDao extends AbstractDao {
     @Transactional
     public void insert(DailyReportPojo p) {
         em.persist(p);
+    }
+
+    public DailyReportPojo selectByDate(ZonedDateTime date){
+        TypedQuery<DailyReportPojo> query = getQuery(SELECT_BY_DATE, DailyReportPojo.class);
+        query.setParameter("date", date);
+        System.out.println(date);
+        return getSingle(query);
     }
 
     public List<DailyReportPojo> selectAllByDate(ZonedDateTime startDate, ZonedDateTime endDate) {

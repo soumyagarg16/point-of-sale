@@ -115,7 +115,7 @@ public class ReportDto {
         Set<Integer> brandCategorySet = setOfBrandCategoryId(brandDatas);
 
         for (OrderPojo orderPojo : orderPojos) {
-            List<OrderItemPojo> orderItemPojos = orderItemService.getAll(orderPojo.getId()); // Items with same orderID
+            List<OrderItemPojo> orderItemPojos = orderItemService.getByOrderId(orderPojo.getId()); // Items with same orderID
             updateSalesReportDataMap(orderItemPojos, brandCategorySet, map);
         }
         return map;

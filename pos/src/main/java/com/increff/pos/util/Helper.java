@@ -7,7 +7,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,6 +137,16 @@ public class Helper {
         inventoryReportData.setCategory(brandData.getCategory());
         inventoryReportData.setQuantity(qty);
         return inventoryReportData;
+    }
+
+    public static DailyReportPojo createDailyReportPojo(ZonedDateTime date, int size, int itemCount, double revenue){
+        DailyReportPojo dailyReportPojo = new DailyReportPojo();
+        date = date.truncatedTo(ChronoUnit.DAYS);
+        dailyReportPojo.setDate(date);
+        dailyReportPojo.setInvoicedOrdersCount(size);
+        dailyReportPojo.setInvoicedItemsCount(itemCount);
+        dailyReportPojo.setTotalRevenue(revenue);
+        return dailyReportPojo;
     }
 
     public static String convertListToString(List<String> errors) {
