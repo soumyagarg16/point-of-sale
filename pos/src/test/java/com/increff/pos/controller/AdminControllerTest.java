@@ -33,6 +33,14 @@ public class AdminControllerTest extends AbstractUnitTest {
         assertEquals("a", userPojo.getPassword());
         assertEquals("supervisor",userPojo.getRole());
     }
+
+    @Test(expected = ApiException.class)
+    public void testAddExistingUser() throws ApiException {
+        UserPojo userPojo = TestHelper.createUserPojo("a@b.co", "a","supervisor");
+        adminDao.insert(userPojo);
+        UserForm userForm = TestHelper.createUserForm("a@b.co","b","operator");
+        adminApiController.addUser(userForm);
+    }
     @Test
     public void testDeleteUser(){
         UserPojo userPojo = TestHelper.createUserPojo("a@b.co", "a","supervisor");

@@ -32,7 +32,7 @@ public class OrderService {
         return dao.selectAll();
     }
 
-    private OrderPojo getCheck(Integer id) throws ApiException {
+    public OrderPojo getCheck(Integer id) throws ApiException {
         OrderPojo orderPojo = get(id);
         if (orderPojo == null) {
             throw new ApiException("No order exists with the given id " + id);

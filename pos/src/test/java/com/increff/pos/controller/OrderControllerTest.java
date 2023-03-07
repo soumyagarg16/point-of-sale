@@ -60,7 +60,7 @@ public class OrderControllerTest extends AbstractUnitTest {
         }
         orderApiController.addAll(orderItemFormList);
         List<OrderPojo> orderPojos = orderDao.selectAll();
-        List<OrderItemPojo> orderItemPojos = orderItemDao.selectAll(orderPojos.get(0).getId());
+        List<OrderItemPojo> orderItemPojos = orderItemDao.selectByOrderId(orderPojos.get(0).getId());
         int i = 1;
         assertEquals(3,orderItemPojos.size());
     }
@@ -99,7 +99,7 @@ public class OrderControllerTest extends AbstractUnitTest {
 
         orderApiController.addAll(orderItemFormList);
         List<OrderPojo> orderPojos = orderDao.selectAll();
-        List<OrderItemPojo> orderItemPojos = orderItemDao.selectAll(orderPojos.get(0).getId());
+        List<OrderItemPojo> orderItemPojos = orderItemDao.selectByOrderId(orderPojos.get(0).getId());
         int i = 1;
         assertEquals(3,orderItemPojos.size());
     }
@@ -137,7 +137,7 @@ public class OrderControllerTest extends AbstractUnitTest {
     }
 
     @Test
-    public void getAllOrdersTest() throws ApiException, InterruptedException {
+    public void getAllOrdersTest() throws InterruptedException {
         for(int i=1; i<=3;i++){
             String time = LocalDateTime.now().toString();
             OrderPojo orderPojo = TestHelper.createOrderPojo(time);
@@ -147,6 +147,17 @@ public class OrderControllerTest extends AbstractUnitTest {
         List<OrderData> orderDataList = orderApiController.getAllOrders();
         assertEquals(3,orderDataList.size());
 
+    }
+
+    @Test(expected = ApiException.class)
+    public void getUnExistingOrderTest() throws InterruptedException, ApiException {
+        for(int i=1; i<=3;i++){
+            String time = LocalDateTime.now().toString();
+            OrderPojo orderPojo = TestHelper.createOrderPojo(time);
+            orderDao.insert(orderPojo);
+            Thread.sleep(2000);
+        }
+        orderApiController.getAllByOrderId(34);
     }
 
     @Test

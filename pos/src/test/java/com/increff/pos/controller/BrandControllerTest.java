@@ -34,6 +34,7 @@ public class BrandControllerTest extends AbstractUnitTest {
         assertEquals("category 5", brandPojo.getCategory());
     }
 
+
     @Test(expected = ApiException.class)
     public void emptyBrandAddTest() throws ApiException {
         BrandForm brandForm = TestHelper.createBrandForm("","cat1");
@@ -90,6 +91,19 @@ public class BrandControllerTest extends AbstractUnitTest {
         brandApiController.addAll(brandForms);
     }
 
+    @Test(expected = ApiException.class)
+    public void addAllExistingBrandTest() throws ApiException {
+        BrandPojo brandPojo = TestHelper.createBrandPojo("b1","c1");
+        brandDao.insert(brandPojo);
+
+        List<BrandForm> brandForms = new ArrayList<>();
+        for(int i = 1; i<=2;i++){
+            BrandForm brandForm = TestHelper.createBrandForm("b"+i,"c"+i);
+            brandForms.add(brandForm);
+        }
+        brandApiController.addAll(brandForms);
+    }
+
 
     @Test
     public void getTest() throws ApiException {
@@ -101,7 +115,7 @@ public class BrandControllerTest extends AbstractUnitTest {
     }
 
     @Test
-    public void getAllTest() throws ApiException {
+    public void getAllTest(){
         List<BrandPojo> brandPojos = new ArrayList<>();
         for(int i=1; i<=5; i++){
             BrandPojo brandPojo = TestHelper.createBrandPojo("b"+i,"c"+i);
@@ -126,6 +140,16 @@ public class BrandControllerTest extends AbstractUnitTest {
         assertEquals("c2",brandPojo.getCategory());
     }
 
-
+    @Test(expected = ApiException.class)
+    public void updateExistingTest() throws ApiException {
+        BrandPojo brandPojo1 = TestHelper.createBrandPojo("b1","c1");
+        BrandPojo brandPojo2 = TestHelper.createBrandPojo("b1","c2");
+        BrandForm brandForm = TestHelper.createBrandForm("b1","c2");
+        brandDao.insert(brandPojo1);
+        brandDao.insert(brandPojo2);
+        brandApiController.update(brandPojo1.getId(),brandForm);
+        assertEquals("b1",brandPojo1.getBrand());
+        assertEquals("c2",brandPojo1.getCategory());
+    }
 
 }

@@ -60,7 +60,7 @@ public class OrderItemDto {
     }
 
     public List<OrderItemData> getAllByOrderId(Integer id) throws ApiException {
-        orderService.get(id);
+        orderService.getCheck(id);
         List<OrderItemPojo> orderItemPojos = orderItemService.getByOrderId(id);
         List<OrderItemData> orderItemDatas = new ArrayList<>();
         for (OrderItemPojo orderItemPojo : orderItemPojos) {
@@ -86,7 +86,7 @@ public class OrderItemDto {
 
     @Transactional(rollbackOn = ApiException.class)
     public String generateInvoice(Integer orderId) throws ApiException, IOException {
-        OrderPojo orderPojo = orderService.get(orderId);
+        OrderPojo orderPojo = orderService.getCheck(orderId);
         if (orderPojo.getIsInvoiceGenerated() == 1) {
             return downloadInvoice(orderId);
         }
@@ -105,7 +105,7 @@ public class OrderItemDto {
 
     @Transactional(rollbackOn = ApiException.class)
     public String downloadInvoice(Integer orderId) throws IOException, ApiException {
-        OrderPojo orderPojo = orderService.get(orderId);
+        OrderPojo orderPojo = orderService.getCheck(orderId);
         if (orderPojo.getIsInvoiceGenerated() == 0) {
             throw new ApiException("Invoice needs to be generated before downloading!");
         }
