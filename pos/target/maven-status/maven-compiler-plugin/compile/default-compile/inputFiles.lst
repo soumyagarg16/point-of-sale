@@ -66,6 +66,7 @@ D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\controller\ReportApi
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\dto\BrandDto.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\model\InventoryData.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\pojo\InventoryPojo.java
+D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\dto\DailyReportDto.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\dto\InventoryDto.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\service\OrderService.java
 D:\Workspace\PointOfSales\pos\src\main\java\com\increff\pos\controller\InventoryApiController.java

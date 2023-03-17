@@ -73,8 +73,8 @@ function isValid(json){
     else if(json.mrp<=0){
         msg = "Mrp cannot be less than or equal to 0";
     }
-    else if(json.mrp>10000000){
-        msg = "Mrp cannot exceed 10000000";
+    else if(json.mrp>1000000000){
+        msg = "Mrp cannot exceed 1000000000";
     }
     return msg;
 }
@@ -161,7 +161,8 @@ function readFileDataCallback(results){
 	fileData = results.data;
 	var row = fileData[0];
     var title = Object.keys(row);
-    if(title.length!=5 || title[0]!='barcode' || title[1]!='brand' || title[2]!='category' || title[3]!='mrp' || title[4]!='name'){
+    console.log(title);
+    if(title.length!=5 || title[0]!='brand' || title[1]!='category' || title[2]!='barcode' || title[3]!='name' || title[4]!='mrp'){
       toastr.error("Incorrect tsv format", "Error: ", {
            "closeButton": true,
            "timeOut": "0",
@@ -170,6 +171,7 @@ function readFileDataCallback(results){
       return;
     }
     var json = JSON.stringify(fileData);
+    console.log(json);
     var url = getProductUrl()+'s';
         //Make ajax call
         $.ajax({

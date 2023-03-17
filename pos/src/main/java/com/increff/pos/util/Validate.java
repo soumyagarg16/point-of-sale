@@ -14,6 +14,8 @@ public class Validate {
     private static final Integer MAX_QUANTITY = 1000000000;
 
     public static void validateProductForm(ProductForm productForm) throws ApiException{
+        Normalize.normalize(productForm);
+        Normalize.normalizeDouble(productForm);
         if(StringUtil.isEmpty(productForm.getBrand())){
             throw new ApiException("Brand cannot be empty");
         }
@@ -35,8 +37,7 @@ public class Validate {
         if(productForm.getMrp()>=MAX_QUANTITY){
             throw new ApiException("Mrp cannot exceed "+MAX_QUANTITY);
         }
-        Normalize.normalize(productForm);
-        Normalize.normalizeDouble(productForm);
+
     }
 
     public static List<String> validateProductForms(List<ProductForm> productForms) throws ApiException {
@@ -69,6 +70,9 @@ public class Validate {
             }
             else if(productForm.getMrp()<0){
                 errors.add("Mrp is negative in row: "+count);
+            }
+            else if(productForm.getMrp()>=MAX_QUANTITY){
+                errors.add("Mrp cannot exceed "+MAX_QUANTITY);
             }
             set.add(productForm.getBarcode());
         }
@@ -110,6 +114,9 @@ public class Validate {
             }
             else if(inventoryForm.getQuantity()<1){
                 errors.add("Quantity is negative in row: "+count);
+            }
+            else if(inventoryForm.getQuantity()>MAX_QUANTITY){
+                errors.add("Quantity cannot exceed "+MAX_QUANTITY);
             }
             count++;
             set.add(inventoryForm.getBarcode());

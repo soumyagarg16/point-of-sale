@@ -3,6 +3,8 @@ package com.increff.pos.dao;
 import com.increff.pos.pojo.UserPojo;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
@@ -16,9 +18,12 @@ public class AdminDao extends AbstractDao {
     private static final String SELECT_EMAIL = "select userPojo from UserPojo userPojo where email=:email";
     private static final String SELECT_ALL = "select userPojo from UserPojo userPojo";
 
+    @PersistenceContext
+    private EntityManager em;
+
     @Transactional
     public void insert(UserPojo userPojo) {
-        em().persist(userPojo);
+        em.persist(userPojo);
     }
 
     @Transactional

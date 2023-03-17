@@ -138,8 +138,10 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results.data;
+	console.log(fileData);
     var row = fileData[0];
     var title = Object.keys(row);
+    console.log(title);
     if(title.length!=2 || title[0]!='brand' || title[1]!='category'){
        toastr.error("Incorrect tsv format", "Error: ", {
             "closeButton": true,

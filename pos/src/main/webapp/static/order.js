@@ -107,7 +107,7 @@ function isValid(json){
             msg = "Barcode cannot be empty";
         }
         else if(json.quantity==""){
-            msg = "Quantity cannot be empty";
+             msg = "Quantity cannot be empty";
         }
         else if(json.quantity<0){
                 msg = "Quantity cannot be negative";
@@ -165,6 +165,7 @@ function viewOrderItemList(data){
     $tbody.empty();
     $("#view-order-modal").modal('toggle');
     let count = 1;
+    let grandTotal = 0;
     for(var i in data){
         var item = data[i];
         var row = '<tr>'
@@ -172,13 +173,14 @@ function viewOrderItemList(data){
         + '<td>' + item.barcode + '</td>'
         + '<td>'  + item.quantity + '</td>'
         + '<td>'  + item.sellingPrice + '</td>'
+        + '<td>'  + item.quantity*item.sellingPrice + '</td>'
         + '</tr>';
         $tbody.append(row);
         count = count +1;
+        grandTotal += item.quantity*item.sellingPrice;
     }
-
+    $("#grandTotal").text(grandTotal);
     viewOrderItemDataTable = $('#view-order-item-table').DataTable({
-            //scrollY: '40vh',
             scrollCollapse: false,
             ordering: false,
             paging: false,
@@ -199,7 +201,8 @@ function displayOrderItemList(){
     let count = 1;
     for(var i in orderSoFar){
         var item = orderSoFar[i];
-        var buttonHtml = '<button class="btn btn-danger" onclick="removeOrderItem(' + i +')"><i class="fa-solid fa-trash" style="color:white"></i> Remove</button>';
+        var buttonHtml = '<button class="btn btn-danger" onclick="removeOrderItem(' + i +')" style = "margin-right:10px;"><i class="fa-solid fa-trash" style="color:white"></i></button>';
+        buttonHtml+= '<button class="btn btn-primary" onclick="editOrderItem(' + i +')"><i class="fa-solid fa-pen" style="color:white"></i></button>';
         var row = '<tr>'
         + '<td>' + count + '</td>'
         + '<td>' + item.barcode + '</td>'
@@ -285,12 +288,10 @@ function displayOrderList(data){
 		var singleEntry = data[i];
 		var buttonHtml = '<button class="btn btn-primary" onclick="getOrderItemList(' + singleEntry.id + ')" style = "margin-right:8px"><i class="fa-solid fa-eye" style = "margin-right:8px;"></i>View</button>';
 		if(singleEntry.isInvoiceGenerated==1){
-		    buttonHtml += '<button class="btn btn-success" onclick="generateInvoice(' + singleEntry.id + ')" disabled style = "margin-right:8px"><i class="fa-solid fa-file" style = "margin-right:8px"></i>Generate Invoice</button>';
-        	buttonHtml += '<button class="btn btn-warning" onclick="generateInvoice(' + singleEntry.id + ')"><i class="fa-solid fa-download" style = "margin-right:8px"></i>Download Invoice</button>';
+        	buttonHtml += '<button class="btn btn-warning" onclick="generateInvoice(' + singleEntry.id + ')"><i class="fa-solid fa-download" style = "margin-right:8px;"></i>Download Invoice</button>';
 		}
 		else{
-		    buttonHtml += '<button class="btn btn-success" onclick="generateInvoice(' + singleEntry.id + ')" style = "margin-right:8px"><i class="fa-solid fa-file" style = "margin-right:8px"></i>Generate Invoice</button>';
-        	buttonHtml += '<button class="btn btn-warning" onclick="generateInvoice(' + singleEntry.id + ')" disabled><i class="fa-solid fa-download" style = "margin-right:8px"></i>Download Invoice</button>';
+		    buttonHtml += '<button class="btn btn-success" onclick="generateInvoice(' + singleEntry.id + ')"><i class="fa-solid fa-file" style = "padding-left:6px;margin-right:10px;"></i>Generate Invoice</button>';
 		}
 		var row = '<tr>'
 		+ '<td>' + count + '</td>'

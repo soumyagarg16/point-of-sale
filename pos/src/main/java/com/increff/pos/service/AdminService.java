@@ -14,12 +14,15 @@ public class AdminService {
     @Autowired
     private AdminDao dao;
 
-    @Transactional(rollbackOn = ApiException.class)
+    @Transactional
     public void add(UserPojo userPojo) throws ApiException {
         UserPojo existing = get(userPojo.getEmail());
+        System.out.println("here!");
         if (existing == null) {
             dao.insert(userPojo);
+            System.out.println("null existing");
         } else {
+            System.out.println("thrwoing execpuob!");
             throw new ApiException("Email already registered!");
         }
     }

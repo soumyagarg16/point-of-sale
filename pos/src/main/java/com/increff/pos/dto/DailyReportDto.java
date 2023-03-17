@@ -27,7 +27,7 @@ public class DailyReportDto {
     @Autowired
     private OrderItemService orderItemService;
 
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 * * * *")
     @Transactional(rollbackOn = ApiException.class)
     public void add() throws ApiException {
         ZonedDateTime date = ZonedDateTime.now();

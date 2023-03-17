@@ -70,7 +70,6 @@ nav{
 .card{
     border-radius: 1.2em;
     font-weight: 700;
-    /*background-image:  linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.4)),url("bg.jpeg");*/
     box-shadow: 8px 8px 16px rgba(0,0,0,.25);
 }
 
@@ -88,5 +87,23 @@ nav{
     color: #fff;
     padding: .5em 1.5em;
     margin:4px 12px;
+}
+
+table{
+    table-layout: fixed;
+    max-width: 100%;
+}
+td{
+    word-break : break-word;
+    vertical-align: middle;
+}
+.toast-success{
+    background-color: green;
+    opacity: 0.9 !important;
+}
+
+.toast-error{
+    background-color: #BD362F;
+    opacity: 0.9 !important;
 }
 

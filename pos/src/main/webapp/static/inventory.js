@@ -59,8 +59,8 @@ function isValid(json){
     else if(json.quantity<0){
             msg = "Quantity cannot be negative";
     }
-    else if(json.quantity>10000000){
-            msg = "Quantity cannot exceed 10000000";
+    else if(json.quantity>1000000000){
+            msg = "Quantity cannot exceed 1000000000";
     }
     return msg;
 }
@@ -140,7 +140,6 @@ function readFileDataCallback(results){
     }
     var json = JSON.stringify(fileData);
     var url = getInventoryUrl()+'s';
-    console.log("here");
         $.ajax({
            url: url,
            type: 'POST',
